@@ -45,3 +45,13 @@ export const changePasswordValidationSchema = yup.object({
     .oneOf([yup.ref("password"), null], "Passwords must match"),
 
 });
+
+export const flightRequestEditModalSchema = yup.object({
+  to: yup.string("Enter To").required("To is required"),
+  from: yup.string("Enter From").required("From is required"),
+  handle_by: yup.string("Enter Handle By").required("Handle By is required"),
+  start_time: yup.string("Enter Start Time").required("Start Time is required"),
+
+});
+
+

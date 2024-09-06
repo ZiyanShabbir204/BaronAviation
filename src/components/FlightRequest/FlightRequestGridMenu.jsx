@@ -1,13 +1,17 @@
-import * as React from "react";
+import { useState } from "react";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Fade from "@mui/material/Fade";
 import { Divider } from "@mui/material";
+import DeleteModal from "../deleteModal/DeleteModal";
+import FlightRequestEditModal from "../FlightRequestEditModal/FlightRequestEditModal";
 
 export default function FlightRequestGridMenu({param}) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [deleteOpen,setDeleteOpen] = useState(null)
+  const [editOpen,setEditOpen] = useState(null)
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -16,9 +20,18 @@ export default function FlightRequestGridMenu({param}) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const DeleteHandler = ()=> {
+    setDeleteOpen(true)
+    
+  }
+  const editHandler = ()=>{
+    setEditOpen(true)
+  }
 
   return (
     <div>
+      <DeleteModal open={deleteOpen} setOpen={setDeleteOpen} text={`flight from ${param.row.from} to ${param.row.to}`}/>
+      <FlightRequestEditModal open={editOpen} setOpen={setEditOpen}/>
       <IconButton
         aria-label="more"
         id="long-button"
@@ -42,8 +55,8 @@ export default function FlightRequestGridMenu({param}) {
         TransitionComponent={Fade}
         
       >
-        <MenuItem onClick={handleClose}>Edit</MenuItem>
-        <MenuItem onClick={handleClose}>Delete</MenuItem>
+        <MenuItem onClick={editHandler}>Edit</MenuItem>
+        <MenuItem onClick={DeleteHandler}>Delete</MenuItem>
         <Divider/>
         <MenuItem onClick={handleClose}>Approved</MenuItem>
         <MenuItem onClick={handleClose}>Pending</MenuItem>
