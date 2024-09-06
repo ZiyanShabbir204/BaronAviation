@@ -1,12 +1,14 @@
-import * as React from "react";
+import { useState } from "react";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Fade from "@mui/material/Fade";
+import DeleteModal from "../deleteModal/DeleteModal";
 
 export default function CoperateUserGridMenu({param}) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [deleteOpen, setDeleteOpen] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -15,9 +17,17 @@ export default function CoperateUserGridMenu({param}) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const DeleteHandler = () => {
+    setDeleteOpen(true);
+  };
 
   return (
     <div>
+       <DeleteModal
+        open={deleteOpen}
+        setOpen={setDeleteOpen}
+        text={`${param.row.username}`}
+      />
       <IconButton
         aria-label="more"
         id="long-button"
@@ -38,9 +48,8 @@ export default function CoperateUserGridMenu({param}) {
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        <MenuItem onClick={handleClose}>Edit</MenuItem>
+        <MenuItem onClick={DeleteHandler}>Delete</MenuItem>
       </Menu>
     </div>
   );

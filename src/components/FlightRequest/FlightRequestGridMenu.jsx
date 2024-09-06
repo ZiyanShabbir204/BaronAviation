@@ -6,7 +6,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Fade from "@mui/material/Fade";
 import { Divider } from "@mui/material";
 import DeleteModal from "../deleteModal/DeleteModal";
-import FlightRequestEditModal from "../FlightRequestEditModal/FlightRequestEditModal";
+import FlightRequestEditAddModal from "../flightRequestEditModal/FlightRequestEditAddModal";
 
 export default function FlightRequestGridMenu({param}) {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -31,7 +31,7 @@ export default function FlightRequestGridMenu({param}) {
   return (
     <div>
       <DeleteModal open={deleteOpen} setOpen={setDeleteOpen} text={`flight from ${param.row.from} to ${param.row.to}`}/>
-      <FlightRequestEditModal open={editOpen} setOpen={setEditOpen}/>
+      <FlightRequestEditAddModal open={editOpen} setOpen={setEditOpen} flag="edit" param= {param.row}/>
       <IconButton
         aria-label="more"
         id="long-button"

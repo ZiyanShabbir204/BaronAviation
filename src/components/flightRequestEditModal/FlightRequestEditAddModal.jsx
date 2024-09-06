@@ -34,33 +34,27 @@ const style = {
   p: 4,
 };
 
-export default function FlightRequestEditModal({ open, setOpen }) {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setConfirmShowPassword] = useState(false);
-
+export default function FlightRequestEditAddModal({ open, setOpen ,param,flag}) {
+  
   const handleClose = () => setOpen(false);
-  const formik = useFormik({
-    initialValues: {
+  const formik =  useFormik({
+    initialValues:  param ?{
+      to: param?.to,
+      from: param?.from,
+      handle_by: param?.handle_by,
+      start_time: param?.start_time,
+    } : {
       to: "",
       from: "",
       handle_by: "",
       start_time: "",
-    },
+    } ,
     validationSchema: flightRequestEditModalSchema,
     onSubmit: (values) => {
       console.log("values", values);
     },
   });
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-  const handleClickShowConfirmPassword = () => {
-    setConfirmShowPassword(!showConfirmPassword);
-  };
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
+  
 
   return (
     <div>
@@ -72,7 +66,7 @@ export default function FlightRequestEditModal({ open, setOpen }) {
       >
         <Box sx={style}>
           <Typography component="h1" variant="h5">
-            Edit
+            {param ? "Edit" : "Add"}
           </Typography>
           <form onSubmit={formik.handleSubmit}>
             <TextField
