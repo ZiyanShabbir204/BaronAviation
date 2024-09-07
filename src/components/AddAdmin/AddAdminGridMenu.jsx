@@ -16,7 +16,6 @@ export default function AddAdminGridMenu({ param }) {
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
-    console.log("param", param);
   };
   const handleClose = () => {
     setAnchorEl(null);

@@ -8,7 +8,7 @@ import DeleteModal from "../deleteModal/DeleteModal";
 import { coperateUserAddEditSchema } from "../../schema/validateSchema";
 import AdminCoperateUserAddEditModal from "../adminCoperateUserAddEditModal/adminCoperateUserAddEditModal";
 
-export default function CoperateUserGridMenu({param}) {
+export default function CoperateUserGridMenu({ param }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [deleteOpen, setDeleteOpen] = useState(null);
   const [editOpen, setEditOpen] = useState(null);
@@ -16,7 +16,6 @@ export default function CoperateUserGridMenu({param}) {
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
-    console.log("param",param)
   };
   const handleClose = () => {
     setAnchorEl(null);
@@ -36,7 +35,7 @@ export default function CoperateUserGridMenu({param}) {
 
   return (
     <div>
-       <DeleteModal
+      <DeleteModal
         open={deleteOpen}
         setOpen={setDeleteOpen}
         text={`${param.row.username}`}

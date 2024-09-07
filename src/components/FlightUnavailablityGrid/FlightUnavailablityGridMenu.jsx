@@ -7,7 +7,7 @@ import Fade from "@mui/material/Fade";
 import DeleteModal from "../deleteModal/DeleteModal";
 import FlightMaintainceUnavailablityEditAddModal from "../flightMaintainceUnavailablityEditAddModal/flightMaintainceUnavailablityEditAddModal";
 
-export default function FlightUnavailablityGridMenu({param}) {
+export default function FlightUnavailablityGridMenu({ param }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [deleteOpen, setDeleteOpen] = useState(null);
   const [editOpen,setEditOpen] = useState(null)
@@ -15,7 +15,6 @@ export default function FlightUnavailablityGridMenu({param}) {
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
-    console.log("param",param)
   };
   const handleClose = () => {
     setAnchorEl(null);

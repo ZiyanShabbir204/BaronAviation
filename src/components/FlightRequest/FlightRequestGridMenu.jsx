@@ -8,31 +8,37 @@ import { Divider } from "@mui/material";
 import DeleteModal from "../deleteModal/DeleteModal";
 import FlightRequestEditAddModal from "../flightRequestEditModal/FlightRequestEditAddModal";
 
-export default function FlightRequestGridMenu({param}) {
+export default function FlightRequestGridMenu({ param }) {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [deleteOpen,setDeleteOpen] = useState(null)
-  const [editOpen,setEditOpen] = useState(null)
-  
+  const [deleteOpen, setDeleteOpen] = useState(null);
+  const [editOpen, setEditOpen] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
-    console.log("param",param)
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const DeleteHandler = ()=> {
-    setDeleteOpen(true)
-    
-  }
-  const editHandler = ()=>{
-    setEditOpen(true)
-  }
+  const DeleteHandler = () => {
+    setDeleteOpen(true);
+  };
+  const editHandler = () => {
+    setEditOpen(true);
+  };
 
   return (
     <div>
-      <DeleteModal open={deleteOpen} setOpen={setDeleteOpen} text={`flight from ${param.row.from} to ${param.row.to}`}/>
-      <FlightRequestEditAddModal open={editOpen} setOpen={setEditOpen} flag="edit" param= {param.row}/>
+      <DeleteModal
+        open={deleteOpen}
+        setOpen={setDeleteOpen}
+        text={`flight from ${param.row.from} to ${param.row.to}`}
+      />
+      <FlightRequestEditAddModal
+        open={editOpen}
+        setOpen={setEditOpen}
+        flag="edit"
+        param={param.row}
+      />
       <IconButton
         aria-label="more"
         id="long-button"
@@ -47,18 +53,15 @@ export default function FlightRequestGridMenu({param}) {
         id="fade-menu"
         MenuListProps={{
           "aria-labelledby": "fade-button",
-          
-        }
-    }
+        }}
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
         TransitionComponent={Fade}
-        
       >
         <MenuItem onClick={editHandler}>Edit</MenuItem>
         <MenuItem onClick={DeleteHandler}>Delete</MenuItem>
-        <Divider/>
+        <Divider />
         <MenuItem onClick={handleClose}>Approved</MenuItem>
         <MenuItem onClick={handleClose}>Pending</MenuItem>
         <MenuItem onClick={handleClose}>Declined</MenuItem>

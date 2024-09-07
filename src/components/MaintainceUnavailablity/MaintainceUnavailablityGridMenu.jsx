@@ -9,9 +9,13 @@ import FlightMaintainceUnavailablityEditAddModal from "../flightMaintainceUnavai
 
 export default function MaintainceUnavailablityGridMenu({ param }) {
   const [anchorEl, setAnchorEl] = useState(null);
+<<<<<<< HEAD
   const [deleteOpen,setDeleteOpen] = useState(null)
   const [editOpen, setEditOpen] = useState(null);
 
+=======
+  const [deleteOpen, setDeleteOpen] = useState(null);
+>>>>>>> main
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
