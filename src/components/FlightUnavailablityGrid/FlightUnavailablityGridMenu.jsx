@@ -6,13 +6,12 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Fade from "@mui/material/Fade";
 import DeleteModal from "../deleteModal/DeleteModal";
 
-export default function FlightUnavailablityGridMenu({param}) {
+export default function FlightUnavailablityGridMenu({ param }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [deleteOpen, setDeleteOpen] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
-    console.log("param",param)
   };
   const handleClose = () => {
     setAnchorEl(null);

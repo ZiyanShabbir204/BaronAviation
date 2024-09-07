@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/auth.context";
 
 export default function LoginPage() {
   const [usernameOrEmail, setUsernameOrEmail] = useState("");
@@ -21,21 +22,28 @@ export default function LoginPage() {
     password: false,
   });
 
-  const navigate =  useNavigate()
+  const { login } = useAuth();
 
-  const handleLogin = () => {
+  const navigate = useNavigate();
+
+  const handleLogin = async () => {
     const newErrors = {
       usernameOrEmail: !usernameOrEmail.trim(),
       password: !password.trim(),
     };
-    setErrors(newErrors);
 
-    // If there are no errors, proceed with login logic
-    if (!newErrors.usernameOrEmail && !newErrors.password) {
-      console.log("Login clicked", { usernameOrEmail, password });
+    try {
+      await login(usernameOrEmail, password);
+      navigate("/");
+    } catch (err) {
+      console.log("err", err);
     }
   };
 
+  const test = async () => {
+    const d = await ApiService.get("/check-me");
+    console.log(d);
+  };
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -109,35 +117,34 @@ export default function LoginPage() {
             }}
           />
           <Stack direction="row" justifyContent="space-between">
-          <Typography
-            component="h6"
-            variant="caption"
-            sx={{
-              "&:hover": {
-                color: "blue",
-                cursor: "pointer",
-              },
-            }}
-            onClick={()=> navigate("/forgetpassword")}
-          >
-            forget password?
-          </Typography>
-          <Typography
-            component="h6"
-            variant="caption"
-            sx={{
-              "&:hover": {
-                color: "blue",
-                cursor: "pointer",
-              },
-            }}
-            onClick={()=> navigate("/signup")}
-          >
-            Don't have an account? Signup
-          </Typography>
-
+            <Typography
+              component="h6"
+              variant="caption"
+              sx={{
+                "&:hover": {
+                  color: "blue",
+                  cursor: "pointer",
+                },
+              }}
+              onClick={() => navigate("/forgetpassword")}
+            >
+              forget password?
+            </Typography>
+            <Typography
+              component="h6"
+              variant="caption"
+              sx={{
+                "&:hover": {
+                  color: "blue",
+                  cursor: "pointer",
+                },
+              }}
+              onClick={() => navigate("/signup")}
+            >
+              Don't have an account? Signup
+            </Typography>
           </Stack>
-        
+
           <Button
             type="submit"
             fullWidth
@@ -146,6 +153,16 @@ export default function LoginPage() {
             onClick={handleLogin}
           >
             Login
+          </Button>
+
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+            onClick={test}
+          >
+            test
           </Button>
         </Box>
       </Box>

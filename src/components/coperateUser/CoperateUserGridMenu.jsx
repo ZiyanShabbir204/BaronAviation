@@ -6,13 +6,12 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Fade from "@mui/material/Fade";
 import DeleteModal from "../deleteModal/DeleteModal";
 
-export default function CoperateUserGridMenu({param}) {
+export default function CoperateUserGridMenu({ param }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [deleteOpen, setDeleteOpen] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
-    console.log("param",param)
   };
   const handleClose = () => {
     setAnchorEl(null);
@@ -23,7 +22,7 @@ export default function CoperateUserGridMenu({param}) {
 
   return (
     <div>
-       <DeleteModal
+      <DeleteModal
         open={deleteOpen}
         setOpen={setDeleteOpen}
         text={`${param.row.username}`}

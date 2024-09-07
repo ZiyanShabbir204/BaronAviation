@@ -8,7 +8,7 @@ import DeleteModal from "../deleteModal/DeleteModal";
 
 export default function MaintainceUnavailablityGridMenu({ param }) {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [deleteOpen,setDeleteOpen] = useState(null)
+  const [deleteOpen, setDeleteOpen] = useState(null);
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -18,10 +18,9 @@ export default function MaintainceUnavailablityGridMenu({ param }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const DeleteHandler = ()=> {
-    setDeleteOpen(true)
-    
-  }
+  const DeleteHandler = () => {
+    setDeleteOpen(true);
+  };
 
   return (
     <div>
