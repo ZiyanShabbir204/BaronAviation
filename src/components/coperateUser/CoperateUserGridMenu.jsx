@@ -5,10 +5,14 @@ import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Fade from "@mui/material/Fade";
 import DeleteModal from "../deleteModal/DeleteModal";
+import { coperateUserAddEditSchema } from "../../schema/validateSchema";
+import AdminCoperateUserAddEditModal from "../adminCoperateUserAddEditModal/adminCoperateUserAddEditModal";
 
 export default function CoperateUserGridMenu({param}) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [deleteOpen, setDeleteOpen] = useState(null);
+  const [editOpen, setEditOpen] = useState(null);
+
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -20,6 +24,15 @@ export default function CoperateUserGridMenu({param}) {
   const DeleteHandler = () => {
     setDeleteOpen(true);
   };
+  const editHandler = ()=>{
+    setEditOpen(true)
+  }
+  const initialValues = { 
+    username:param.row.username,
+    total_hours: param.row.total_hours,
+    email:param.row.email,
+    phone:param.row.phone
+  }
 
   return (
     <div>
@@ -28,6 +41,8 @@ export default function CoperateUserGridMenu({param}) {
         setOpen={setDeleteOpen}
         text={`${param.row.username}`}
       />
+      <AdminCoperateUserAddEditModal open={editOpen} setOpen={setEditOpen} schema={coperateUserAddEditSchema}  initialValues={initialValues} totalHoursAbled={true}/>
+
       <IconButton
         aria-label="more"
         id="long-button"
@@ -48,7 +63,7 @@ export default function CoperateUserGridMenu({param}) {
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        <MenuItem onClick={handleClose}>Edit</MenuItem>
+        <MenuItem onClick={editHandler}>Edit</MenuItem>
         <MenuItem onClick={DeleteHandler}>Delete</MenuItem>
       </Menu>
     </div>

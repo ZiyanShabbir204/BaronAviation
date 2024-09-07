@@ -5,10 +5,13 @@ import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Fade from "@mui/material/Fade";
 import DeleteModal from "../deleteModal/DeleteModal";
+import FlightMaintainceUnavailablityEditAddModal from "../flightMaintainceUnavailablityEditAddModal/flightMaintainceUnavailablityEditAddModal";
 
 export default function MaintainceUnavailablityGridMenu({ param }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [deleteOpen,setDeleteOpen] = useState(null)
+  const [editOpen, setEditOpen] = useState(null);
+
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -22,6 +25,9 @@ export default function MaintainceUnavailablityGridMenu({ param }) {
     setDeleteOpen(true)
     
   }
+  const editHandler = () => {
+    setEditOpen(true);
+  };
 
   return (
     <div>
@@ -29,6 +35,12 @@ export default function MaintainceUnavailablityGridMenu({ param }) {
         open={deleteOpen}
         setOpen={setDeleteOpen}
         text={`flight start from ${param.row.start_time} and end at ${param.row.end_time}`}
+      />
+      <FlightMaintainceUnavailablityEditAddModal
+        open={editOpen}
+        setOpen={setEditOpen}
+        flag="edit"
+        param={param.row}
       />
 
       <IconButton
@@ -51,7 +63,7 @@ export default function MaintainceUnavailablityGridMenu({ param }) {
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        <MenuItem onClick={handleClose}>Edit</MenuItem>
+        <MenuItem onClick={editHandler}>Edit</MenuItem>
         <MenuItem onClick={DeleteHandler}>Delete</MenuItem>
       </Menu>
     </div>

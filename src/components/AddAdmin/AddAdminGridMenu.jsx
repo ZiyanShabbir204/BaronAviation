@@ -5,10 +5,14 @@ import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Fade from "@mui/material/Fade";
 import DeleteModal from "../deleteModal/DeleteModal";
+import AdminCoperateUserAddEditModal from "../adminCoperateUserAddEditModal/adminCoperateUserAddEditModal";
+import { adminUserAddEditSchema } from "../../schema/validateSchema";
 
 export default function AddAdminGridMenu({ param }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [deleteOpen, setDeleteOpen] = useState(null);
+  const [editOpen, setEditOpen] = useState(null);
+
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -20,6 +24,19 @@ export default function AddAdminGridMenu({ param }) {
   const DeleteHandler = () => {
     setDeleteOpen(true);
   };
+  const editHandler = ()=>{
+    setEditOpen(true)
+  }
+
+  const initialValues = { 
+    username:param.row.username,
+    password:param.row.password,
+    role:param.row.role,
+    email:param.row.email,
+    phone:param.row.phone
+  }
+
+  
 
   return (
     <div>
@@ -28,6 +45,7 @@ export default function AddAdminGridMenu({ param }) {
         setOpen={setDeleteOpen}
         text={`${param.row.username}`}
       />
+      <AdminCoperateUserAddEditModal open={editOpen} setOpen={setEditOpen} schema={adminUserAddEditSchema} roleAbled={true} initialValues={initialValues}/>
 
       <IconButton
         aria-label="more"
@@ -49,7 +67,7 @@ export default function AddAdminGridMenu({ param }) {
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        <MenuItem onClick={handleClose}>Edit</MenuItem>
+        <MenuItem onClick={editHandler}>Edit</MenuItem>
         <MenuItem onClick={DeleteHandler}>Delete</MenuItem>
       </Menu>
     </div>
