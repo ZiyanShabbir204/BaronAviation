@@ -1,14 +1,8 @@
-import React from 'react'
-import FlightRequestGrid from '../../../components/FlightRequest/FlightRequestGrid'
+import React from "react";
+import FlightRequestGrid from "../../../components/FlightRequest/FlightRequestGrid";
 
 const FlightRequest = () => {
-  return (
-    <div>
-        <FlightRequestGrid/>
-        
-      
-    </div>
-  )
-}
+  return <FlightRequestGrid />;
+};
 
-export default FlightRequest
+export default FlightRequest;

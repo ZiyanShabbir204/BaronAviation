@@ -5,12 +5,11 @@ import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Fade from "@mui/material/Fade";
 
-export default function AddAdminGridMenu({param}) {
+export default function AddAdminGridMenu({ param }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
-    console.log("param",param)
   };
   const handleClose = () => {
     setAnchorEl(null);
