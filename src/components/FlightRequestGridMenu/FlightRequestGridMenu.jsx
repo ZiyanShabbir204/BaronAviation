@@ -7,8 +7,10 @@ import Fade from "@mui/material/Fade";
 import { Divider } from "@mui/material";
 import DeleteModal from "../deleteModal/DeleteModal";
 import FlightRequestEditAddModal from "../flightRequestEditModal/FlightRequestEditAddModal";
+import ApiService from "../../api.service";
+import EditDeleteMenu from "../EditDeleteMenu/EditDeleteMenu";
 
-export default function FlightRequestGridMenu({ param }) {
+export default function FlightRequestGridMenu({ data }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [deleteOpen, setDeleteOpen] = useState(null);
   const [editOpen, setEditOpen] = useState(null);
@@ -26,46 +28,37 @@ export default function FlightRequestGridMenu({ param }) {
     setEditOpen(true);
   };
 
+  const onDeleteHandler = async () => {
+    try {
+      await ApiService.delete(`flight-booking/${data.id}`);
+    } catch (err) {
+      console.log("err in FlightRequestGridMenu.jsx -> onDeleteHandler", err);
+    }
+  };
+
   return (
-    <div>
+    <>
       <DeleteModal
         open={deleteOpen}
         setOpen={setDeleteOpen}
-        text={`flight from ${param.row.from} to ${param.row.to}`}
+        text={`flight from ${data.from} to ${data.to}`}
+        onDelete={onDeleteHandler}
       />
       <FlightRequestEditAddModal
         open={editOpen}
         setOpen={setEditOpen}
         flag="edit"
-        param={param.row}
+        param={data}
       />
-      <IconButton
-        aria-label="more"
-        id="long-button"
-        aria-controls={open ? "long-menu" : undefined}
-        aria-expanded={open ? "true" : undefined}
-        aria-haspopup="true"
-        onClick={handleClick}
+      <EditDeleteMenu
+        onEdit={() => setEditOpen(true)}
+        onDelete={() => setDeleteOpen(true)}
       >
-        <MoreVertIcon />
-      </IconButton>
-      <Menu
-        id="fade-menu"
-        MenuListProps={{
-          "aria-labelledby": "fade-button",
-        }}
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        TransitionComponent={Fade}
-      >
-        <MenuItem onClick={editHandler}>Edit</MenuItem>
-        <MenuItem onClick={DeleteHandler}>Delete</MenuItem>
         <Divider />
         <MenuItem onClick={handleClose}>Approved</MenuItem>
         <MenuItem onClick={handleClose}>Pending</MenuItem>
         <MenuItem onClick={handleClose}>Declined</MenuItem>
-      </Menu>
-    </div>
+      </EditDeleteMenu>
+    </>
   );
 }

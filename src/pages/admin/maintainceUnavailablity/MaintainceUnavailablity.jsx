@@ -1,33 +1,63 @@
-import React, {useState}from 'react'
-import MaintainceUnavailablityGrid from '../../../components/MaintainceUnavailablity/MaintainceUnavailablityGrid'
-import Button from "@mui/material/Button";
-import AddIcon from "@mui/icons-material/Add";
-import { Stack } from "@mui/material";
-import FlightMaintainceUnavailablityEditAddModal from '../../../components/flightMaintainceUnavailablityEditAddModal/flightMaintainceUnavailablityEditAddModal'
+import { useState, useCallback, useEffect } from "react";
+import FlightMaintainceUnavailablityEditAddModal from "../../../components/flightMaintainceUnavailablityEditAddModal/flightMaintainceUnavailablityEditAddModal";
+import Widget from "../../../components/widget/Widget";
+import Datagrid from "../../../components/Datagrid/Datagrid";
+import ApiService from "../../../api.service";
+import MaintainceUnavailablityGridMenu from "../../../components/MaintainceUnavailablityGridMenu/MaintainceUnavailablityGridMenu";
+import useFetchRow from "../../../hooks/useFetchRow";
 
 const MaintainceUnavailablity = () => {
-  const [addOpen,setAddOpen] = useState(null)
+  const [addOpen, setAddOpen] = useState(null);
+  const { rows } = useFetchRow("admin/flight-unavailability/maintenance");
 
-  const addHandler = ()=>{
-    setAddOpen(true)
-  }
   return (
-    <div> 
+    <>
       <FlightMaintainceUnavailablityEditAddModal
         open={addOpen}
         setOpen={setAddOpen}
         flag="add"
-      
       />
-    <Stack direction="row" justifyContent="flex-end" marginBottom="15px" >
-        <Button variant="contained" endIcon={<AddIcon />} sx={{width:"fit-content"}} onClick={addHandler}>
-          Add Maintaince Unavailablity
-        </Button>
-      </Stack>
 
-    <MaintainceUnavailablityGrid/>
-</div>
-  )
-}
+      <Widget
+        addBtnlabel="Add Maintaince Unavailablity"
+        onAddClick={() => setAddOpen(true)}
+      >
+        <Datagrid rows={rows} columns={columns} />
+      </Widget>
+    </>
+  );
+};
 
-export default MaintainceUnavailablity
+export default MaintainceUnavailablity;
+
+const columns = [
+  {
+    field: "start_time",
+    headerName: "Start Time",
+    type: "string",
+    flex: 1,
+    editable: false,
+  },
+  {
+    field: "end_time",
+    headerName: "End Time",
+    type: "string",
+    flex: 1,
+    editable: false,
+  },
+  {
+    field: "added_by",
+    headerName: "Added By",
+    flex: 1,
+    editable: false,
+  },
+
+  {
+    field: "actions",
+    type: "actions",
+    width: 100,
+    renderCell: (param) => {
+      return <MaintainceUnavailablityGridMenu param={param} />;
+    },
+  },
+];
