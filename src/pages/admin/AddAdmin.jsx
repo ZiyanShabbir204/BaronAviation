@@ -53,7 +53,7 @@ const columns = [
     type: "actions",
     flex: 1,
     renderCell: (param) => {
-      return <AddAdminGridMenu param={param} />;
+      return <AddAdminGridMenu data={param.row} />;
     },
   },
 ];

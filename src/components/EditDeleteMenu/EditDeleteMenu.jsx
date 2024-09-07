@@ -37,8 +37,8 @@ export default function EditDeleteMenu({ onDelete, onEdit, children }) {
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        <MenuItem onClick={onDelete}>Edit</MenuItem>
-        <MenuItem onClick={onEdit}>Delete</MenuItem>
+        <MenuItem onClick={onEdit}>Edit</MenuItem>
+        <MenuItem onClick={onDelete}>Delete</MenuItem>
         {children && children}
       </Menu>
     </>

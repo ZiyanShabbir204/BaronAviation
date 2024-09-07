@@ -3,10 +3,11 @@ import FlightMaintainceUnavailablityEditAddModal from "../../../components/fligh
 import Widget from "../../../components/widget/Widget";
 import Datagrid from "../../../components/Datagrid/Datagrid";
 import FlightUnavailablityGridMenu from "../../../components/FlightUnavailablityGridMenu/FlightUnavailablityGridMenu";
+import useFetchRow from "../../../hooks/useFetchRow";
 
 const FlightUnavailibility = () => {
   const [addOpen, setAddOpen] = useState(null);
-
+  const { rows } = useFetchRow("admin/flight-unavailability/unavailability");
   return (
     <div>
       <FlightMaintainceUnavailablityEditAddModal
@@ -27,118 +28,37 @@ const FlightUnavailibility = () => {
 export default FlightUnavailibility;
 
 const columns = [
-  { field: "flight_no", headerName: "Flight", width: 160, editable: false },
   {
     field: "start_time",
     headerName: "Start Time",
-    type: "dateTime",
-    width: 200,
+    type: "string",
+    flex: 1,
     editable: false,
   },
   {
     field: "end_time",
     headerName: "End Time",
-    type: "dateTime",
-    width: 200,
+    type: "string",
+    flex: 1,
     editable: false,
   },
   {
-    field: "edit_by",
-    headerName: "Edit By",
-    width: 180,
+    field: "added_by",
+    headerName: "Added By",
+    flex: 1,
     editable: false,
   },
   {
     field: "reason",
     headerName: "Reason",
-    width: 220,
     editable: false,
+    flex: 1,
   },
   {
     field: "actions",
     type: "actions",
-    width: 100,
     renderCell: (param) => {
-      return <FlightUnavailablityGridMenu param={param} />;
+      return <FlightUnavailablityGridMenu data={param.row} />;
     },
-  },
-];
-
-const rows = [
-  {
-    id: 12,
-    flight_no: "ABC12345",
-    edit_by: "John Doe",
-    reason: "Technical delay",
-  },
-  {
-    id: 1,
-    flight_no: "ABC12345",
-
-    edit_by: "John Doe",
-    reason: "Technical delay",
-  },
-  {
-    id: 2,
-    flight_no: "DEF67890",
-
-    edit_by: "Jane Smith",
-    reason: "Weather conditions",
-  },
-  {
-    id: 3,
-    flight_no: "GHI23456",
-
-    edit_by: "Mark Johnson",
-    reason: "Crew unavailability",
-  },
-  {
-    id: 4,
-    flight_no: "JKL78901",
-
-    edit_by: "Emma Davis",
-    reason: "Airport restrictions",
-  },
-  {
-    id: 5,
-    flight_no: "MNO34567",
-
-    edit_by: "Michael Brown",
-    reason: "Passenger issues",
-  },
-  {
-    id: 6,
-    flight_no: "PQR89012",
-
-    edit_by: "Olivia Wilson",
-    reason: "Flight rescheduling",
-  },
-  {
-    id: 7,
-    flight_no: "STU45678",
-
-    edit_by: "Noah Taylor",
-    reason: "Fueling delay",
-  },
-  {
-    id: 8,
-    flight_no: "VWX01234",
-
-    edit_by: "Liam White",
-    reason: "Security check",
-  },
-  {
-    id: 9,
-    flight_no: "YZA56789",
-
-    edit_by: "Sophia Harris",
-    reason: "Luggage misplacement",
-  },
-  {
-    id: 10,
-    flight_no: "BCD90123",
-
-    edit_by: "James Clark",
-    reason: "Flight rerouting",
   },
 ];

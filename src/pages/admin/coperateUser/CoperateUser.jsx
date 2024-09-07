@@ -71,7 +71,7 @@ const columns = [
     type: "actions",
     flex: 1,
     renderCell: (param) => {
-      return <CoperateUserGridMenu param={param} />;
+      return <CoperateUserGridMenu data={param.row} />;
     },
   },
 ];

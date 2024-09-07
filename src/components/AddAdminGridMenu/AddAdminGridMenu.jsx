@@ -3,17 +3,21 @@ import DeleteModal from "../deleteModal/DeleteModal";
 import AdminCoperateUserAddEditModal from "../adminCoperateUserAddEditModal/adminCoperateUserAddEditModal";
 import { adminUserAddEditSchema } from "../../schema/validateSchema";
 import EditDeleteMenu from "../EditDeleteMenu/EditDeleteMenu";
-
-export default function AddAdminGridMenu({ param }) {
+import ApiService from "../../api.service";
+export default function AddAdminGridMenu({ data }) {
   const [deleteOpen, setDeleteOpen] = useState(null);
   const [editOpen, setEditOpen] = useState(null);
 
   const initialValues = {
-    username: param.row.username,
-    password: param.row.password,
-    role: param.row.role,
-    email: param.row.email,
-    phone: param.row.phone,
+    username: data.username,
+    password: data.password,
+    role: data.role,
+    email: data.email,
+    phone: data.phone,
+  };
+
+  const deleteHandler = async () => {
+    return ApiService.delete(`admin/${data.id}`);
   };
 
   return (
@@ -21,7 +25,8 @@ export default function AddAdminGridMenu({ param }) {
       <DeleteModal
         open={deleteOpen}
         setOpen={setDeleteOpen}
-        text={`${param.row.username}`}
+        text={`${data.username}`}
+        onDelete={deleteHandler}
       />
       <AdminCoperateUserAddEditModal
         open={editOpen}

@@ -2,23 +2,29 @@ import { useState } from "react";
 import DeleteModal from "../deleteModal/DeleteModal";
 import FlightMaintainceUnavailablityEditAddModal from "../flightMaintainceUnavailablityEditAddModal/flightMaintainceUnavailablityEditAddModal";
 import EditDeleteMenu from "../EditDeleteMenu/EditDeleteMenu";
+import ApiService from "../../api.service";
 
-export default function FlightUnavailablityGridMenu({ param }) {
+export default function FlightUnavailablityGridMenu({ data }) {
   const [deleteOpen, setDeleteOpen] = useState(null);
   const [editOpen, setEditOpen] = useState(null);
+
+  const deleteHandler = async () => {
+    return ApiService.delete(`admin/flight-unavailability/${data.id}`);
+  };
 
   return (
     <div>
       <DeleteModal
         open={deleteOpen}
         setOpen={setDeleteOpen}
-        text={`flight start from ${param.row.start_time} and end at ${param.row.end_time}`}
+        text={`flight start from ${data.start_time} and end at ${data.end_time}`}
+        onDelete={deleteHandler}
       />
       <FlightMaintainceUnavailablityEditAddModal
         open={editOpen}
         setOpen={setEditOpen}
         flag="edit"
-        param={param.row}
+        param={data}
       />
 
       <EditDeleteMenu

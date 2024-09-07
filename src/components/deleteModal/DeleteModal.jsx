@@ -1,27 +1,44 @@
-import * as React from "react";
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { Stack } from "@mui/material";
+import { CircularProgress, Stack } from "@mui/material";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import CloseIcon from "@mui/icons-material/Close";
-import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  minWidth: 400,
+  width: "50%",
   bgcolor: "background.paper",
-  border: "2px solid #000",
   boxShadow: 24,
   p: 4,
+  border: 0,
+  borderRadius: "5px",
 };
 
-export default function DeleteModal({ open, setOpen,text }) {
- 
+export default function DeleteModal({ open, setOpen, text, onDelete }) {
+  const [deleting, setDeleting] = useState(false);
+  const [error, setError] = useState("");
   const handleClose = () => setOpen(false);
+
+  const deleteHandler = async () => {
+    try {
+      setDeleting(true);
+      await onDelete();
+      handleClose();
+    } catch (err) {
+      console.log("error in DeleteModal -> deleteHandler", err);
+      const message = err.response.data.message;
+      setError(message);
+    } finally {
+      setDeleting(false);
+    }
+  };
 
   return (
     <div>
@@ -32,28 +49,41 @@ export default function DeleteModal({ open, setOpen,text }) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
+          {error && (
+            <Typography color="warning" align="center">
+              {error}
+            </Typography>
+          )}
           <Stack
-          flexDirection="row"
-          justifyContent="center"
-          alignItems="center"
-          gap="10px"
+            flexDirection="row"
+            justifyContent="center"
+            alignItems="center"
+            gap="10px"
           >
             <WarningAmberIcon color="error" />
-            <Typography id="modal-modal-title" variant="h5" component="h2" align="center">
+            <Typography
+              id="modal-modal-title"
+              variant="h5"
+              component="h2"
+              align="center"
+            >
               Delete
             </Typography>
           </Stack>
 
-          <Typography id="modal-modal-description" sx={{ mt: 4 }} align="center">
-            Are you sure you want to delete {text} ?
+          <Typography
+            id="modal-modal-description"
+            sx={{ mt: 1 }}
+            align="center"
+          >
+            Are you sure you want to delete <strong>{text}</strong>?
           </Typography>
 
           <Stack
             flexDirection="row"
-            justifyContent="space-around"
+            justifyContent="space-between"
             marginTop="20px"
           >
-            
             <Button
               variant="outlined"
               color="primary"
@@ -65,8 +95,15 @@ export default function DeleteModal({ open, setOpen,text }) {
             <Button
               variant="contained"
               color="error"
-              startIcon={<DeleteOutlineIcon />}
-              onClick={handleClose}
+              startIcon={
+                deleting ? (
+                  <CircularProgress size={24} />
+                ) : (
+                  <DeleteOutlineIcon />
+                )
+              }
+              onClick={deleteHandler}
+              disabled={deleting}
             >
               Delete
             </Button>

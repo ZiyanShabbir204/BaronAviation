@@ -154,16 +154,6 @@ export default function LoginPage() {
           >
             Login
           </Button>
-
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-            onClick={test}
-          >
-            test
-          </Button>
         </Box>
       </Box>
     </Container>
