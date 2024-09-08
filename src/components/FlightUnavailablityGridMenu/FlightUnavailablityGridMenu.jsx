@@ -4,7 +4,10 @@ import FlightMaintainceUnavailablityEditAddModal from "../flightMaintainceUnavai
 import EditDeleteMenu from "../EditDeleteMenu/EditDeleteMenu";
 import ApiService from "../../api.service";
 
-export default function FlightUnavailablityGridMenu({ data }) {
+export default function FlightUnavailablityGridMenu({
+  data,
+  onRequestComplete,
+}) {
   const [deleteOpen, setDeleteOpen] = useState(null);
   const [editOpen, setEditOpen] = useState(null);
 
@@ -19,12 +22,14 @@ export default function FlightUnavailablityGridMenu({ data }) {
         setOpen={setDeleteOpen}
         text={`flight start from ${data.start_time} and end at ${data.end_time}`}
         onDelete={deleteHandler}
+        onRequestComplete={onRequestComplete}
       />
       <FlightMaintainceUnavailablityEditAddModal
         open={editOpen}
         setOpen={setEditOpen}
         data={data}
         reason="unavailability"
+        onRequestComplete={onRequestComplete}
       />
 
       <EditDeleteMenu

@@ -6,7 +6,7 @@ import FlightRequestEditAddModal from "../flightRequestEditModal/FlightRequestEd
 import ApiService from "../../api.service";
 import EditDeleteMenu from "../EditDeleteMenu/EditDeleteMenu";
 
-export default function FlightRequestGridMenu({ data }) {
+export default function FlightRequestGridMenu({ data, onRequestComplete }) {
   const [deleteOpen, setDeleteOpen] = useState(null);
   const [editOpen, setEditOpen] = useState(null);
   const deleteHandler = async () => {
@@ -20,12 +20,14 @@ export default function FlightRequestGridMenu({ data }) {
         setOpen={setDeleteOpen}
         text={`flight from ${data.from} to ${data.to}`}
         onDelete={deleteHandler}
+        onRequestComplete={onRequestComplete}
       />
       <FlightRequestEditAddModal
         open={editOpen}
         setOpen={setEditOpen}
         flag="edit"
         param={data}
+        onRequestComplete={onRequestComplete}
       />
       <EditDeleteMenu
         onEdit={() => setEditOpen(true)}

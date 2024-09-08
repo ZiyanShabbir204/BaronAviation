@@ -4,7 +4,7 @@ import AdminCoperateUserAddEditModal from "../adminCoperateUserAddEditModal/admi
 import { adminUserEditSchema } from "../../schema/validateSchema";
 import EditDeleteMenu from "../EditDeleteMenu/EditDeleteMenu";
 import ApiService from "../../api.service";
-export default function AddAdminGridMenu({ data }) {
+export default function AddAdminGridMenu({ data, onRequestComplete }) {
   const [deleteOpen, setDeleteOpen] = useState(null);
   const [editOpen, setEditOpen] = useState(null);
   const initialValues = {
@@ -25,6 +25,7 @@ export default function AddAdminGridMenu({ data }) {
         setOpen={setDeleteOpen}
         text={`${data.username}`}
         onDelete={deleteHandler}
+        onRequestComplete={onRequestComplete}
       />
       <AdminCoperateUserAddEditModal
         open={editOpen}
@@ -33,6 +34,7 @@ export default function AddAdminGridMenu({ data }) {
         initialValues={initialValues}
         isRoleExist
         userId={data.id}
+        onRequestComplete={onRequestComplete}
       />
 
       <EditDeleteMenu

@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
 import FlightMaintainceUnavailablityEditAddModal from "../../../components/flightMaintainceUnavailablityEditAddModal/flightMaintainceUnavailablityEditAddModal";
 import Widget from "../../../components/widget/Widget";
 import Datagrid from "../../../components/Datagrid/Datagrid";
@@ -8,7 +8,52 @@ import useFetchRow from "../../../hooks/useFetchRow";
 
 const MaintainceUnavailablity = () => {
   const [addOpen, setAddOpen] = useState(null);
-  const { rows } = useFetchRow("admin/flight-unavailability/maintenance");
+  const { rows, fetchRows } = useFetchRow(
+    "admin/flight-unavailability/maintenance"
+  );
+
+  const columns = useMemo(
+    () => [
+      {
+        field: "start_time",
+        headerName: "Start Time",
+        type: "string",
+        flex: 1,
+        editable: false,
+      },
+      {
+        field: "end_time",
+        headerName: "End Time",
+        type: "string",
+        flex: 1,
+        editable: false,
+      },
+      {
+        field: "added_by",
+        headerName: "Added By",
+        flex: 1,
+        editable: false,
+      },
+
+      {
+        field: "actions",
+        type: "actions",
+        renderCell: (param) => {
+          return (
+            <MaintainceUnavailablityGridMenu
+              onRequestComplete={requestHandler}
+              data={param.row}
+            />
+          );
+        },
+      },
+    ],
+    []
+  );
+
+  const requestHandler = () => {
+    fetchRows();
+  };
 
   return (
     <>
@@ -16,6 +61,7 @@ const MaintainceUnavailablity = () => {
         open={addOpen}
         setOpen={setAddOpen}
         reason="maintenance"
+        onRequestComplete={requestHandler}
       />
 
       <Widget
@@ -29,34 +75,3 @@ const MaintainceUnavailablity = () => {
 };
 
 export default MaintainceUnavailablity;
-
-const columns = [
-  {
-    field: "start_time",
-    headerName: "Start Time",
-    type: "string",
-    flex: 1,
-    editable: false,
-  },
-  {
-    field: "end_time",
-    headerName: "End Time",
-    type: "string",
-    flex: 1,
-    editable: false,
-  },
-  {
-    field: "added_by",
-    headerName: "Added By",
-    flex: 1,
-    editable: false,
-  },
-
-  {
-    field: "actions",
-    type: "actions",
-    renderCell: (param) => {
-      return <MaintainceUnavailablityGridMenu data={param.row} />;
-    },
-  },
-];

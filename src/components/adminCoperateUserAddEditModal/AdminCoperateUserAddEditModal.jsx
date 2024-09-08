@@ -42,6 +42,7 @@ export default function AdminCoperateUserAddEditModal({
   isRoleExist,
   isTotalHoursExist,
   userId,
+  onRequestComplete,
 }) {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
@@ -51,9 +52,9 @@ export default function AdminCoperateUserAddEditModal({
   const submitHandler = async (values) => {
     try {
       const { username, email, phone, password, role, total_hours } = values;
-
+      let res;
       if (isRoleExist && !userId) {
-        await ApiService.post("auth/register", {
+        res = await ApiService.post("auth/register", {
           username,
           email,
           phone,
@@ -63,7 +64,7 @@ export default function AdminCoperateUserAddEditModal({
       }
 
       if (isRoleExist && userId) {
-        await ApiService.put(`admin/${userId}`, {
+        res = await ApiService.put(`admin/${userId}`, {
           phone,
           password,
           role_name: role,
@@ -71,7 +72,7 @@ export default function AdminCoperateUserAddEditModal({
       }
 
       if (isTotalHoursExist) {
-        await ApiService.post("admin/cooperate-customer/register", {
+        res = await ApiService.post("admin/cooperate-customer/register", {
           username,
           email,
           phone,
@@ -80,6 +81,7 @@ export default function AdminCoperateUserAddEditModal({
         });
       }
 
+      onRequestComplete && onRequestComplete(res);
       handleClose();
     } catch (err) {
       console.log("Error in FlightRequestEditAddModal -> submitHandler", err);

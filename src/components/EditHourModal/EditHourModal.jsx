@@ -24,17 +24,23 @@ const style = {
   borderRadius: "5px",
 };
 
-export default function EditHourModal({ open, setOpen, data }) {
+export default function EditHourModal({
+  open,
+  setOpen,
+  data,
+  onRequestComplete,
+}) {
   const [error, setError] = useState("");
 
   const handleClose = () => setOpen(false);
 
   const submitHandler = async (values) => {
     try {
-      await ApiService.put("admin/cooperate-customer/hours", {
+      const res = await ApiService.put("admin/cooperate-customer/hours", {
         ...values,
         user_id: data.id,
       });
+      onRequestComplete(res);
       handleClose();
     } catch (err) {
       console.log("Error in FlightRequestEditAddModal -> submitHandler", err);

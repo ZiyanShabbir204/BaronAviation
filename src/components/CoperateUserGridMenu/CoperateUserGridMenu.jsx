@@ -7,7 +7,7 @@ import ApiService from "../../api.service";
 import { Divider, MenuItem } from "@mui/material";
 import EditHourModal from "../EditHourModal/EditHourModal";
 
-export default function CoperateUserGridMenu({ data }) {
+export default function CoperateUserGridMenu({ data, onRequestComplete }) {
   const [deleteOpen, setDeleteOpen] = useState(null);
   const [editOpen, setEditOpen] = useState(null);
   const [hourModalOpen, setHourModalOpen] = useState(null);
@@ -46,18 +46,21 @@ export default function CoperateUserGridMenu({ data }) {
         setOpen={setDeleteOpen}
         text={`${data.username}`}
         onDelete={deleteHandler}
+        onRequestComplete={onRequestComplete}
       />
       <AdminCoperateUserAddEditModal
         open={editOpen}
         setOpen={setEditOpen}
         schema={coperateUserAddEditSchema}
         initialValues={initialValues}
+        onRequestComplete={onRequestComplete}
       />
 
       <EditHourModal
         open={hourModalOpen}
         setOpen={setHourModalOpen}
         data={data}
+        onRequestComplete={onRequestComplete}
       />
     </>
   );

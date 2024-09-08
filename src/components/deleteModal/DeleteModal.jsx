@@ -21,7 +21,13 @@ const style = {
   borderRadius: "5px",
 };
 
-export default function DeleteModal({ open, setOpen, text, onDelete }) {
+export default function DeleteModal({
+  open,
+  setOpen,
+  text,
+  onDelete,
+  onRequestComplete,
+}) {
   const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState("");
   const handleClose = () => setOpen(false);
@@ -29,7 +35,8 @@ export default function DeleteModal({ open, setOpen, text, onDelete }) {
   const deleteHandler = async () => {
     try {
       setDeleting(true);
-      await onDelete();
+      const res = await onDelete();
+      onRequestComplete(res);
       handleClose();
     } catch (err) {
       console.log("error in DeleteModal -> deleteHandler", err);

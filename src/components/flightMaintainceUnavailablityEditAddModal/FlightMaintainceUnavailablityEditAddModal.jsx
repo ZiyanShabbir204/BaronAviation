@@ -26,6 +26,7 @@ export default function FlightMaintainceUnavailablityEditAddModal({
   setOpen,
   data,
   reason,
+  onRequestComplete,
 }) {
   let initialValues = {
     edit_by: "",
@@ -46,13 +47,14 @@ export default function FlightMaintainceUnavailablityEditAddModal({
   const submitHandler = async (values) => {
     try {
       //Todo change when update date and time picker
-      await ApiService.post("admin/flight-unavailability", {
+      const res = await ApiService.post("admin/flight-unavailability", {
         ...values,
         start_time: "2024-02-25T10:00:00Z",
         end_time: "2024-02-25T10:00:00Z",
         reason,
       });
       handleClose();
+      onRequestComplete && onRequestComplete(res);
     } catch (err) {
       console.log("Error in FlightRequestEditAddModal -> submitHandler", err);
       const errorMessage = err.response.data.message || err.response.data.error;

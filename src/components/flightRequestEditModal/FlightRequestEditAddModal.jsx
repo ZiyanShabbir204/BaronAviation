@@ -21,7 +21,12 @@ const style = {
   borderRadius: "5px",
 };
 
-export default function FlightRequestEditAddModal({ open, setOpen, data }) {
+export default function FlightRequestEditAddModal({
+  open,
+  setOpen,
+  data,
+  onRequestComplete,
+}) {
   const [error, setError] = useState("");
   let initialValues = {
     to: "",
@@ -43,10 +48,11 @@ export default function FlightRequestEditAddModal({ open, setOpen, data }) {
   const submitHandler = async (values) => {
     try {
       //Todo change when update date and time picker
-      await ApiService.post("flight-booking", {
+      const res = await ApiService.post("flight-booking", {
         ...values,
         start_time: "2024-02-25T10:00:00Z",
       });
+      onRequestComplete && onRequestComplete(res);
       handleClose();
     } catch (err) {
       console.log("Error in FlightRequestEditAddModal -> submitHandler", err);
