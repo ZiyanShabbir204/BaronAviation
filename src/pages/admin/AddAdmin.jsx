@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AdminCoperateUserAddEditModal from "../../components/adminCoperateUserAddEditModal/adminCoperateUserAddEditModal";
-import { adminUserAddEditSchema } from "../../schema/validateSchema";
+import { adminUserAddSchema } from "../../schema/validateSchema";
 import Widget from "../../components/widget/Widget";
 import Datagrid from "../../components/Datagrid/Datagrid";
 import useFetchRow from "../../hooks/useFetchRow";
@@ -21,7 +21,7 @@ const AddAdmin = () => {
       <AdminCoperateUserAddEditModal
         open={open}
         setOpen={setOpen}
-        schema={adminUserAddEditSchema}
+        schema={adminUserAddSchema}
         initialValues={initialValues}
         isRoleExist
       />
@@ -50,7 +50,6 @@ const columns = [
   {
     field: "actions",
     type: "actions",
-    flex: 1,
     renderCell: (param) => {
       return <AddAdminGridMenu data={param.row} />;
     },

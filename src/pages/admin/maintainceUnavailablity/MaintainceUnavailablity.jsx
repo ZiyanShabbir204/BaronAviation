@@ -55,7 +55,6 @@ const columns = [
   {
     field: "actions",
     type: "actions",
-    width: 100,
     renderCell: (param) => {
       return <MaintainceUnavailablityGridMenu data={param.row} />;
     },

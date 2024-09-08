@@ -1,17 +1,15 @@
 import { useState } from "react";
 import DeleteModal from "../deleteModal/DeleteModal";
 import AdminCoperateUserAddEditModal from "../adminCoperateUserAddEditModal/adminCoperateUserAddEditModal";
-import { adminUserAddEditSchema } from "../../schema/validateSchema";
+import { adminUserEditSchema } from "../../schema/validateSchema";
 import EditDeleteMenu from "../EditDeleteMenu/EditDeleteMenu";
 import ApiService from "../../api.service";
 export default function AddAdminGridMenu({ data }) {
   const [deleteOpen, setDeleteOpen] = useState(null);
   const [editOpen, setEditOpen] = useState(null);
-
   const initialValues = {
     username: data.username,
-    password: data.password,
-    role: data.role,
+    role: data.role_name,
     email: data.email,
     phone: data.phone,
   };
@@ -31,9 +29,10 @@ export default function AddAdminGridMenu({ data }) {
       <AdminCoperateUserAddEditModal
         open={editOpen}
         setOpen={setEditOpen}
-        schema={adminUserAddEditSchema}
+        schema={adminUserEditSchema}
         initialValues={initialValues}
         isRoleExist
+        userId={data.id}
       />
 
       <EditDeleteMenu

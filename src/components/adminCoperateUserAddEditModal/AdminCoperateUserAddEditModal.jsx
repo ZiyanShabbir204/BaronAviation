@@ -17,6 +17,9 @@ import {
   Stack,
   MenuItem,
 } from "@mui/material";
+
+import ApiService from "../../api.service";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -37,21 +40,46 @@ export default function AdminCoperateUserAddEditModal({
   schema,
   initialValues,
   isRoleExist,
+  isTotalHoursExist,
+  userId,
 }) {
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
 
   const handleClose = () => setOpen(false);
 
   const submitHandler = async (values) => {
     try {
-      console.log("values", values);
-      //Todo change when update date and time picker
-      // await ApiService.post("auth/register", {
-      //   ...values,
-      //   start_time: "2024-02-25T10:00:00Z",
-      //   end_time: "2024-02-25T10:00:00Z",
-      //   reason,
-      // });
+      const { username, email, phone, password, role, total_hours } = values;
+
+      if (isRoleExist && !userId) {
+        await ApiService.post("auth/register", {
+          username,
+          email,
+          phone,
+          password,
+          roleName: role,
+        });
+      }
+
+      if (isRoleExist && userId) {
+        await ApiService.put(`admin/${userId}`, {
+          phone,
+          password,
+          role_name: role,
+        });
+      }
+
+      if (isTotalHoursExist) {
+        await ApiService.post("admin/cooperate-customer/register", {
+          username,
+          email,
+          phone,
+          password,
+          hours: total_hours,
+        });
+      }
+
       handleClose();
     } catch (err) {
       console.log("Error in FlightRequestEditAddModal -> submitHandler", err);
@@ -85,36 +113,43 @@ export default function AdminCoperateUserAddEditModal({
         <Typography component="h1" variant="h5">
           Add Admin
         </Typography>
+        {error && (
+          <Typography color="warning" align="center">
+            {error}
+          </Typography>
+        )}
         <form onSubmit={formik.handleSubmit}>
           <TextField
             fullWidth
             id="username"
             name="username"
-            label="username"
+            label="Username"
             value={formik.values.username}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             error={formik.touched.username && Boolean(formik.errors.username)}
             helperText={formik.touched.username && formik.errors.username}
+            disabled={userId}
             sx={{ mt: 2 }}
           />
           <TextField
             fullWidth
             id="email"
             name="email"
-            label="email"
+            label="Email"
             value={formik.values.email}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             error={formik.touched.email && Boolean(formik.errors.email)}
             helperText={formik.touched.email && formik.errors.email}
+            disabled={userId}
             sx={{ mt: 2 }}
           />
           <TextField
             fullWidth
             id="phone"
             name="phone"
-            label="Phone"
+            label="Phone Number"
             type="text"
             value={formik.values.phone}
             onChange={formik.handleChange}
@@ -150,6 +185,7 @@ export default function AdminCoperateUserAddEditModal({
               ),
             }}
           />
+
           {isRoleExist && (
             <Select
               id="role"
@@ -168,7 +204,8 @@ export default function AdminCoperateUserAddEditModal({
               <MenuItem value="maintenance_worker">Mantainence Worker</MenuItem>
             </Select>
           )}
-          {!isRoleExist && (
+
+          {isTotalHoursExist && (
             <TextField
               fullWidth
               id="total_hours"
@@ -188,7 +225,6 @@ export default function AdminCoperateUserAddEditModal({
             />
           )}
 
-          <Stack sx={{ mt: 1 }}></Stack>
           <Stack
             flexDirection="row"
             justifyContent="space-between"

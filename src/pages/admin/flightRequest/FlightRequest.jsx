@@ -70,8 +70,6 @@ const columns = [
   {
     field: "actions",
     type: "actions",
-    flex: 1,
-
     renderCell: (param) => {
       return <FlightRequestGridMenu data={param.row} />;
     },

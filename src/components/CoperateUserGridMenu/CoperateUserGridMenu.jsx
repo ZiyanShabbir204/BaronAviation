@@ -1,13 +1,17 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import DeleteModal from "../deleteModal/DeleteModal";
 import { coperateUserAddEditSchema } from "../../schema/validateSchema";
 import AdminCoperateUserAddEditModal from "../adminCoperateUserAddEditModal/adminCoperateUserAddEditModal";
 import EditDeleteMenu from "../EditDeleteMenu/EditDeleteMenu";
 import ApiService from "../../api.service";
+import { Divider, MenuItem } from "@mui/material";
+import EditHourModal from "../EditHourModal/EditHourModal";
 
 export default function CoperateUserGridMenu({ data }) {
   const [deleteOpen, setDeleteOpen] = useState(null);
   const [editOpen, setEditOpen] = useState(null);
+  const [hourModalOpen, setHourModalOpen] = useState(null);
+  const menuRef = useRef();
 
   const initialValues = {
     username: data.username,
@@ -20,8 +24,23 @@ export default function CoperateUserGridMenu({ data }) {
     return ApiService.delete(`admin/cooperate-customer/${data.id}`);
   };
 
+  const EditHourClickHandler = () => {
+    setHourModalOpen(true);
+    menuRef.current.closeMenu();
+  };
+
   return (
     <>
+      <EditDeleteMenu
+        ref={menuRef}
+        onDelete={() => setDeleteOpen(true)}
+        onEdit={() => setEditOpen(true)}
+      >
+        <Divider />
+        <MenuItem onClick={EditHourClickHandler}>Edit Hours</MenuItem>
+      </EditDeleteMenu>
+
+      {/* Modals */}
       <DeleteModal
         open={deleteOpen}
         setOpen={setDeleteOpen}
@@ -35,9 +54,10 @@ export default function CoperateUserGridMenu({ data }) {
         initialValues={initialValues}
       />
 
-      <EditDeleteMenu
-        onDelete={() => setDeleteOpen(true)}
-        onEdit={() => setEditOpen(true)}
+      <EditHourModal
+        open={hourModalOpen}
+        setOpen={setHourModalOpen}
+        data={data}
       />
     </>
   );

@@ -22,6 +22,7 @@ const CoperateUser = () => {
         setOpen={setOpen}
         schema={coperateUserAddEditSchema}
         initialValues={initialValues}
+        isTotalHoursExist
       />
       <Widget addBtnlabel="Add Coperate User" onAddClick={() => setOpen(true)}>
         <Datagrid rows={rows} columns={columns} />
@@ -34,27 +35,7 @@ export default CoperateUser;
 
 const columns = [
   { field: "username", headerName: "Username", flex: 1, editable: false },
-  {
-    field: "total_hours",
-    headerName: "Total Hours",
-    type: "number",
-    flex: 1,
-    editable: false,
-  },
-  {
-    field: "used_hours",
-    headerName: "Used Hours",
-    type: "number",
-    flex: 1,
-    editable: false,
-  },
-  {
-    field: "available_hours",
-    headerName: "Available Hours",
-    type: "number",
-    flex: 1,
-    editable: false,
-  },
+  { field: "phone", headerName: "Phone", flex: 1, editable: false },
   {
     field: "email",
     headerName: "Email",
@@ -62,12 +43,40 @@ const columns = [
     flex: 1,
     editable: false,
   },
-  { field: "phone", headerName: "Phone", flex: 1, editable: false },
+  {
+    field: "total_hours",
+    headerName: "Total Hours",
+    type: "number",
+    flex: 1,
+    editable: false,
+    renderCell: (param) => {
+      return param.row.hours.total_hours;
+    },
+  },
+  {
+    field: "used_hours",
+    headerName: "Used Hours",
+    type: "number",
+    flex: 1,
+    editable: false,
+    renderCell: (param) => {
+      return param.row.hours.used_hours;
+    },
+  },
+  {
+    field: "available_hours",
+    headerName: "Available Hours",
+    type: "number",
+    flex: 1,
+    editable: false,
+    renderCell: (param) => {
+      return param.row.hours.available_hours;
+    },
+  },
 
   {
     field: "actions",
     type: "actions",
-    flex: 1,
     renderCell: (param) => {
       return <CoperateUserGridMenu data={param.row} />;
     },

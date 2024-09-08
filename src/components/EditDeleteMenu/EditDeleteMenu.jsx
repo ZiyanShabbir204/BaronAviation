@@ -1,20 +1,27 @@
-import { useState } from "react";
+import { useState, forwardRef, useImperativeHandle } from "react";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Fade from "@mui/material/Fade";
 
-export default function EditDeleteMenu({ onDelete, onEdit, children }) {
+const EditDeleteMenu = forwardRef(({ onDelete, onEdit, children }, ref) => {
   const [anchorEl, setAnchorEl] = useState(null);
-
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  // Expose handleClose to the parent component via ref
+  useImperativeHandle(ref, () => ({
+    closeMenu: handleClose,
+  }));
+
   return (
     <>
       <IconButton
@@ -37,10 +44,26 @@ export default function EditDeleteMenu({ onDelete, onEdit, children }) {
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        <MenuItem onClick={onEdit}>Edit</MenuItem>
-        <MenuItem onClick={onDelete}>Delete</MenuItem>
-        {children && children}
+        <MenuItem
+          onClick={() => {
+            onEdit();
+            handleClose();
+          }}
+        >
+          Edit
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            onDelete();
+            handleClose();
+          }}
+        >
+          Delete
+        </MenuItem>
+        {children}
       </Menu>
     </>
   );
-}
+});
+
+export default EditDeleteMenu;

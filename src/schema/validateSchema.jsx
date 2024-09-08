@@ -3,10 +3,7 @@ export const validationSchema = yup.object({
   username: yup.string("Enter youe username").required("Username is required"),
   email: yup
     .string("Enter your email")
-    .matches(
-      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-      "Enter a valid email"
-    )
+    .matches(/^[\w.+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, "Enter a valid email")
     .required("Email is required"),
   password: yup
     .string("Enter your password")
@@ -28,10 +25,7 @@ export const validationSchema = yup.object({
 export const forgotPasswordValidationSchema = yup.object({
   email: yup
     .string("Enter your email")
-    .matches(
-      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-      "Enter a valid email"
-    )
+    .matches(/^[\w.+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, "Enter a valid email")
     .required("Email is required"),
 });
 
@@ -53,43 +47,17 @@ export const flightRequestEditModalSchema = yup.object({
   start_time: yup.string("Enter Start Time").required("Start Time is required"),
 });
 
-const userBaseSchemaObject = {
+export const adminUserAddSchema = yup.object({
   username: yup.string("Enter youe username").required("Username is required"),
   email: yup
     .string("Enter your email")
-    .matches(
-      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-      "Enter a valid email"
-    )
+    .matches(/^[\w.+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, "Enter a valid email")
     .required("Email is required"),
   password: yup
     .string("Enter your password")
     .min(8, "Password should be of minimum 8 characters length")
     .required("Password is required"),
-  phoneNumber: yup
-    .string("Enter phone number")
-    .matches(
-      /^((\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$/,
-      "Phone number is not valid"
-    )
-    .required("phone number is required"),
-  role: yup.string("Enter role").required("role is required"),
-};
-
-export const adminUserAddEditSchema = yup.object({
-  username: yup.string("Enter youe username").required("Username is required"),
-  email: yup
-    .string("Enter your email")
-    .matches(
-      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-      "Enter a valid email"
-    )
-    .required("Email is required"),
-  password: yup
-    .string("Enter your password")
-    .min(8, "Password should be of minimum 8 characters length")
-    .required("Password is required"),
-  phoneNumber: yup
+  phone: yup
     .string("Enter phone number")
     .matches(
       /^((\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$/,
@@ -98,11 +66,54 @@ export const adminUserAddEditSchema = yup.object({
     .required("phone number is required"),
   role: yup.string("Enter role").required("role is required"),
 });
+
+export const adminUserEditSchema = yup.object({
+  password: yup
+    .string("Enter your password")
+    .min(8, "Password should be of minimum 8 characters length"),
+  phone: yup
+    .string("Enter phone number")
+    .matches(
+      /^((\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$/,
+      "Phone number is not valid"
+    ),
+  role: yup.string("Enter role").required("role is required"),
+});
+
 export const coperateUserAddEditSchema = yup.object({
-  ...userBaseSchemaObject,
+  username: yup.string("Enter youe username").required("Username is required"),
+  email: yup
+    .string("Enter your email")
+    .matches(/^[\w.+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, "Enter a valid email")
+    .required("Email is required"),
+  password: yup
+    .string("Enter your password")
+    .min(8, "Password should be of minimum 8 characters length")
+    .required("Password is required"),
+  phone: yup
+    .string("Enter phone number")
+    .matches(
+      /^((\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$/,
+      "Phone number is not valid"
+    )
+    .required("phone number is required"),
+  total_hours: yup
+    .number("Enter no. of total hours")
+    .required("Password is required"),
 });
 
 export const flightMaintainceUnavailablitySchema = yup.object({
   end_time: yup.string("Enter End Time").required("End Time is required"),
   start_time: yup.string("Enter Start Time").required("Start Time is required"),
+});
+
+export const editHoursSchema = yup.object({
+  new_total_hours: yup
+    .number("Enter no. of total hours")
+    .required("no. of total hours is required")
+    .min(0),
+  new_used_hours: yup
+    .number("Enter no. of used hours")
+    .required("no. of used hours is required")
+    .min(0),
 });
