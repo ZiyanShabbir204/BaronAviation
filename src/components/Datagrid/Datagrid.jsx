@@ -33,6 +33,7 @@ export default function Datagrid({ rows, columns, loading }) {
         disableMultipleSelection
         columns={columns}
         loading={loading}
+        pageSizeOptions={5}
         initialState={{
           pagination: {
             paginationModel: { pageSize: 5, page: 0 },
