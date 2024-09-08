@@ -32,8 +32,8 @@ export default function AddAdminGridMenu({ data }) {
         open={editOpen}
         setOpen={setEditOpen}
         schema={adminUserAddEditSchema}
-        roleAbled={true}
         initialValues={initialValues}
+        isRoleExist
       />
 
       <EditDeleteMenu

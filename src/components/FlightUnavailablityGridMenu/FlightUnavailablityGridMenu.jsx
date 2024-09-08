@@ -23,8 +23,8 @@ export default function FlightUnavailablityGridMenu({ data }) {
       <FlightMaintainceUnavailablityEditAddModal
         open={editOpen}
         setOpen={setEditOpen}
-        flag="edit"
-        param={data}
+        data={data}
+        reason="unavailability"
       />
 
       <EditDeleteMenu

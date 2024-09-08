@@ -30,6 +30,7 @@ export default function Datagrid({ rows, columns }) {
     <div style={{ width: "100%", height: "400px" }}>
       <DataGrid
         rows={rows}
+        disableMultipleSelection
         columns={columns}
         initialState={{
           pagination: {

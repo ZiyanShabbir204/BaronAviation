@@ -15,7 +15,7 @@ const MaintainceUnavailablity = () => {
       <FlightMaintainceUnavailablityEditAddModal
         open={addOpen}
         setOpen={setAddOpen}
-        flag="add"
+        reason="maintenance"
       />
 
       <Widget

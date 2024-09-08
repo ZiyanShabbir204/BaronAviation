@@ -11,7 +11,7 @@ const AddAdmin = () => {
   const initialValues = {
     username: "",
     password: "",
-    role: "",
+    role: "sys_admin",
     email: "",
     phone: "",
   };
@@ -23,8 +23,7 @@ const AddAdmin = () => {
         setOpen={setOpen}
         schema={adminUserAddEditSchema}
         initialValues={initialValues}
-        roleAbled={true}
-        passwordAbled={true}
+        isRoleExist
       />
       <Widget addBtnlabel="Add Admin" onAddClick={() => setOpen(true)}>
         <Datagrid rows={rows} columns={columns} />

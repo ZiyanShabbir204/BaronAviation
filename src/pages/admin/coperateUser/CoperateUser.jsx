@@ -22,8 +22,6 @@ const CoperateUser = () => {
         setOpen={setOpen}
         schema={coperateUserAddEditSchema}
         initialValues={initialValues}
-        passwordAbled={true}
-        total_hours={true}
       />
       <Widget addBtnlabel="Add Coperate User" onAddClick={() => setOpen(true)}>
         <Datagrid rows={rows} columns={columns} />

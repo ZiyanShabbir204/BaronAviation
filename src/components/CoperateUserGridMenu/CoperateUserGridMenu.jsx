@@ -33,7 +33,6 @@ export default function CoperateUserGridMenu({ data }) {
         setOpen={setEditOpen}
         schema={coperateUserAddEditSchema}
         initialValues={initialValues}
-        totalHoursAbled={true}
       />
 
       <EditDeleteMenu

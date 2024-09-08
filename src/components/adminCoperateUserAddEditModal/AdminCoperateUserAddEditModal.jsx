@@ -13,19 +13,22 @@ import {
   InputAdornment,
   Box,
   Typography,
-  Container,
+  Select,
   Stack,
+  MenuItem,
 } from "@mui/material";
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
   bgcolor: "background.paper",
-  border: "2px solid #000",
   boxShadow: 24,
   p: 4,
+  minWidth: 400,
+  width: "50%",
+  border: 0,
+  borderRadius: "5px",
 };
 
 export default function AdminCoperateUserAddEditModal({
@@ -33,41 +36,36 @@ export default function AdminCoperateUserAddEditModal({
   setOpen,
   schema,
   initialValues,
-  roleAbled,
-  totalHoursAbled,
-  passwordAbled
+  isRoleExist,
 }) {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClose = () => setOpen(false);
 
-  //   let initialValues;
-
-  //   if(param) {
-  //     initialValues =  {
-  //         username: param.username,
-  //         email: param.email,
-  //         phone: param.phone,
-  //         password: param.password,
-  //         role: param.role
-  //       }
-  //   } else {
-  //     initialValues =  {
-  //         username: param.username,
-  //         email: param.email,
-  //         phone: param.phone,
-  //         password: param.password,
-  //         role: param.role
-  //       }
-  //   }
+  const submitHandler = async (values) => {
+    try {
+      console.log("values", values);
+      //Todo change when update date and time picker
+      // await ApiService.post("auth/register", {
+      //   ...values,
+      //   start_time: "2024-02-25T10:00:00Z",
+      //   end_time: "2024-02-25T10:00:00Z",
+      //   reason,
+      // });
+      handleClose();
+    } catch (err) {
+      console.log("Error in FlightRequestEditAddModal -> submitHandler", err);
+      const errorMessage = err.response.data.message || err.response.data.error;
+      setError(errorMessage);
+    }
+  };
 
   const formik = useFormik({
     initialValues,
     validationSchema: schema,
-    onSubmit: (values) => {
-      console.log("values", values);
-    },
+    onSubmit: submitHandler,
   });
+
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -77,139 +75,144 @@ export default function AdminCoperateUserAddEditModal({
   };
 
   return (
-    <div>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Typography component="h1" variant="h5">
-            Add Admin
-          </Typography>
-          <form onSubmit={formik.handleSubmit}>
-            <TextField
-              fullWidth
-              id="username"
-              name="username"
-              label="username"
-              value={formik.values.username}
-              onChange={formik.handleChange}
+    <Modal
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box sx={style}>
+        <Typography component="h1" variant="h5">
+          Add Admin
+        </Typography>
+        <form onSubmit={formik.handleSubmit}>
+          <TextField
+            fullWidth
+            id="username"
+            name="username"
+            label="username"
+            value={formik.values.username}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.username && Boolean(formik.errors.username)}
+            helperText={formik.touched.username && formik.errors.username}
+            sx={{ mt: 2 }}
+          />
+          <TextField
+            fullWidth
+            id="email"
+            name="email"
+            label="email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
+            sx={{ mt: 2 }}
+          />
+          <TextField
+            fullWidth
+            id="phone"
+            name="phone"
+            label="Phone"
+            type="text"
+            value={formik.values.phone}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.phone && Boolean(formik.errors.phone)}
+            helperText={formik.touched.phone && formik.errors.phone}
+            sx={{ mt: 2 }}
+          />
+          <TextField
+            fullWidth
+            id="password"
+            name="password"
+            label="Password"
+            type={showPassword ? "text" : "password"}
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.password && Boolean(formik.errors.password)}
+            helperText={formik.touched.password && formik.errors.password}
+            sx={{ mt: 2 }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+          {isRoleExist && (
+            <Select
+              id="role"
+              name="role"
+              label="Role"
+              value={formik.values.role}
+              onChange={(e) => formik.setFieldValue("role", e.target.value)}
               onBlur={formik.handleBlur}
-              error={formik.touched.username && Boolean(formik.errors.username)}
-              helperText={formik.touched.username && formik.errors.username}
-              sx={{ mt: 2 }}
-            />
-            <TextField
+              error={formik.touched.role && Boolean(formik.errors.role)}
+              helperText={formik.touched.role && formik.errors.role}
               fullWidth
-              id="email"
-              name="email"
-              label="email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.email && Boolean(formik.errors.email)}
-              helperText={formik.touched.email && formik.errors.email}
               sx={{ mt: 2 }}
-            />
-            <TextField
-              fullWidth
-              id="phone"
-              name="phone"
-              label="Phone"
-              type="text"
-              value={formik.values.phone}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.phone && Boolean(formik.errors.phone)}
-              helperText={formik.touched.phone && formik.errors.phone}
-              sx={{ mt: 2 }}
-            />
-            {passwordAbled &&<TextField
-              fullWidth
-              id="password"
-              name="password"
-              label="Password"
-              type={showPassword ? "text" : "password"}
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.password && Boolean(formik.errors.password)}
-              helperText={formik.touched.password && formik.errors.password}
-              sx={{ mt: 2 }}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />}
-            {roleAbled && ( 
-              <TextField
-                fullWidth
-                id="role"
-                name="role"
-                label="Role"
-                type="text"
-                value={formik.values.role}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={formik.touched.role && Boolean(formik.errors.role)}
-                helperText={formik.touched.role && formik.errors.role}
-                sx={{ mt: 2 }}
-              />
-            )}
-            {totalHoursAbled && (
-              <TextField
-                fullWidth
-                id="total_hours"
-                name="total_hours"
-                label="Total Hours"
-                type="number"
-                value={formik.values.total_hours}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={formik.touched.total_hours && Boolean(formik.errors.total_hours)}
-                helperText={formik.touched.total_hours && formik.errors.total_hours}
-                sx={{ mt: 2 }}
-              />
-            )}
-
-            <Stack sx={{ mt: 1 }}></Stack>
-            <Stack
-              flexDirection="row"
-              justifyContent="space-between"
-              marginTop="20px"
             >
-              <Button
-                variant="outlined"
-                color="error"
-                startIcon={<CloseIcon />}
-                onClick={handleClose}
-              >
-                Close
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                startIcon={<AddIcon />}
-                onClick={handleClose}
-              >
-                Submit
-              </Button>
-            </Stack>
-          </form>
-        </Box>
-      </Modal>
-    </div>
+              <MenuItem value="sys_admin">System Admin</MenuItem>
+              <MenuItem value="booking_agent">Booking Agent</MenuItem>
+              <MenuItem value="maintenance_worker">Mantainence Worker</MenuItem>
+            </Select>
+          )}
+          {!isRoleExist && (
+            <TextField
+              fullWidth
+              id="total_hours"
+              name="total_hours"
+              label="Total Hours"
+              type="number"
+              value={formik.values.total_hours}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={
+                formik.touched.total_hours && Boolean(formik.errors.total_hours)
+              }
+              helperText={
+                formik.touched.total_hours && formik.errors.total_hours
+              }
+              sx={{ mt: 2 }}
+            />
+          )}
+
+          <Stack sx={{ mt: 1 }}></Stack>
+          <Stack
+            flexDirection="row"
+            justifyContent="space-between"
+            marginTop="20px"
+          >
+            <Button
+              variant="outlined"
+              color="error"
+              startIcon={<CloseIcon />}
+              onClick={handleClose}
+            >
+              Close
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<AddIcon />}
+              type="submit"
+            >
+              Submit
+            </Button>
+          </Stack>
+        </form>
+      </Box>
+    </Modal>
   );
 }

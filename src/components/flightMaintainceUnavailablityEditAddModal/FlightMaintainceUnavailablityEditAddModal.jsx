@@ -1,57 +1,83 @@
-import { useState } from "react";
-
 import Modal from "@mui/material/Modal";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import CloseIcon from "@mui/icons-material/Close";
-import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import { useFormik } from "formik";
 
-import AddIcon from '@mui/icons-material/Add';
+import AddIcon from "@mui/icons-material/Add";
 
-import {
-  TextField,
-  Button,
-  IconButton,
-  InputAdornment,
-  Box,
-  Typography,
-  Container,
-  Stack,
-} from "@mui/material";
+import { TextField, Button, Box, Typography, Stack } from "@mui/material";
 import { flightMaintainceUnavailablitySchema } from "../../schema/validateSchema";
+import ApiService from "../../api.service";
+
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  minWidth: 400,
+  width: "50%",
   bgcolor: "background.paper",
-  border: "2px solid #000",
   boxShadow: 24,
   p: 4,
+  borderRadius: "5px",
 };
 
-export default function FlightMaintainceUnavailablityEditAddModal({ open, setOpen ,param,flag}) {
-  
+export default function FlightMaintainceUnavailablityEditAddModal({
+  open,
+  setOpen,
+  data,
+  reason,
+}) {
+  let initialValues = {
+    edit_by: "",
+    end_time: "",
+    reason: "",
+    start_time: "",
+  };
+
+  if (data) {
+    initialValues = {
+      edit_by: data.edit_by,
+      end_time: data.end_time,
+      reason: data.reason,
+      start_time: data.start_time,
+    };
+  }
+
+  const submitHandler = async (values) => {
+    try {
+      //Todo change when update date and time picker
+      await ApiService.post("admin/flight-unavailability", {
+        ...values,
+        start_time: "2024-02-25T10:00:00Z",
+        end_time: "2024-02-25T10:00:00Z",
+        reason,
+      });
+      handleClose();
+    } catch (err) {
+      console.log("Error in FlightRequestEditAddModal -> submitHandler", err);
+      const errorMessage = err.response.data.message || err.response.data.error;
+      setError(errorMessage);
+    }
+  };
+
   const handleClose = () => setOpen(false);
-  const formik =  useFormik({
-    initialValues:  param ?{
-      edit_by: param?.edit_by,
-      end_time: param?.end_time,
-      reason: param?.reason,
-      start_time: param?.start_time,
-    } : {
-      edit_by: "",
-      end_time: "",
-      reason: "",
-      start_time: "",
-    } ,
+  const formik = useFormik({
+    initialValues,
     validationSchema: flightMaintainceUnavailablitySchema,
-    onSubmit: (values) => {
-      console.log("values", values);
-    },
+    onSubmit: submitHandler,
   });
-  
+
+  const getHeaderLabel = () => {
+    let label;
+
+    label = data ? "Edit" : "Add";
+
+    if (reason === "maintenance") {
+      return `${label} maintenance unavailability`;
+    }
+
+    return `${label} unavailability`;
+  };
 
   return (
     <div>
@@ -63,10 +89,10 @@ export default function FlightMaintainceUnavailablityEditAddModal({ open, setOpe
       >
         <Box sx={style}>
           <Typography component="h1" variant="h5">
-            {param ? "Edit" : "Add"}
+            {getHeaderLabel()}
           </Typography>
           <form onSubmit={formik.handleSubmit}>
-          <TextField
+            <TextField
               fullWidth
               id="start_time"
               name="start_time"
@@ -81,12 +107,12 @@ export default function FlightMaintainceUnavailablityEditAddModal({ open, setOpe
               helperText={formik.touched.start_time && formik.errors.start_time}
               sx={{ mt: 2 }}
             />
-           
+
             <TextField
               fullWidth
               id="end_time"
               name="end_time"
-              label="end_time"
+              label="End time"
               value={formik.values.end_time}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -94,39 +120,11 @@ export default function FlightMaintainceUnavailablityEditAddModal({ open, setOpe
               helperText={formik.touched.end_time && formik.errors.end_time}
               sx={{ mt: 2 }}
             />
-            <TextField
-              fullWidth
-              id="reason"
-              name="reason"
-              label="Reason"
-              type="text"
-              value={formik.values.reason}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={
-                formik.touched.reason && Boolean(formik.errors.reason)
-              }
-              helperText={formik.touched.reason && formik.errors.reason}
-              sx={{ mt: 2 }}
-            />
-             <TextField
-              fullWidth
-              id="edit_by"
-              name="edit_by"
-              label="edit_by"
-              value={formik.values.edit_by}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.edit_by && Boolean(formik.errors.edit_by)}
-              helperText={formik.touched.edit_by && formik.errors.edit_by}
-              sx={{ mt: 2 }}
-            />
-            
 
             <Stack sx={{ mt: 1 }}></Stack>
             <Stack
               flexDirection="row"
-              justifyContent='space-between'
+              justifyContent="space-between"
               marginTop="20px"
             >
               <Button
@@ -141,7 +139,7 @@ export default function FlightMaintainceUnavailablityEditAddModal({ open, setOpe
                 variant="contained"
                 color="primary"
                 startIcon={<AddIcon />}
-                onClick={handleClose}
+                type="submit"
               >
                 Submit
               </Button>

@@ -13,7 +13,7 @@ const FlightUnavailibility = () => {
       <FlightMaintainceUnavailablityEditAddModal
         open={addOpen}
         setOpen={setAddOpen}
-        flag="add"
+        reason="unavailability"
       />
       <Widget
         addBtnlabel="Add Flight Unavailablity"
@@ -47,12 +47,6 @@ const columns = [
     headerName: "Added By",
     flex: 1,
     editable: false,
-  },
-  {
-    field: "reason",
-    headerName: "Reason",
-    editable: false,
-    flex: 1,
   },
   {
     field: "actions",
