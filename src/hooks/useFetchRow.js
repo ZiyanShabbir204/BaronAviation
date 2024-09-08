@@ -16,6 +16,8 @@ export default function useFetchRow(endpoint) {
       );
     } catch (err) {
       console.log("err in useFetchRow -> fetchRows", err);
+    } finally {
+      setRowsLoading(false);
     }
   }, []);
 

@@ -8,7 +8,7 @@ import FlightRequestGridMenu from "../../../components/FlightRequestGridMenu/Fli
 import useFetchRow from "../../../hooks/useFetchRow";
 const FlightRequest = () => {
   const [addOpen, setAddOpen] = useState(null);
-  const { rows, fetchRows } = useFetchRow("flight-booking");
+  const { rows, fetchRows, rowsLoading } = useFetchRow("flight-booking");
 
   const columns = useMemo(
     () => [
@@ -83,7 +83,7 @@ const FlightRequest = () => {
         addBtnlabel="Add Flight Request"
         onAddClick={() => setAddOpen(true)}
       >
-        <Datagrid rows={rows} columns={columns} />
+        <Datagrid rows={rows} columns={columns} loading={rowsLoading} />
       </Widget>
     </>
   );

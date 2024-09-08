@@ -7,7 +7,9 @@ import Datagrid from "../../../components/Datagrid/Datagrid";
 import CoperateUserGridMenu from "../../../components/CoperateUserGridMenu/CoperateUserGridMenu";
 const CoperateUser = () => {
   const [open, setOpen] = useState(false);
-  const { rows, fetchRows } = useFetchRow("admin/cooperate-customer");
+  const { rows, fetchRows, rowsLoading } = useFetchRow(
+    "admin/cooperate-customer"
+  );
 
   const columns = useMemo(
     () => [
@@ -89,7 +91,7 @@ const CoperateUser = () => {
         onRequestComplete={requestCompleteHandler}
       />
       <Widget addBtnlabel="Add Coperate User" onAddClick={() => setOpen(true)}>
-        <Datagrid rows={rows} columns={columns} />
+        <Datagrid rows={rows} columns={columns} loading={rowsLoading} />
       </Widget>
     </>
   );

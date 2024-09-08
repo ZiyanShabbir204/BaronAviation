@@ -8,7 +8,7 @@ import useFetchRow from "../../../hooks/useFetchRow";
 
 const MaintainceUnavailablity = () => {
   const [addOpen, setAddOpen] = useState(null);
-  const { rows, fetchRows } = useFetchRow(
+  const { rows, fetchRows, rowsLoading } = useFetchRow(
     "admin/flight-unavailability/maintenance"
   );
 
@@ -33,6 +33,7 @@ const MaintainceUnavailablity = () => {
         headerName: "Added By",
         flex: 1,
         editable: false,
+        renderCell: (param) => param.row.added_by?.username,
       },
 
       {
@@ -68,7 +69,7 @@ const MaintainceUnavailablity = () => {
         addBtnlabel="Add Maintaince Unavailablity"
         onAddClick={() => setAddOpen(true)}
       >
-        <Datagrid rows={rows} columns={columns} />
+        <Datagrid rows={rows} columns={columns} loading={rowsLoading} />
       </Widget>
     </>
   );

@@ -2,7 +2,7 @@ import { DataGrid } from "@mui/x-data-grid";
 // import { useEffect, Children } from "react";
 // import MenuWithParams from "./MenuWithParams";
 
-export default function Datagrid({ rows, columns }) {
+export default function Datagrid({ rows, columns, loading }) {
   // TODO
   //   const Menu = Children.toArray(children).find(
   //     (child) => child.type === Datagrid.Menu
@@ -32,6 +32,7 @@ export default function Datagrid({ rows, columns }) {
         rows={rows}
         disableMultipleSelection
         columns={columns}
+        loading={loading}
         initialState={{
           pagination: {
             paginationModel: { pageSize: 5, page: 0 },

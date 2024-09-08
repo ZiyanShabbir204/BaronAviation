@@ -7,7 +7,7 @@ import useFetchRow from "../../hooks/useFetchRow";
 import AddAdminGridMenu from "../../components/AddAdminGridMenu/AddAdminGridMenu";
 const AddAdmin = () => {
   const [open, setOpen] = useState(false);
-  const { rows, fetchRows } = useFetchRow("admin");
+  const { rows, fetchRows, rowsLoading } = useFetchRow("admin");
   const columns = useMemo(
     () => [
       { field: "username", headerName: "Username", flex: 1, editable: false },
@@ -58,7 +58,7 @@ const AddAdmin = () => {
         onRequestComplete={reqHandler}
       />
       <Widget addBtnlabel="Add Admin" onAddClick={() => setOpen(true)}>
-        <Datagrid rows={rows} columns={columns} />
+        <Datagrid rows={rows} columns={columns} loading={rowsLoading} />
       </Widget>
     </>
   );

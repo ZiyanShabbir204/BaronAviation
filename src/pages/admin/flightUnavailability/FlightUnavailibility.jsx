@@ -7,7 +7,7 @@ import useFetchRow from "../../../hooks/useFetchRow";
 
 const FlightUnavailibility = () => {
   const [addOpen, setAddOpen] = useState(null);
-  const { rows, fetchRows } = useFetchRow(
+  const { rows, fetchRows, rowsLoading } = useFetchRow(
     "admin/flight-unavailability/unavailability"
   );
 
@@ -32,6 +32,7 @@ const FlightUnavailibility = () => {
         headerName: "Added By",
         flex: 1,
         editable: false,
+        renderCell: (param) => param.row.added_by.username,
       },
       {
         field: "actions",
@@ -65,7 +66,7 @@ const FlightUnavailibility = () => {
         addBtnlabel="Add Flight Unavailablity"
         onAddClick={() => setAddOpen(true)}
       >
-        <Datagrid rows={rows} columns={columns} />
+        <Datagrid rows={rows} columns={columns} loading={rowsLoading} />
       </Widget>
     </div>
   );
