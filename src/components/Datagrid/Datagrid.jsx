@@ -41,6 +41,7 @@ export default function Datagrid({ rows, columns, loading }) {
           },
         }}
         slots={{ toolbar: DatagridToolbar }}
+        rowSelection={false}
       />
     </div>
   );
