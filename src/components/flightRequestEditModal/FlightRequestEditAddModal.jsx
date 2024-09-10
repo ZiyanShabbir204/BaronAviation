@@ -2,12 +2,16 @@ import Modal from "@mui/material/Modal";
 import CloseIcon from "@mui/icons-material/Close";
 import { useFormik } from "formik";
 import { flightRequestEditModalSchema } from "../../schema/validateSchema";
-
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import AddIcon from "@mui/icons-material/Add";
+import dayjs from "dayjs";
 
 import { TextField, Button, Box, Typography, Stack } from "@mui/material";
 import ApiService from "../../api.service";
 import { useState } from "react";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -32,7 +36,7 @@ export default function FlightRequestEditAddModal({
     to: "",
     from: "",
     username: "",
-    start_time: "",
+    start_time: new Date(),
   };
 
   if (data) {
@@ -50,7 +54,7 @@ export default function FlightRequestEditAddModal({
       //Todo change when update date and time picker
       const res = await ApiService.post("flight-booking", {
         ...values,
-        start_time: "2024-02-25T10:00:00Z",
+        start_time: values.start_time,
       });
       onRequestComplete && onRequestComplete(res);
       handleClose();
@@ -122,21 +126,29 @@ export default function FlightRequestEditAddModal({
               helperText={formik.touched.username && formik.errors.username}
               sx={{ mt: 2 }}
             />
-            <TextField
-              fullWidth
-              id="start_time"
-              name="start_time"
-              label="Start Time"
-              type="text"
-              value={formik.values.start_time}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={
-                formik.touched.start_time && Boolean(formik.errors.start_time)
-              }
-              helperText={formik.touched.start_time && formik.errors.start_time}
-              sx={{ mt: 2 }}
-            />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <Stack>
+                <DateTimePicker
+                  fullWidth
+                  id="start_time"
+                  name="start_time"
+                  label="Start Time"
+                  value={dayjs(formik.values.start_time).tz("Asia/Karachi")}
+                  onChange={(e) => {
+                    formik.setFieldValue("start_time", dayjs(e));
+                  }}
+                  // onBlur={formik.handleBlur}
+                  slotProps={{
+                    textField: {
+                      helperText:formik.touched.start_time && formik.errors.start_time,
+                      // error:  formik.touched.start_time &&
+                      // Boolean(formik.errors.start_time)
+                    },
+                  }}
+                  sx={{ mt: 2 }}
+                />
+              </Stack>
+            </LocalizationProvider>
 
             <Stack sx={{ mt: 1 }}></Stack>
             <Stack

@@ -5,6 +5,8 @@ import Datagrid from "../../../components/Datagrid/Datagrid";
 import ApiService from "../../../api.service";
 import MaintainceUnavailablityGridMenu from "../../../components/MaintainceUnavailablityGridMenu/MaintainceUnavailablityGridMenu";
 import useFetchRow from "../../../hooks/useFetchRow";
+import dayjs from 'dayjs';
+import { dateFormat } from "../../../utilis/dateFormat";
 
 const MaintainceUnavailablity = () => {
   const [addOpen, setAddOpen] = useState(null);
@@ -20,6 +22,10 @@ const MaintainceUnavailablity = () => {
         type: "string",
         flex: 1,
         editable: false,
+        renderCell: (param) => {
+          return dateFormat(param.row.start_time)
+      
+        }
       },
       {
         field: "end_time",
@@ -27,6 +33,10 @@ const MaintainceUnavailablity = () => {
         type: "string",
         flex: 1,
         editable: false,
+        renderCell: (param) => {
+          return dateFormat(param.row.end_time)
+        
+        }
       },
       {
         field: "added_by",

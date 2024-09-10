@@ -1,12 +1,19 @@
 import Modal from "@mui/material/Modal";
 import CloseIcon from "@mui/icons-material/Close";
 import { useFormik } from "formik";
-
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
 import AddIcon from "@mui/icons-material/Add";
-
 import { TextField, Button, Box, Typography, Stack } from "@mui/material";
 import { flightMaintainceUnavailablitySchema } from "../../schema/validateSchema";
 import ApiService from "../../api.service";
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.tz.setDefault("Asia/Karachi");
 
 const style = {
   position: "absolute",
@@ -30,9 +37,9 @@ export default function FlightMaintainceUnavailablityEditAddModal({
 }) {
   let initialValues = {
     edit_by: "",
-    end_time: "",
+    end_time: dayjs().add(1, 'hour'),
     reason: "",
-    start_time: "",
+    start_time: new Date(),
   };
 
   if (data) {
@@ -47,10 +54,15 @@ export default function FlightMaintainceUnavailablityEditAddModal({
   const submitHandler = async (values) => {
     try {
       //Todo change when update date and time picker
+
+      // const date = new Date(values.start_time.utc().toDate())
+      // console.log(date.toISOString(), "d")
+
+      // return
       const res = await ApiService.post("admin/flight-unavailability", {
         ...values,
-        start_time: "2024-02-25T10:00:00Z",
-        end_time: "2024-02-25T10:00:00Z",
+        start_time: values.start_time,
+        end_time: values.end_time,
         reason,
       });
       handleClose();
@@ -94,7 +106,65 @@ export default function FlightMaintainceUnavailablityEditAddModal({
             {getHeaderLabel()}
           </Typography>
           <form onSubmit={formik.handleSubmit}>
-            <TextField
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <Stack direction="column">
+              <DateTimePicker
+                fullWidth
+                id="start_time"
+                name="start_time"
+                label="Start Time"
+                value={dayjs(formik.values.start_time)}
+                onChange={(e) => {
+                  formik.setFieldValue("start_time", dayjs(e));
+                }}
+                onBlur={formik.handleBlur}
+                slotProps={{
+                  textField: {
+                    helperText:formik.touched.start_time && formik.errors.start_time,
+                    // error:  formik.touched.start_time &&
+                    // Boolean(formik.errors.start_time)
+                  },
+                }}
+                // error={
+                //   formik.touched.start_time && Boolean(formik.errors.start_time)
+                // }
+                // helperText={
+                //   formik.touched.start_time && formik.errors.start_time
+                // }
+                sx={{ mt: 2 }}
+              />
+
+              <DateTimePicker
+                fullWidth
+                id="end_time"
+                name="end_time"
+                label="End Time"
+                value={dayjs(formik.values.end_time)}
+                onChange={(e) => {
+                  formik.setFieldValue("end_time", dayjs(e));
+                }}
+                onBlur={formik.handleBlur}
+                slotProps={{
+                  textField: {
+                    helperText:formik.touched.end_time && formik.errors.end_time,
+                    // error:  formik.touched.start_time &&
+                    // Boolean(formik.errors.start_time)
+                  },
+                }}
+                // error={
+                //   formik.touched.end_time && Boolean(formik.errors.end_time)
+                // }
+                // helperText={
+                //   formik.touched.end_time && formik.errors.end_time
+                // }
+                sx={{ mt: 2 }}
+              />
+
+              </Stack>
+              
+            </LocalizationProvider>
+
+            {/* <TextField
               fullWidth
               id="start_time"
               name="start_time"
@@ -108,8 +178,8 @@ export default function FlightMaintainceUnavailablityEditAddModal({
               }
               helperText={formik.touched.start_time && formik.errors.start_time}
               sx={{ mt: 2 }}
-            />
-
+            /> */}
+{/* 
             <TextField
               fullWidth
               id="end_time"
@@ -121,7 +191,7 @@ export default function FlightMaintainceUnavailablityEditAddModal({
               error={formik.touched.end_time && Boolean(formik.errors.end_time)}
               helperText={formik.touched.end_time && formik.errors.end_time}
               sx={{ mt: 2 }}
-            />
+            /> */}
 
             <Stack sx={{ mt: 1 }}></Stack>
             <Stack

@@ -6,6 +6,7 @@ import ApiService from "../../../api.service";
 import Status from "../../../components/FlightRequestGridMenu/Status";
 import FlightRequestGridMenu from "../../../components/FlightRequestGridMenu/FlightRequestGridMenu";
 import useFetchRow from "../../../hooks/useFetchRow";
+import { dateFormat } from "../../../utilis/dateFormat";
 const FlightRequest = () => {
   const [addOpen, setAddOpen] = useState(null);
   const { rows, fetchRows, rowsLoading } = useFetchRow("flight-booking");
@@ -24,13 +25,17 @@ const FlightRequest = () => {
       { field: "to", headerName: "To", flex: 1, editable: false },
       { field: "from", headerName: "From", flex: 1, editable: false },
 
-      // {
-      //   field: "start_time",
-      //   headerName: "Start Time",
-      //   type: "dateTime",
-      //   width: 200,
-      //   editable: false,
-      // },
+      {
+        field: "start_time",
+        headerName: "Start Time",
+        type: "text",
+        width: 200,
+        editable: false,
+        renderCell: (param) => {
+          return dateFormat(param.row.start_time)
+      
+        }
+      },
       {
         field: "status",
         headerName: "Status",
