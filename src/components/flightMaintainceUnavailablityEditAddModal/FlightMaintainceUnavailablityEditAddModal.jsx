@@ -1,12 +1,18 @@
 import Modal from "@mui/material/Modal";
 import CloseIcon from "@mui/icons-material/Close";
 import { useFormik } from "formik";
-
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import AddIcon from "@mui/icons-material/Add";
-
-import { TextField, Button, Box, Typography, Stack } from "@mui/material";
+import { Button, Box, Typography, Stack } from "@mui/material";
 import { flightMaintainceUnavailablitySchema } from "../../schema/validateSchema";
 import ApiService from "../../api.service";
+import {
+  generateDateNearestFiveMinutes,
+  generateEndDateAndTimeNearestFiveMinutes,
+  getMinTime,
+} from "../../utilis/dateFormat";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
 
 const style = {
   position: "absolute",
@@ -30,9 +36,9 @@ export default function FlightMaintainceUnavailablityEditAddModal({
 }) {
   let initialValues = {
     edit_by: "",
-    end_time: "",
+    end_time: generateEndDateAndTimeNearestFiveMinutes(),
     reason: "",
-    start_time: "",
+    start_time: generateDateNearestFiveMinutes(),
   };
 
   if (data) {
@@ -50,15 +56,15 @@ export default function FlightMaintainceUnavailablityEditAddModal({
       if (data) {
         res = await ApiService.put(`admin/flight-unavailability/${data.id}`, {
           ...values,
-          start_time: "2024-09-25T10:00:00Z",
-          end_time: "2024-02-25T10:00:00Z",
+          start_time: values.start_time,
+          end_time: values.end_time,
           reason,
         });
       } else {
         res = await ApiService.post("admin/flight-unavailability", {
           ...values,
-          start_time: "2024-02-25T10:00:00Z",
-          end_time: "2024-02-25T10:00:00Z",
+          start_time: values.start_time,
+          end_time: values.end_time,
           reason,
         });
       }
@@ -104,7 +110,66 @@ export default function FlightMaintainceUnavailablityEditAddModal({
             {getHeaderLabel()}
           </Typography>
           <form onSubmit={formik.handleSubmit}>
-            <TextField
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <Stack direction="column">
+                <DateTimePicker
+                  fullWidth
+                  id="start_time"
+                  name="start_time"
+                  label="Start Time"
+                  value={new Date(formik.values.start_time)}
+                  onChange={(date) => formik.setFieldValue("start_time", date)}
+                  onBlur={formik.handleBlur}
+                  slotProps={{
+                    textField: {
+                      helperText:
+                        formik.touched.start_time && formik.errors.start_time,
+                      // error:  formik.touched.start_time &&
+                      // Boolean(formik.errors.start_time)
+                    },
+                  }}
+                  // error={
+                  //   formik.touched.start_time && Boolean(formik.errors.start_time)
+                  // }
+                  // helperText={
+                  //   formik.touched.start_time && formik.errors.start_time
+                  // }
+                  sx={{ mt: 2 }}
+                />
+
+                <DateTimePicker
+                  fullWidth
+                  id="end_time"
+                  name="end_time"
+                  label="End Time"
+                  value={new Date(formik.values.end_time)}
+                  minDate={formik.values.start_time}
+                  minTime={getMinTime(
+                    formik.values.start_time,
+                    formik.values.end_time
+                  )}
+                  onChange={(date) => formik.setFieldValue("end_time", date)}
+                  onBlur={formik.handleBlur}
+                  slotProps={{
+                    textField: {
+                      helperText:
+                        formik.touched.end_time && formik.errors.end_time,
+                      // error:  formik.touched.start_time &&
+                      // Boolean(formik.errors.start_time)
+                    },
+                  }}
+                  // error={
+                  //   formik.touched.end_time && Boolean(formik.errors.end_time)
+                  // }
+                  // helperText={
+                  //   formik.touched.end_time && formik.errors.end_time
+                  // }
+                  sx={{ mt: 2 }}
+                />
+              </Stack>
+            </LocalizationProvider>
+
+            {/* <TextField
               fullWidth
               id="start_time"
               name="start_time"
@@ -118,8 +183,8 @@ export default function FlightMaintainceUnavailablityEditAddModal({
               }
               helperText={formik.touched.start_time && formik.errors.start_time}
               sx={{ mt: 2 }}
-            />
-
+            /> */}
+            {/* 
             <TextField
               fullWidth
               id="end_time"
@@ -131,7 +196,7 @@ export default function FlightMaintainceUnavailablityEditAddModal({
               error={formik.touched.end_time && Boolean(formik.errors.end_time)}
               helperText={formik.touched.end_time && formik.errors.end_time}
               sx={{ mt: 2 }}
-            />
+            /> */}
 
             <Stack sx={{ mt: 1 }}></Stack>
             <Stack

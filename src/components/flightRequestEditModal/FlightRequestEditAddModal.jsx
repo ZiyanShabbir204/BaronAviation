@@ -2,12 +2,16 @@ import Modal from "@mui/material/Modal";
 import CloseIcon from "@mui/icons-material/Close";
 import { useFormik } from "formik";
 import { flightRequestEditModalSchema } from "../../schema/validateSchema";
-
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import AddIcon from "@mui/icons-material/Add";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
 
 import { TextField, Button, Box, Typography, Stack } from "@mui/material";
 import ApiService from "../../api.service";
 import { useState } from "react";
+import { generateDateNearestFiveMinutes } from "../../utilis/dateFormat";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -32,7 +36,7 @@ export default function FlightRequestEditAddModal({
     to: "",
     from: "",
     username: "",
-    start_time: "",
+    start_time: generateDateNearestFiveMinutes(),
   };
 
   if (data) {
@@ -50,15 +54,9 @@ export default function FlightRequestEditAddModal({
       let res;
 
       if (data) {
-        res = await ApiService.put(`flight-booking/${data.id}`, {
-          ...values,
-          start_time: "2024-05-25T10:00:00Z",
-        });
+        res = await ApiService.put(`flight-booking/${data.id}`, values);
       } else {
-        res = await ApiService.post("flight-booking", {
-          ...values,
-          start_time: "2024-02-25T10:00:00Z",
-        });
+        res = await ApiService.post("flight-booking", values);
       }
 
       onRequestComplete && onRequestComplete(res);
@@ -132,21 +130,28 @@ export default function FlightRequestEditAddModal({
               disabled={data}
               sx={{ mt: 2 }}
             />
-            <TextField
-              fullWidth
-              id="start_time"
-              name="start_time"
-              label="Start Time"
-              type="text"
-              value={formik.values.start_time}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={
-                formik.touched.start_time && Boolean(formik.errors.start_time)
-              }
-              helperText={formik.touched.start_time && formik.errors.start_time}
-              sx={{ mt: 2 }}
-            />
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <Stack>
+                <DateTimePicker
+                  fullWidth
+                  id="start_time"
+                  name="start_time"
+                  label="Start Time"
+                  value={new Date(formik.values.start_time)}
+                  onChange={(date) => formik.setFieldValue("start_time", date)}
+                  // onBlur={formik.handleBlur}
+                  slotProps={{
+                    textField: {
+                      helperText:
+                        formik.touched.start_time && formik.errors.start_time,
+                      // error:  formik.touched.start_time &&
+                      // Boolean(formik.errors.start_time)
+                    },
+                  }}
+                  sx={{ mt: 2 }}
+                />
+              </Stack>
+            </LocalizationProvider>
 
             <Stack sx={{ mt: 1 }}></Stack>
             <Stack

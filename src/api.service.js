@@ -8,7 +8,7 @@ class ApiService {
       "Content-Type": "application/json",
     },
     withCredentials: true,
-  });
+  })
 
   // GET Method
   static async get(endpoint) {

@@ -44,7 +44,10 @@ export const flightRequestEditModalSchema = yup.object({
   to: yup.string("Enter To").required("To is required"),
   from: yup.string("Enter From").required("From is required"),
   username: yup.string("Enter username").required("Username is required"),
-  start_time: yup.string("Enter Start Time").required("Start Time is required"),
+  // start_time: yup.string("Enter Start Time").required("Start Time is required"),
+  start_time: yup.date()
+    .nullable()
+    .required('Start time is required'),
 });
 
 export const adminUserAddSchema = yup.object({
@@ -115,8 +118,12 @@ export const coperateUserEditSchema = yup.object({
 });
 
 export const flightMaintainceUnavailablitySchema = yup.object({
-  end_time: yup.string("Enter End Time").required("End Time is required"),
-  start_time: yup.string("Enter Start Time").required("Start Time is required"),
+  end_time: yup.date()
+  .nullable()
+  .required('End time is required'),
+  start_time: yup.date()
+    .nullable()
+    .required('Start time is required'),
 });
 
 export const editHoursSchema = yup.object({
