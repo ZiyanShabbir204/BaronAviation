@@ -39,7 +39,7 @@ export default function FlightRequestEditAddModal({
     initialValues = {
       to: data.to,
       from: data.from,
-      username: data.username,
+      username: data.user.username,
       start_time: data.start_time,
     };
   }
@@ -47,11 +47,20 @@ export default function FlightRequestEditAddModal({
 
   const submitHandler = async (values) => {
     try {
-      //Todo change when update date and time picker
-      const res = await ApiService.post("flight-booking", {
-        ...values,
-        start_time: "2024-02-25T10:00:00Z",
-      });
+      let res;
+
+      if (data) {
+        res = await ApiService.put(`flight-booking/${data.id}`, {
+          ...values,
+          start_time: "2024-05-25T10:00:00Z",
+        });
+      } else {
+        res = await ApiService.post("flight-booking", {
+          ...values,
+          start_time: "2024-02-25T10:00:00Z",
+        });
+      }
+
       onRequestComplete && onRequestComplete(res);
       handleClose();
     } catch (err) {
@@ -120,6 +129,7 @@ export default function FlightRequestEditAddModal({
               onBlur={formik.handleBlur}
               error={formik.touched.username && Boolean(formik.errors.username)}
               helperText={formik.touched.username && formik.errors.username}
+              disabled={data}
               sx={{ mt: 2 }}
             />
             <TextField

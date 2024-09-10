@@ -4,13 +4,13 @@ import CheckIcon from "@mui/icons-material/Check";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import CloseIcon from "@mui/icons-material/Close";
 const CHIPS = {
-  approved: {
+  approve: {
     icon: <CheckIcon color="success" />,
     label: "Approved",
   },
   pending: {
     icon: <QuestionMarkIcon color="warning" />,
-    label: "Pending",
+    label: "pending",
   },
   declined: {
     icon: <CloseIcon color="error" />,

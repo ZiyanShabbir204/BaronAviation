@@ -80,7 +80,7 @@ export const adminUserEditSchema = yup.object({
   role: yup.string("Enter role").required("role is required"),
 });
 
-export const coperateUserAddEditSchema = yup.object({
+export const coperateUserAddSchema = yup.object({
   username: yup.string("Enter youe username").required("Username is required"),
   email: yup
     .string("Enter your email")
@@ -100,6 +100,18 @@ export const coperateUserAddEditSchema = yup.object({
   total_hours: yup
     .number("Enter no. of total hours")
     .required("Password is required"),
+});
+
+export const coperateUserEditSchema = yup.object({
+  password: yup
+    .string("Enter your password")
+    .min(8, "Password should be of minimum 8 characters length"),
+  phone: yup
+    .string("Enter phone number")
+    .matches(
+      /^((\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$/,
+      "Phone number is not valid"
+    ),
 });
 
 export const flightMaintainceUnavailablitySchema = yup.object({

@@ -61,23 +61,24 @@ export default function AdminCoperateUserAddEditModal({
           password,
           roleName: role,
         });
-      }
-
-      if (isRoleExist && userId) {
+      } else if (isRoleExist && userId) {
         res = await ApiService.put(`admin/${userId}`, {
           phone,
           password,
           role_name: role,
         });
-      }
-
-      if (isTotalHoursExist) {
+      } else if (isTotalHoursExist && !userId) {
         res = await ApiService.post("admin/cooperate-customer/register", {
           username,
           email,
           phone,
           password,
           hours: total_hours,
+        });
+      } else if (isTotalHoursExist && userId) {
+        res = await ApiService.put(`admin/cooperate-customer/${userId}`, {
+          phone,
+          password,
         });
       }
 
@@ -214,6 +215,7 @@ export default function AdminCoperateUserAddEditModal({
               name="total_hours"
               label="Total Hours"
               type="number"
+              disabled={userId}
               value={formik.values.total_hours}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}

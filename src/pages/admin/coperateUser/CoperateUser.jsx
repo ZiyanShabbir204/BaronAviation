@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import AdminCoperateUserAddEditModal from "../../../components/adminCoperateUserAddEditModal/adminCoperateUserAddEditModal";
-import { coperateUserAddEditSchema } from "../../../schema/validateSchema";
+import { coperateUserAddSchema } from "../../../schema/validateSchema";
 import Widget from "../../../components/widget/Widget";
 import useFetchRow from "../../../hooks/useFetchRow";
 import Datagrid from "../../../components/Datagrid/Datagrid";
@@ -85,7 +85,7 @@ const CoperateUser = () => {
       <AdminCoperateUserAddEditModal
         open={open}
         setOpen={setOpen}
-        schema={coperateUserAddEditSchema}
+        schema={coperateUserAddSchema}
         initialValues={initialValues}
         isTotalHoursExist
         onRequestComplete={requestCompleteHandler}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import { Divider } from "@mui/material";
 import DeleteModal from "../deleteModal/DeleteModal";
@@ -9,8 +9,21 @@ import EditDeleteMenu from "../EditDeleteMenu/EditDeleteMenu";
 export default function FlightRequestGridMenu({ data, onRequestComplete }) {
   const [deleteOpen, setDeleteOpen] = useState(null);
   const [editOpen, setEditOpen] = useState(null);
+  const menuRef = useRef();
   const deleteHandler = async () => {
     return ApiService.delete(`flight-booking/${data.id}`);
+  };
+
+  const updateStatus = async (status) => {
+    try {
+      await ApiService.put(`flight-booking/${data.id}/change-status`, {
+        status,
+      });
+      menuRef.current.closeMenu();
+      onRequestComplete && onRequestComplete();
+    } catch (err) {
+      console.log("error in FlightRequestGridMenu -> updateStatus", err);
+    }
   };
 
   return (
@@ -25,18 +38,18 @@ export default function FlightRequestGridMenu({ data, onRequestComplete }) {
       <FlightRequestEditAddModal
         open={editOpen}
         setOpen={setEditOpen}
-        flag="edit"
-        param={data}
+        data={data}
         onRequestComplete={onRequestComplete}
       />
       <EditDeleteMenu
         onEdit={() => setEditOpen(true)}
         onDelete={() => setDeleteOpen(true)}
+        ref={menuRef}
       >
         <Divider />
-        <MenuItem>Approved</MenuItem>
-        <MenuItem>Pending</MenuItem>
-        <MenuItem>Declined</MenuItem>
+        <MenuItem onClick={() => updateStatus("approve")}>Approved</MenuItem>
+        <MenuItem onClick={() => updateStatus("pending")}>Pending</MenuItem>
+        <MenuItem onClick={() => updateStatus("declined")}>Declined</MenuItem>
       </EditDeleteMenu>
     </>
   );

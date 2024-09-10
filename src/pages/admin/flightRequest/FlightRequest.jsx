@@ -48,7 +48,7 @@ const FlightRequest = () => {
         flex: 1,
 
         renderCell: (param) => {
-          return param.row.handle_by ? param.row.handle_by : "N/A";
+          return param.row.handle_by ? param.row.handle_by.username : "N/A";
         },
       },
       {

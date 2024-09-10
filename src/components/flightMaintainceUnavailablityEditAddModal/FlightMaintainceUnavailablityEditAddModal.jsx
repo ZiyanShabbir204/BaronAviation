@@ -46,13 +46,23 @@ export default function FlightMaintainceUnavailablityEditAddModal({
 
   const submitHandler = async (values) => {
     try {
-      //Todo change when update date and time picker
-      const res = await ApiService.post("admin/flight-unavailability", {
-        ...values,
-        start_time: "2024-02-25T10:00:00Z",
-        end_time: "2024-02-25T10:00:00Z",
-        reason,
-      });
+      let res;
+      if (data) {
+        res = await ApiService.put(`admin/flight-unavailability/${data.id}`, {
+          ...values,
+          start_time: "2024-09-25T10:00:00Z",
+          end_time: "2024-02-25T10:00:00Z",
+          reason,
+        });
+      } else {
+        res = await ApiService.post("admin/flight-unavailability", {
+          ...values,
+          start_time: "2024-02-25T10:00:00Z",
+          end_time: "2024-02-25T10:00:00Z",
+          reason,
+        });
+      }
+
       handleClose();
       onRequestComplete && onRequestComplete(res);
     } catch (err) {

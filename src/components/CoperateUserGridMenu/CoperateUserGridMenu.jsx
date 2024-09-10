@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import DeleteModal from "../deleteModal/DeleteModal";
-import { coperateUserAddEditSchema } from "../../schema/validateSchema";
+import { coperateUserEditSchema } from "../../schema/validateSchema";
 import AdminCoperateUserAddEditModal from "../adminCoperateUserAddEditModal/adminCoperateUserAddEditModal";
 import EditDeleteMenu from "../EditDeleteMenu/EditDeleteMenu";
 import ApiService from "../../api.service";
@@ -15,7 +15,7 @@ export default function CoperateUserGridMenu({ data, onRequestComplete }) {
 
   const initialValues = {
     username: data.username,
-    total_hours: data.total_hours,
+    total_hours: data.hours.total_hours,
     email: data.email,
     phone: data.phone,
   };
@@ -51,9 +51,11 @@ export default function CoperateUserGridMenu({ data, onRequestComplete }) {
       <AdminCoperateUserAddEditModal
         open={editOpen}
         setOpen={setEditOpen}
-        schema={coperateUserAddEditSchema}
+        schema={coperateUserEditSchema}
         initialValues={initialValues}
         onRequestComplete={onRequestComplete}
+        isTotalHoursExist
+        userId={data.id}
       />
 
       <EditHourModal
