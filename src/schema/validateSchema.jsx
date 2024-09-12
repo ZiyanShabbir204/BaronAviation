@@ -83,6 +83,38 @@ export const adminUserEditSchema = yup.object({
   role: yup.string("Enter role").required("role is required"),
 });
 
+export const userAddSchema = yup.object({
+  username: yup.string("Enter youe username").required("Username is required"),
+  email: yup
+    .string("Enter your email")
+    .matches(/^[\w.+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, "Enter a valid email")
+    .required("Email is required"),
+  password: yup
+    .string("Enter your password")
+    .min(8, "Password should be of minimum 8 characters length")
+    .required("Password is required"),
+  phone: yup
+    .string("Enter phone number")
+    .matches(
+      /^((\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$/,
+      "Phone number is not valid"
+    )
+    .required("phone number is required"),
+  
+});
+
+export const userEditSchema = yup.object({
+  password: yup
+    .string("Enter your password")
+    .min(8, "Password should be of minimum 8 characters length"),
+  phone: yup
+    .string("Enter phone number")
+    .matches(
+      /^((\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$/,
+      "Phone number is not valid"
+    ),
+
+});
 export const coperateUserAddSchema = yup.object({
   username: yup.string("Enter youe username").required("Username is required"),
   email: yup

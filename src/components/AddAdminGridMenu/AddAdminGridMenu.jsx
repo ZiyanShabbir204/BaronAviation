@@ -1,7 +1,7 @@
 import { useState } from "react";
 import DeleteModal from "../deleteModal/DeleteModal";
 import AdminCoperateUserAddEditModal from "../adminCoperateUserAddEditModal/adminCoperateUserAddEditModal";
-import { adminUserEditSchema } from "../../schema/validateSchema";
+import { adminUserEditSchema, userEditSchema } from "../../schema/validateSchema";
 import EditDeleteMenu from "../EditDeleteMenu/EditDeleteMenu";
 import ApiService from "../../api.service";
 export default function AddAdminGridMenu({ data, onRequestComplete }) {
@@ -30,9 +30,8 @@ export default function AddAdminGridMenu({ data, onRequestComplete }) {
       <AdminCoperateUserAddEditModal
         open={editOpen}
         setOpen={setEditOpen}
-        schema={adminUserEditSchema}
+        schema={userEditSchema}
         initialValues={initialValues}
-        isRoleExist
         userId={data.id}
         onRequestComplete={onRequestComplete}
       />

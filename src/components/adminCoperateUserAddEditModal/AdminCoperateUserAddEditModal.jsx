@@ -53,13 +53,13 @@ export default function AdminCoperateUserAddEditModal({
     try {
       const { username, email, phone, password, role, total_hours } = values;
       let res;
-      if (isRoleExist && !userId) {
+      if ((isRoleExist || (!isRoleExist && !isTotalHoursExist)) && !userId) {
         res = await ApiService.post("auth/register", {
           username,
           email,
           phone,
           password,
-          roleName: role,
+          roleName: isRoleExist ? role : 'customer',
         });
       } else if (isRoleExist && userId) {
         res = await ApiService.put(`admin/${userId}`, {
@@ -81,6 +81,14 @@ export default function AdminCoperateUserAddEditModal({
           password,
         });
       }
+      else if(!isRoleExist && !isTotalHoursExist && userId){
+        res = await ApiService.put(`admin/users/${userId}`, {
+          phone,
+          password,
+        });
+
+      }
+
 
       onRequestComplete && onRequestComplete(res);
       handleClose();

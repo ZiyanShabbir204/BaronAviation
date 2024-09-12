@@ -25,4 +25,10 @@ export const adminRoles = [
     route: "add-admin",
     accessBy:  ["sys_admin"],
   },
+  {
+    title: "Users",
+    route: "users",
+    accessBy:  ["sys_admin"],
+  },
+  
 ];

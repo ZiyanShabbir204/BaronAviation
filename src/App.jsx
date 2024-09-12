@@ -15,6 +15,7 @@ import Admin from "./pages/admin/Admin";
 import { AuthProvider } from "./contexts/auth.context";
 import Private from "./components/Private/Private";
 import { Navigate } from "react-router-dom";
+import Users from "./pages/user/Users";
 
 function App() {
   const router = createBrowserRouter([
@@ -49,6 +50,11 @@ function App() {
               path: "add-admin",
               element: <AddAdmin />,
             },
+            {
+              path: "users",
+              element: <Users/>,
+            },
+
           ],
         },
       ],
