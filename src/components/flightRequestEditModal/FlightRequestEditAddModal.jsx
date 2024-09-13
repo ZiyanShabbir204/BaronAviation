@@ -11,6 +11,7 @@ import { TextField, Button, Box, Typography, Stack } from "@mui/material";
 import ApiService from "../../api.service";
 import { useState } from "react";
 import { generateDateNearestFiveMinutes } from "../../utilis/dateFormat";
+import { useSnackbar } from "notistack";
 
 const style = {
   position: "absolute",
@@ -32,6 +33,8 @@ export default function FlightRequestEditAddModal({
   onRequestComplete,
 }) {
   const [error, setError] = useState("");
+  const { enqueueSnackbar } = useSnackbar();
+
   let initialValues = {
     to: "",
     from: "",
@@ -60,6 +63,13 @@ export default function FlightRequestEditAddModal({
       }
 
       onRequestComplete && onRequestComplete(res);
+
+      enqueueSnackbar(
+        data ? "Flight has been updated" : "Flight has been created",
+        {
+          variant: "success",
+        }
+      );
       handleClose();
     } catch (err) {
       console.log("Error in FlightRequestEditAddModal -> submitHandler", err);

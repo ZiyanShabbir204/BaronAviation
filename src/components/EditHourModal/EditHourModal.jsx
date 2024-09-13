@@ -11,6 +11,8 @@ import AddIcon from "@mui/icons-material/Add";
 import { TextField, Button, Box, Typography, Stack } from "@mui/material";
 import ApiService from "../../api.service";
 import { useState } from "react";
+import { useSnackbar } from "notistack";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -31,7 +33,7 @@ export default function EditHourModal({
   onRequestComplete,
 }) {
   const [error, setError] = useState("");
-
+  const { enqueueSnackbar } = useSnackbar();
   const handleClose = () => setOpen(false);
 
   const submitHandler = async (values) => {
@@ -41,6 +43,10 @@ export default function EditHourModal({
         user_id: data.id,
       });
       onRequestComplete(res);
+      enqueueSnackbar("Hours has been updated.", {
+        variant: "success",
+      });
+
       handleClose();
     } catch (err) {
       console.log("Error in FlightRequestEditAddModal -> submitHandler", err);

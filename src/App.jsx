@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import "./App.css";
 import LoginPage from "./pages/user/Login";
 import Sign from "./pages/user/Signup";
@@ -16,6 +14,7 @@ import { AuthProvider } from "./contexts/auth.context";
 import Private from "./components/Private/Private";
 import { Navigate } from "react-router-dom";
 import Users from "./pages/user/Users";
+import { SnackbarProvider } from "notistack";
 
 function App() {
   const router = createBrowserRouter([
@@ -52,9 +51,8 @@ function App() {
             },
             {
               path: "users",
-              element: <Users/>,
+              element: <Users />,
             },
-
           ],
         },
       ],
@@ -78,9 +76,11 @@ function App() {
   ]);
 
   return (
-    <AuthProvider>
-      <RouterProvider router={router} />
-    </AuthProvider>
+    <SnackbarProvider maxSnack={3}>
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
+    </SnackbarProvider>
   );
 }
 

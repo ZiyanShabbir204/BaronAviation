@@ -13,7 +13,7 @@ import {
   getMinTime,
 } from "../../utilis/dateFormat";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
-
+import { useSnackbar } from "notistack";
 const style = {
   position: "absolute",
   top: "50%",
@@ -34,6 +34,8 @@ export default function FlightMaintainceUnavailablityEditAddModal({
   reason,
   onRequestComplete,
 }) {
+  const { enqueueSnackbar } = useSnackbar();
+
   let initialValues = {
     edit_by: "",
     end_time: generateEndDateAndTimeNearestFiveMinutes(),
@@ -71,6 +73,14 @@ export default function FlightMaintainceUnavailablityEditAddModal({
 
       handleClose();
       onRequestComplete && onRequestComplete(res);
+      enqueueSnackbar(
+        data
+          ? "Flight unavailability has been updated."
+          : "Flight unavailability has been created.",
+        {
+          variant: "success",
+        }
+      );
     } catch (err) {
       console.log("Error in FlightRequestEditAddModal -> submitHandler", err);
       const errorMessage = err.response.data.message || err.response.data.error;

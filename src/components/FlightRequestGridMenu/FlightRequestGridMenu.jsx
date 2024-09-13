@@ -5,10 +5,13 @@ import DeleteModal from "../deleteModal/DeleteModal";
 import FlightRequestEditAddModal from "../flightRequestEditModal/FlightRequestEditAddModal";
 import ApiService from "../../api.service";
 import EditDeleteMenu from "../EditDeleteMenu/EditDeleteMenu";
+import { useSnackbar } from "notistack";
 
 export default function FlightRequestGridMenu({ data, onRequestComplete }) {
   const [deleteOpen, setDeleteOpen] = useState(null);
   const [editOpen, setEditOpen] = useState(null);
+  const { enqueueSnackbar } = useSnackbar();
+
   const menuRef = useRef();
   const deleteHandler = async () => {
     return ApiService.delete(`flight-booking/${data.id}`);
@@ -21,6 +24,10 @@ export default function FlightRequestGridMenu({ data, onRequestComplete }) {
       });
       menuRef.current.closeMenu();
       onRequestComplete && onRequestComplete();
+
+      enqueueSnackbar("Status has been updated.", {
+        variant: "success",
+      });
     } catch (err) {
       console.log("error in FlightRequestGridMenu -> updateStatus", err);
     }

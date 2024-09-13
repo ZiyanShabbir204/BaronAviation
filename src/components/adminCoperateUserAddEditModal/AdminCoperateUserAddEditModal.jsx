@@ -17,7 +17,7 @@ import {
   Stack,
   MenuItem,
 } from "@mui/material";
-
+import { useSnackbar } from "notistack";
 import ApiService from "../../api.service";
 
 const style = {
@@ -46,6 +46,7 @@ export default function AdminCoperateUserAddEditModal({
 }) {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleClose = () => setOpen(false);
 
@@ -59,13 +60,20 @@ export default function AdminCoperateUserAddEditModal({
           email,
           phone,
           password,
-          roleName: isRoleExist ? role : 'customer',
+          roleName: isRoleExist ? role : "customer",
+        });
+        enqueueSnackbar("Admin has been created.", {
+          variant: "success",
         });
       } else if (isRoleExist && userId) {
         res = await ApiService.put(`admin/${userId}`, {
           phone,
           password,
           role_name: role,
+        });
+
+        enqueueSnackbar("Admin has been updated.", {
+          variant: "success",
         });
       } else if (isTotalHoursExist && !userId) {
         res = await ApiService.post("admin/cooperate-customer/register", {
@@ -75,20 +83,28 @@ export default function AdminCoperateUserAddEditModal({
           password,
           hours: total_hours,
         });
+
+        enqueueSnackbar("Coperate yser has been created.", {
+          variant: "success",
+        });
       } else if (isTotalHoursExist && userId) {
         res = await ApiService.put(`admin/cooperate-customer/${userId}`, {
           phone,
           password,
         });
-      }
-      else if(!isRoleExist && !isTotalHoursExist && userId){
+        enqueueSnackbar("Coperate user has been updated.", {
+          variant: "success",
+        });
+      } else if (!isRoleExist && !isTotalHoursExist && userId) {
         res = await ApiService.put(`admin/users/${userId}`, {
           phone,
           password,
         });
 
+        enqueueSnackbar("User has been updated.", {
+          variant: "success",
+        });
       }
-
 
       onRequestComplete && onRequestComplete(res);
       handleClose();
