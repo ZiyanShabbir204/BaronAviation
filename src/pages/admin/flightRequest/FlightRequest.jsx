@@ -22,8 +22,8 @@ const FlightRequest = () => {
           return param.row.user.username;
         },
       },
-      { field: "to", headerName: "To", flex: 1, editable: false },
-      { field: "from", headerName: "From", flex: 1, editable: false },
+      { field: "to", headerName: "To", flex: 1, editable: false ,width: 160,},
+      { field: "from", headerName: "From", flex: 1, editable: false ,width: 160,},
 
       {
         field: "start_time",
@@ -39,7 +39,7 @@ const FlightRequest = () => {
       {
         field: "status",
         headerName: "Status",
-        width: 180,
+        width: 200,
         flex: 1,
 
         renderCell: (param) => {
@@ -47,10 +47,45 @@ const FlightRequest = () => {
         },
       },
       {
+        field: "status_updated_at",
+        headerName: "Status Updated",
+        type: "text",
+        width: 200,
+        editable: false,
+        renderCell: (param) => {
+          return dateFormat(param.row.start_time)
+      
+        }
+      },
+      {
+        field: "comment_by_admin",
+        headerName: "Admin Comment",
+        type: "text",
+        width: 200,
+        editable: false,
+        renderCell: (param) => {
+          return <p>{param.row.comment_by_admin}</p>
+      
+        }
+      },
+      {
+        field: "comment_by_user",
+        headerName: "User Comment",
+        type: "text",
+        width: 200,
+        editable: false,
+        renderCell: (param) => {
+          return <p>{param.row.comment_by_user}</p>
+      
+        }
+      },
+      
+      {
         field: "handle_by",
         headerName: "Handle By",
         type: "action",
         flex: 1,
+        width: 160,
 
         renderCell: (param) => {
           return param.row.handle_by ? param.row.handle_by.username : "N/A";

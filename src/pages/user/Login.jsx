@@ -40,10 +40,7 @@ export default function LoginPage() {
     }
   };
 
-  const test = async () => {
-    const d = await ApiService.get("/check-me");
-    console.log(d);
-  };
+ 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };

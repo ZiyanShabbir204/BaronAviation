@@ -44,6 +44,7 @@ export const flightRequestEditModalSchema = yup.object({
   to: yup.string("Enter To").required("To is required"),
   from: yup.string("Enter From").required("From is required"),
   username: yup.string("Enter username").required("Username is required"),
+  comment_by_admin : yup.string("Enter Comment").required("Comment by Admin is required"),
   // start_time: yup.string("Enter Start Time").required("Start Time is required"),
   start_time: yup.date()
     .nullable()
