@@ -61,7 +61,11 @@ const FlightRequest = () => {
         width: 200,
         editable: false,
         renderCell: (param) => {
-          return <CommentCell message={param.row.comment_by_admin} />;
+          return param.row.comment_by_admin ? (
+            <CommentCell message={param.row.comment_by_admin} />
+          ) : (
+            "N/A"
+          );
         },
       },
       {
@@ -71,7 +75,11 @@ const FlightRequest = () => {
         width: 200,
         editable: false,
         renderCell: (param) => {
-          return <CommentCell message={param.row.comment_by_user} />;
+          return param.row.comment_by_user ? (
+            <CommentCell message={param.row.comment_by_user} />
+          ) : (
+            "N/A"
+          );
         },
       },
 
