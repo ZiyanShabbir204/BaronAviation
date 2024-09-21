@@ -94,7 +94,7 @@ export default function FlightRequestEditAddModal({
       >
         <Box sx={style}>
           <Typography component="h1" variant="h5">
-            {data ? "Edit" : "Add"} flight request
+            {data ? "Edit" : "Add"} Active booking
           </Typography>
           {error && (
             <Typography color="warning" align="center">

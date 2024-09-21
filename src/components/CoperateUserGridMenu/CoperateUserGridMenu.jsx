@@ -56,6 +56,7 @@ export default function CoperateUserGridMenu({ data, onRequestComplete }) {
         onRequestComplete={onRequestComplete}
         isTotalHoursExist
         userId={data.id}
+        title="Edit corperate client"
       />
 
       <EditHourModal

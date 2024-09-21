@@ -1,34 +1,33 @@
 export const adminRoles = [
   {
-    title: "Flight Request",
+    title: "Active Bookings",
     route: "flight-request",
-    accessBy: ["booking_agent", "sys_admin"],
+    accessBy: ["booking_agent", "sys_admin", "owner"],
   },
   {
-    title: "Add Maintaince Unavailablity",
+    title: "Maintaince Unavailablity",
     route: "maintaince-unavailablity",
-    accessBy: ['maintenance_worker',"sys_admin"],
+    accessBy: ["maintenance_worker", "sys_admin", "owner"],
   },
 
   {
-    title: "Add Flight Unavailablity",
+    title: "Flight Unavailablity",
     route: "flight-unavailablity",
-    accessBy: ["sys_admin"],
+    accessBy: ["sys_admin", "owner"],
   },
   {
-    title: "Add Coperate User",
+    title: "Corporate Client",
     route: "coperate-user",
-    accessBy: ["sys_admin"],
+    accessBy: ["sys_admin", "owner"],
   },
   {
-    title: "Add Admin",
+    title: "Admin",
     route: "add-admin",
-    accessBy:  ["sys_admin"],
+    accessBy: ["sys_admin", "owner"],
   },
   {
-    title: "Users",
+    title: "Customers",
     route: "users",
-    accessBy:  ["sys_admin"],
+    accessBy: ["sys_admin", "owner"],
   },
-  
 ];

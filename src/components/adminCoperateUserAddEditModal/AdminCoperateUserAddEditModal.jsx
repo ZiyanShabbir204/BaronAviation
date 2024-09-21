@@ -43,6 +43,7 @@ export default function AdminCoperateUserAddEditModal({
   isTotalHoursExist,
   userId,
   onRequestComplete,
+  title,
 }) {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
@@ -92,7 +93,7 @@ export default function AdminCoperateUserAddEditModal({
           phone,
           password,
         });
-        enqueueSnackbar("Coperate user has been updated.", {
+        enqueueSnackbar("Corporate client has been updated.", {
           variant: "success",
         });
       } else if (!isRoleExist && !isTotalHoursExist && userId) {
@@ -138,7 +139,7 @@ export default function AdminCoperateUserAddEditModal({
     >
       <Box sx={style}>
         <Typography component="h1" variant="h5">
-          Add Admin
+          {title}
         </Typography>
         {error && (
           <Typography color="warning" align="center">

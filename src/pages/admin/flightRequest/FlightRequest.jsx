@@ -32,9 +32,8 @@ const FlightRequest = () => {
         width: 200,
         editable: false,
         renderCell: (param) => {
-          return dateFormat(param.row.start_time)
-      
-        }
+          return dateFormat(param.row.start_time);
+        },
       },
       {
         field: "status",
@@ -85,7 +84,7 @@ const FlightRequest = () => {
         onRequestComplete={requestCompleteHandler}
       />
       <Widget
-        addBtnlabel="Add Flight Request"
+        addBtnlabel="Add Active booking"
         onAddClick={() => setAddOpen(true)}
       >
         <Datagrid rows={rows} columns={columns} loading={rowsLoading} />

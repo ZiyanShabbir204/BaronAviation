@@ -26,8 +26,14 @@ const AddAdmin = () => {
         field: "actions",
         type: "actions",
         renderCell: (param) => {
-          return (
-            <AddAdminGridMenu data={param.row} onRequestComplete={reqHandler} />
+          return param.row.role_name === "owner" ? (
+            <></>
+          ) : (
+            <AddAdminGridMenu
+              data={param.row}
+              onRequestComplete={reqHandler}
+              isRoleExist
+            />
           );
         },
       },
@@ -56,6 +62,7 @@ const AddAdmin = () => {
         initialValues={initialValues}
         isRoleExist
         onRequestComplete={reqHandler}
+        title="Add Admin"
       />
       <Widget addBtnlabel="Add Admin" onAddClick={() => setOpen(true)}>
         <Datagrid rows={rows} columns={columns} loading={rowsLoading} />
