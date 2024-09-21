@@ -122,15 +122,15 @@ function ResponsiveDrawer(props) {
           >
             <MenuIcon />
           </IconButton>
-          
+
           <ExitToAppIcon
             onClick={logout}
             sx={{
               cursor: "pointer",
             }}
           />
-          <Typography variant="h5" component="h6" >
-            Barron Aviation
+          <Typography variant="h5" component="h6">
+            Baron Aviation
           </Typography>
         </Toolbar>
       </AppBar>

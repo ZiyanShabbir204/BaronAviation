@@ -20,7 +20,7 @@ const Users = () => {
         editable: false,
       },
       { field: "phone", headerName: "Phone", flex: 1, editable: false },
-     
+
       {
         field: "actions",
         type: "actions",
@@ -53,8 +53,9 @@ const Users = () => {
         schema={userAddSchema}
         initialValues={initialValues}
         onRequestComplete={reqHandler}
+        title="Customer"
       />
-      <Widget addBtnlabel="Add User" onAddClick={() => setOpen(true)}>
+      <Widget addBtnlabel="Add Customer" onAddClick={() => setOpen(true)}>
         <Datagrid rows={rows} columns={columns} loading={rowsLoading} />
       </Widget>
     </>

@@ -113,7 +113,7 @@ const FlightRequest = () => {
         onRequestComplete={requestCompleteHandler}
       />
       <Widget
-        addBtnlabel="Add Flight Request"
+        addBtnlabel="Add Active booking"
         onAddClick={() => setAddOpen(true)}
       >
         <Datagrid rows={rows} columns={columns} loading={rowsLoading} />

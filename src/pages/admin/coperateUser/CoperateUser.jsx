@@ -89,8 +89,12 @@ const CoperateUser = () => {
         initialValues={initialValues}
         isTotalHoursExist
         onRequestComplete={requestCompleteHandler}
+        title="Add Corperate Client"
       />
-      <Widget addBtnlabel="Add Coperate User" onAddClick={() => setOpen(true)}>
+      <Widget
+        addBtnlabel="Add Corporate client"
+        onAddClick={() => setOpen(true)}
+      >
         <Datagrid rows={rows} columns={columns} loading={rowsLoading} />
       </Widget>
     </>
