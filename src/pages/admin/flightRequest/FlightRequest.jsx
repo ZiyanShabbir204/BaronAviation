@@ -7,6 +7,8 @@ import Status from "../../../components/FlightRequestGridMenu/Status";
 import FlightRequestGridMenu from "../../../components/FlightRequestGridMenu/FlightRequestGridMenu";
 import useFetchRow from "../../../hooks/useFetchRow";
 import { dateFormat } from "../../../utilis/dateFormat";
+import { Typography } from "@mui/material";
+import CommentCell from "../../../components/CommentCell/CommentCell";
 const FlightRequest = () => {
   const [addOpen, setAddOpen] = useState(null);
   const { rows, fetchRows, rowsLoading } = useFetchRow("flight-booking");
@@ -16,14 +18,13 @@ const FlightRequest = () => {
       {
         field: "user",
         headerName: "User",
-        flex: 1,
 
         renderCell: (param) => {
           return param.row.user.username;
         },
       },
-      { field: "to", headerName: "To", flex: 1, editable: false ,width: 160,},
-      { field: "from", headerName: "From", flex: 1, editable: false ,width: 160,},
+      { field: "to", headerName: "To", editable: false, width: 160 },
+      { field: "from", headerName: "From", editable: false, width: 160 },
 
       {
         field: "start_time",
@@ -32,16 +33,13 @@ const FlightRequest = () => {
         width: 200,
         editable: false,
         renderCell: (param) => {
-          return dateFormat(param.row.start_time)
-      
-        }
+          return dateFormat(param.row.start_time);
+        },
       },
       {
         field: "status",
         headerName: "Status",
         width: 200,
-        flex: 1,
-
         renderCell: (param) => {
           return <Status status={param.row.status} />;
         },
@@ -53,9 +51,8 @@ const FlightRequest = () => {
         width: 200,
         editable: false,
         renderCell: (param) => {
-          return dateFormat(param.row.start_time)
-      
-        }
+          return dateFormat(param.row.start_time);
+        },
       },
       {
         field: "comment_by_admin",
@@ -64,9 +61,8 @@ const FlightRequest = () => {
         width: 200,
         editable: false,
         renderCell: (param) => {
-          return <p>{param.row.comment_by_admin}</p>
-      
-        }
+          return <CommentCell message={param.row.comment_by_admin} />;
+        },
       },
       {
         field: "comment_by_user",
@@ -75,17 +71,14 @@ const FlightRequest = () => {
         width: 200,
         editable: false,
         renderCell: (param) => {
-          return <p>{param.row.comment_by_user}</p>
-      
-        }
+          return <CommentCell message={param.row.comment_by_user} />;
+        },
       },
-      
+
       {
         field: "handle_by",
         headerName: "Handle By",
         type: "action",
-        flex: 1,
-        width: 160,
 
         renderCell: (param) => {
           return param.row.handle_by ? param.row.handle_by.username : "N/A";

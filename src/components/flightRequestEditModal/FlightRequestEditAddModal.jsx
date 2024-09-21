@@ -7,7 +7,14 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import AddIcon from "@mui/icons-material/Add";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
 
-import { TextField, Button, Box, Typography, Stack, TextareaAutosize } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Box,
+  Typography,
+  Stack,
+  TextareaAutosize,
+} from "@mui/material";
 import ApiService from "../../api.service";
 import { useState } from "react";
 import { generateDateNearestFiveMinutes } from "../../utilis/dateFormat";
@@ -40,7 +47,7 @@ export default function FlightRequestEditAddModal({
     from: "",
     username: "",
     start_time: generateDateNearestFiveMinutes(),
-    comment_by_admin: ""
+    comment_by_admin: "",
   };
 
   if (data) {
@@ -49,7 +56,7 @@ export default function FlightRequestEditAddModal({
       from: data.from,
       username: data.user.username,
       start_time: data.start_time,
-      comment_by_admin : data.comment_by_admin,
+      comment_by_admin: data.comment_by_admin,
     };
   }
   const handleClose = () => setOpen(false);
@@ -164,17 +171,24 @@ export default function FlightRequestEditAddModal({
                 />
               </Stack>
             </LocalizationProvider>
-            <TextareaAutosize
-              fullWidth
+            <TextField
               id="comment_by_admin"
+              label="Comment by admin"
               name="comment_by_admin"
-              label="Comment"
               value={formik.values.comment_by_admin}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              error={formik.touched.comment_by_admin && Boolean(formik.errors.comment_by_admin)}
-              helperText={formik.touched.comment_by_admin && formik.errors.comment_by_admin}
-              disabled={data}
+              error={
+                formik.touched.comment_by_admin &&
+                Boolean(formik.errors.comment_by_admin)
+              }
+              helperText={
+                formik.touched.comment_by_admin &&
+                formik.errors.comment_by_admin
+              }
+              multiline
+              fullWidth
+              rows={4}
               sx={{ mt: 2 }}
             />
 
