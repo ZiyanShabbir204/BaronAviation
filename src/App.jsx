@@ -15,6 +15,7 @@ import Private from "./components/Private/Private";
 import { Navigate } from "react-router-dom";
 import Users from "./pages/user/Users";
 import { SnackbarProvider } from "notistack";
+import Logs from "./pages/admin/logs/Logs";
 
 function App() {
   const router = createBrowserRouter([
@@ -52,6 +53,10 @@ function App() {
             {
               path: "users",
               element: <Users />,
+            },
+            {
+              path: "logs",
+              element: <Logs />,
             },
           ],
         },

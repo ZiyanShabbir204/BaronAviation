@@ -51,7 +51,9 @@ const FlightRequest = () => {
         width: 200,
         editable: false,
         renderCell: (param) => {
-          return dateFormat(param.row.start_time);
+          return param.row.status_updated_at
+            ? dateFormat(param.row.status_updated_at)
+            : "N/A";
         },
       },
       {

@@ -30,4 +30,9 @@ export const adminRoles = [
     route: "users",
     accessBy: ["sys_admin", "owner"],
   },
+  {
+    title: "Logs",
+    route: "logs",
+    accessBy: ["sys_admin", "owner"],
+  },
 ];

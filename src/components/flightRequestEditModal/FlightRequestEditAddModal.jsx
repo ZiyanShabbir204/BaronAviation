@@ -54,7 +54,7 @@ export default function FlightRequestEditAddModal({
     initialValues = {
       to: data.to,
       from: data.from,
-      username: data.user.username,
+      username: data.user?.username,
       start_time: data.start_time,
       comment_by_admin: data.comment_by_admin,
     };

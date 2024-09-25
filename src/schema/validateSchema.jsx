@@ -44,11 +44,8 @@ export const flightRequestEditModalSchema = yup.object({
   to: yup.string("Enter To").required("To is required"),
   from: yup.string("Enter From").required("From is required"),
   username: yup.string("Enter username").required("Username is required"),
-  comment_by_admin : yup.string("Enter Comment").required("Comment by Admin is required"),
-  // start_time: yup.string("Enter Start Time").required("Start Time is required"),
-  start_time: yup.date()
-    .nullable()
-    .required('Start time is required'),
+  comment_by_admin: yup.string("Enter Comment"),
+  start_time: yup.date().nullable().required("Start time is required"),
 });
 
 export const adminUserAddSchema = yup.object({
@@ -101,7 +98,6 @@ export const userAddSchema = yup.object({
       "Phone number is not valid"
     )
     .required("phone number is required"),
-  
 });
 
 export const userEditSchema = yup.object({
@@ -114,7 +110,6 @@ export const userEditSchema = yup.object({
       /^((\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$/,
       "Phone number is not valid"
     ),
-
 });
 export const coperateUserAddSchema = yup.object({
   username: yup.string("Enter youe username").required("Username is required"),
@@ -151,12 +146,8 @@ export const coperateUserEditSchema = yup.object({
 });
 
 export const flightMaintainceUnavailablitySchema = yup.object({
-  end_time: yup.date()
-  .nullable()
-  .required('End time is required'),
-  start_time: yup.date()
-    .nullable()
-    .required('Start time is required'),
+  end_time: yup.date().nullable().required("End time is required"),
+  start_time: yup.date().nullable().required("Start time is required"),
 });
 
 export const editHoursSchema = yup.object({
