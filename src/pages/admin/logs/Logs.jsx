@@ -3,6 +3,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import LogDatagrid from "../../../components/LogDatagrid/LogDatagrid";
+import FlightTimeLogDatagrid from "../../../components/FlightTimeLogDatagrid/FlightTimeLogDatagrid";
 
 export default function Logs() {
   const [value, setValue] = useState("admin");
@@ -22,6 +23,7 @@ export default function Logs() {
             value="corperate-client"
           />
           <Tab label="Customer" id="simple-tab-2" value="customer" />
+          <Tab label="Flight Time" id="simple-tab-2" value="flightTime" />
         </Tabs>
       </Box>
 
@@ -30,7 +32,11 @@ export default function Logs() {
           marginTop: 3,
         }}
       >
-        <LogDatagrid value={value} />
+        {value === "flightTime" ? (
+          <FlightTimeLogDatagrid />
+        ) : (
+          <LogDatagrid value={value} />
+        )}
       </Box>
     </Box>
   );

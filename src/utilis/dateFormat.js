@@ -20,6 +20,9 @@ export const generateEndDateAndTimeNearestFiveMinutes = () => {
 };
 
 export const getMinTime = (startTime, endTime) => {
-  console.log(startTime, endTime, isSameDay(startTime, endTime));
   return isSameDay(startTime, endTime) ? startTime : undefined;
 };
+
+export const getToday = () => new Date();
+
+export const oneMonthFromToday = () => add(getToday(), { months: 1 });

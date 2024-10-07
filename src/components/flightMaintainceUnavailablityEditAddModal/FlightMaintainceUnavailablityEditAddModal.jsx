@@ -178,36 +178,6 @@ export default function FlightMaintainceUnavailablityEditAddModal({
                 />
               </Stack>
             </LocalizationProvider>
-
-            {/* <TextField
-              fullWidth
-              id="start_time"
-              name="start_time"
-              label="Start Time"
-              type="text"
-              value={formik.values.start_time}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={
-                formik.touched.start_time && Boolean(formik.errors.start_time)
-              }
-              helperText={formik.touched.start_time && formik.errors.start_time}
-              sx={{ mt: 2 }}
-            /> */}
-            {/* 
-            <TextField
-              fullWidth
-              id="end_time"
-              name="end_time"
-              label="End time"
-              value={formik.values.end_time}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.end_time && Boolean(formik.errors.end_time)}
-              helperText={formik.touched.end_time && formik.errors.end_time}
-              sx={{ mt: 2 }}
-            /> */}
-
             <Stack sx={{ mt: 1 }}></Stack>
             <Stack
               flexDirection="row"
