@@ -8,6 +8,7 @@ import {
 import EditDeleteMenu from "../EditDeleteMenu/EditDeleteMenu";
 import ApiService from "../../api.service";
 import { Divider, MenuItem } from "@mui/material";
+import TransferOwnerShipModal from "../transferOwnershipModal/TransferOwnershipModal";
 export default function AddAdminGridMenu({
   data,
   onRequestComplete,
@@ -27,11 +28,11 @@ export default function AddAdminGridMenu({
   const deleteHandler = async () => {
     return ApiService.delete(`admin/${data.id}`);
   };
-  const transferOwnerShipClickHandler = ()=>{
-    console.log("transferOwnerShipClickHandler")
+  const transferOwnerShipClickHandler = async ()=>{
+      await ApiService.put(`admin/transfer-ownership/${data.id}`);
+    
   }
 
-  console.log("data", data);
 
   return (
     <>
@@ -41,6 +42,13 @@ export default function AddAdminGridMenu({
         text={`${data.username}`}
         onDelete={deleteHandler}
         onRequestComplete={onRequestComplete}
+      />
+      <TransferOwnerShipModal
+      open={transferModalOpen}
+      setOpen={setTransferModalOpen}
+      text={`${data.username}`}
+      onTransfer={transferOwnerShipClickHandler}
+      onRequestComplete={onRequestComplete}
       />
       <AdminCoperateUserAddEditModal
         open={editOpen}
@@ -59,7 +67,7 @@ export default function AddAdminGridMenu({
         
       >
         <Divider/>
-        <MenuItem onClick={transferOwnerShipClickHandler} >Transfer Ownership</MenuItem>
+        <MenuItem onClick={()=>setTransferModalOpen(true)} >Transfer Ownership</MenuItem>
 
 
         </EditDeleteMenu>
