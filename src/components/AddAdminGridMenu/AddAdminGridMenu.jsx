@@ -7,6 +7,7 @@ import {
 } from "../../schema/validateSchema";
 import EditDeleteMenu from "../EditDeleteMenu/EditDeleteMenu";
 import ApiService from "../../api.service";
+import { Divider, MenuItem } from "@mui/material";
 export default function AddAdminGridMenu({
   data,
   onRequestComplete,
@@ -14,6 +15,8 @@ export default function AddAdminGridMenu({
 }) {
   const [deleteOpen, setDeleteOpen] = useState(null);
   const [editOpen, setEditOpen] = useState(null);
+  const [transferModalOpen, setTransferModalOpen] = useState(null);
+
   const initialValues = {
     username: data.username,
     role: data.role_name,
@@ -24,6 +27,9 @@ export default function AddAdminGridMenu({
   const deleteHandler = async () => {
     return ApiService.delete(`admin/${data.id}`);
   };
+  const transferOwnerShipClickHandler = ()=>{
+    console.log("transferOwnerShipClickHandler")
+  }
 
   console.log("data", data);
 
@@ -50,7 +56,13 @@ export default function AddAdminGridMenu({
       <EditDeleteMenu
         onDelete={() => setDeleteOpen(true)}
         onEdit={() => setEditOpen(true)}
-      />
+        
+      >
+        <Divider/>
+        <MenuItem onClick={transferOwnerShipClickHandler} >Transfer Ownership</MenuItem>
+
+
+        </EditDeleteMenu>
     </>
   );
 }

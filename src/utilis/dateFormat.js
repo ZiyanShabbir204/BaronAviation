@@ -5,6 +5,11 @@ export const dateFormat = (dateStr) => {
   const formattedDate = format(date, "dd MMM, yyyy hh:mm a");
   return formattedDate;
 };
+export const logDateFormat = (dateStr) => {
+  const date = new Date(dateStr);
+  const formattedDate = format(date, "dd MMM, yyyy");
+  return formattedDate;
+};
 
 export const generateDateNearestFiveMinutes = () => {
   const date = new Date();

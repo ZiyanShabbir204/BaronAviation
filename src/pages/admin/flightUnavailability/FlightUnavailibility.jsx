@@ -5,6 +5,7 @@ import Datagrid from "../../../components/Datagrid/Datagrid";
 import FlightUnavailablityGridMenu from "../../../components/FlightUnavailablityGridMenu/FlightUnavailablityGridMenu";
 import useFetchRow from "../../../hooks/useFetchRow";
 import { dateFormat } from "../../../utilis/dateFormat";
+import { dateFilterOperators, stringFilterOperators } from "../../../utilis/gridFilterFormat";
 
 const FlightUnavailibility = () => {
   const [addOpen, setAddOpen] = useState(null);
@@ -17,7 +18,9 @@ const FlightUnavailibility = () => {
       {
         field: "start_time",
         headerName: "Start Time",
-        type: "string",
+        type: "date",
+        filterOperators: dateFilterOperators,
+        valueGetter: (value) => new Date(value),
         flex: 1,
         editable: false,
         renderCell: (param) => {
@@ -27,7 +30,9 @@ const FlightUnavailibility = () => {
       {
         field: "end_time",
         headerName: "End Time",
-        type: "string",
+        type: "date",
+        filterOperators: dateFilterOperators,
+        valueGetter: (value) => new Date(value),
         flex: 1,
         editable: false,
         renderCell: (param) => {
@@ -37,8 +42,10 @@ const FlightUnavailibility = () => {
       {
         field: "added_by",
         headerName: "Added By",
+        filterOperators: stringFilterOperators,
         flex: 1,
         editable: false,
+        valueGetter: (param) => param.username,
         renderCell: (param) => param.row.added_by.username,
       },
       {

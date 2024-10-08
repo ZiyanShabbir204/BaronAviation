@@ -5,6 +5,7 @@ import Datagrid from "../../../components/Datagrid/Datagrid";
 import MaintainceUnavailablityGridMenu from "../../../components/MaintainceUnavailablityGridMenu/MaintainceUnavailablityGridMenu";
 import useFetchRow from "../../../hooks/useFetchRow";
 import { dateFormat } from "../../../utilis/dateFormat";
+import { dateFilterOperators, stringFilterOperators } from "../../../utilis/gridFilterFormat";
 
 const MaintainceUnavailablity = () => {
   const [addOpen, setAddOpen] = useState(null);
@@ -17,7 +18,9 @@ const MaintainceUnavailablity = () => {
       {
         field: "start_time",
         headerName: "Start Time",
-        type: "string",
+        type: "date",
+        filterOperators: dateFilterOperators,
+        valueGetter: (value) => new Date(value),
         flex: 1,
         editable: false,
         renderCell: (param) => {
@@ -27,7 +30,9 @@ const MaintainceUnavailablity = () => {
       {
         field: "end_time",
         headerName: "End Time",
-        type: "string",
+        type: "date",
+        filterOperators: dateFilterOperators,
+        valueGetter: (value) => new Date(value),
         flex: 1,
         editable: false,
         renderCell: (param) => {
@@ -37,7 +42,9 @@ const MaintainceUnavailablity = () => {
       {
         field: "added_by",
         headerName: "Added By",
+        filterOperators: stringFilterOperators,
         flex: 1,
+        valueGetter: (param) => param?.username,
         editable: false,
         renderCell: (param) => param.row.added_by?.username,
       },

@@ -5,22 +5,43 @@ import Widget from "../../components/widget/Widget";
 import Datagrid from "../../components/Datagrid/Datagrid";
 import useFetchRow from "../../hooks/useFetchRow";
 import AddAdminGridMenu from "../../components/AddAdminGridMenu/AddAdminGridMenu";
+import { stringFilterOperators } from "../../utilis/gridFilterFormat";
 const AddAdmin = () => {
   const [open, setOpen] = useState(false);
   const { rows, fetchRows, rowsLoading } = useFetchRow("admin");
   const columns = useMemo(
     () => [
-      { field: "username", headerName: "Username", flex: 1, editable: false },
+      {
+        field: "username",
+        headerName: "Username",
+        filterOperators: stringFilterOperators,
+
+        flex: 1,
+        editable: false,
+      },
 
       {
         field: "email",
         headerName: "Email",
+        filterOperators: stringFilterOperators,
         type: "email",
         flex: 1,
         editable: false,
       },
-      { field: "phone", headerName: "Phone", flex: 1, editable: false },
-      { field: "role_name", headerName: "role", flex: 1, editable: false },
+      {
+        field: "phone",
+        headerName: "Phone",
+        filterOperators: stringFilterOperators,
+        flex: 1,
+        editable: false,
+      },
+      {
+        field: "role_name",
+        headerName: "role",
+        filterOperators: stringFilterOperators,
+        flex: 1,
+        editable: false,
+      },
 
       {
         field: "actions",
