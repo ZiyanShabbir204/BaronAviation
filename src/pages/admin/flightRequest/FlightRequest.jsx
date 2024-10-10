@@ -9,7 +9,10 @@ import useFetchRow from "../../../hooks/useFetchRow";
 import { dateFormat } from "../../../utilis/dateFormat";
 import { Typography } from "@mui/material";
 import CommentCell from "../../../components/CommentCell/CommentCell";
-import { dateFilterOperators, stringFilterOperators } from "../../../utilis/gridFilterFormat";
+import {
+  dateFilterOperators,
+  stringFilterOperators,
+} from "../../../utilis/gridFilterFormat";
 const FlightRequest = () => {
   const [addOpen, setAddOpen] = useState(null);
   const { rows, fetchRows, rowsLoading } = useFetchRow("flight-booking");
@@ -111,7 +114,7 @@ const FlightRequest = () => {
         headerName: "Handle By",
         filterOperators: stringFilterOperators,
         type: "action",
-        valueGetter: (param) => param.username,
+        valueGetter: (param) => (param ? param.username : "N/A"),
         renderCell: (param) => {
           return param.row.handle_by ? param.row.handle_by.username : "N/A";
         },

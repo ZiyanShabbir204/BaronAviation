@@ -9,6 +9,7 @@ import EditDeleteMenu from "../EditDeleteMenu/EditDeleteMenu";
 import ApiService from "../../api.service";
 import { Divider, MenuItem } from "@mui/material";
 import TransferOwnerShipModal from "../transferOwnershipModal/TransferOwnershipModal";
+import { useAuth } from "../../contexts/auth.context";
 export default function AddAdminGridMenu({
   data,
   onRequestComplete,
@@ -17,6 +18,7 @@ export default function AddAdminGridMenu({
   const [deleteOpen, setDeleteOpen] = useState(null);
   const [editOpen, setEditOpen] = useState(null);
   const [transferModalOpen, setTransferModalOpen] = useState(null);
+  const { user } = useAuth();
 
   const initialValues = {
     username: data.username,
@@ -28,11 +30,11 @@ export default function AddAdminGridMenu({
   const deleteHandler = async () => {
     return ApiService.delete(`admin/${data.id}`);
   };
-  const transferOwnerShipClickHandler = async ()=>{
-      await ApiService.put(`admin/transfer-ownership/${data.id}`);
-    
-  }
+  const transferOwnerShipClickHandler = async () => {
+    await ApiService.put(`admin/transfer-ownership/${data.id}`);
+  };
 
+  console.log("user", user);
 
   return (
     <>
@@ -44,11 +46,11 @@ export default function AddAdminGridMenu({
         onRequestComplete={onRequestComplete}
       />
       <TransferOwnerShipModal
-      open={transferModalOpen}
-      setOpen={setTransferModalOpen}
-      text={`${data.username}`}
-      onTransfer={transferOwnerShipClickHandler}
-      onRequestComplete={onRequestComplete}
+        open={transferModalOpen}
+        setOpen={setTransferModalOpen}
+        text={`${data.username}`}
+        onTransfer={transferOwnerShipClickHandler}
+        onRequestComplete={onRequestComplete}
       />
       <AdminCoperateUserAddEditModal
         open={editOpen}
@@ -64,13 +66,16 @@ export default function AddAdminGridMenu({
       <EditDeleteMenu
         onDelete={() => setDeleteOpen(true)}
         onEdit={() => setEditOpen(true)}
-        
       >
-        <Divider/>
-        <MenuItem onClick={()=>setTransferModalOpen(true)} >Transfer Ownership</MenuItem>
-
-
-        </EditDeleteMenu>
+        {user.role === "owner" && (
+          <>
+            <Divider />
+            <MenuItem onClick={() => setTransferModalOpen(true)}>
+              Transfer Ownership
+            </MenuItem>
+          </>
+        )}
+      </EditDeleteMenu>
     </>
   );
 }
