@@ -16,6 +16,8 @@ import { Navigate } from "react-router-dom";
 import Users from "./pages/user/Users";
 import { SnackbarProvider } from "notistack";
 import Logs from "./pages/admin/logs/Logs";
+import NotFound from "./pages/admin/notFound/NotFound";
+import IndexRoute from "./components/indexRoute/IndexRoute";
 
 function App() {
   const router = createBrowserRouter([
@@ -28,7 +30,7 @@ function App() {
           children: [
             {
               path: "/",
-              element: <Navigate to="flight-request" />,
+              element: <IndexRoute/>,
             },
             {
               path: "flight-unavailablity",
@@ -58,6 +60,16 @@ function App() {
               path: "logs",
               element: <Logs />,
             },
+            ,
+            {
+              path: "not-found",
+              element: <NotFound/>,
+            },
+            {
+              path: "*",
+              element: <NotFound/>,
+            },
+
           ],
         },
       ],

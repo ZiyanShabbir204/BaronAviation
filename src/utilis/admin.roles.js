@@ -36,3 +36,5 @@ export const adminRoles = [
     accessBy: ["sys_admin", "owner"],
   },
 ];
+
+export const allowedRoute = ['/not-found', '/']
