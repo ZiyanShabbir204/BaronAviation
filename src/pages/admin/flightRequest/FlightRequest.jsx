@@ -16,6 +16,7 @@ import {
 const FlightRequest = () => {
   const [addOpen, setAddOpen] = useState(null);
   const { rows, fetchRows, rowsLoading } = useFetchRow("flight-booking");
+  // console.log("rows flight booking",rows)
 
   const columns = useMemo(
     () => [
@@ -28,17 +29,18 @@ const FlightRequest = () => {
           return param.row.user.username;
         },
       },
-      {
-        field: "to",
-        filterOperators: stringFilterOperators,
-        headerName: "To",
-        editable: false,
-        width: 160,
-      },
+     
       {
         field: "from",
         filterOperators: stringFilterOperators,
         headerName: "From",
+        editable: false,
+        width: 160,
+      },
+      {
+        field: "to",
+        filterOperators: stringFilterOperators,
+        headerName: "To",
         editable: false,
         width: 160,
       },
@@ -53,6 +55,18 @@ const FlightRequest = () => {
         editable: false,
         renderCell: (param) => {
           return dateFormat(param.row.start_time);
+        },
+      },
+      {
+        field: "createdAt",
+        headerName: "Created At",
+        type: "date",
+        filterOperators: dateFilterOperators,
+        valueGetter: (value) => new Date(value),
+        width: 200,
+        editable: false,
+        renderCell: (param) => {
+          return dateFormat(param.row.createdAt);
         },
       },
       {

@@ -150,6 +150,15 @@ export const flightMaintainceUnavailablitySchema = yup.object({
   start_time: yup.date().nullable().required("Start time is required"),
 });
 
+export const flightTimeLogDataSchema = yup.object({
+  end_time: yup.date().nullable().required("End time is required"),
+  start_time: yup.date().nullable().required("Start time is required"),
+  type: yup.string("Enter type").required("type is required"),
+
+});
+
+
+
 export const editHoursSchema = yup.object({
   new_total_hours: yup
     .number("Enter no. of total hours")

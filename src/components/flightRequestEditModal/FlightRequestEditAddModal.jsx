@@ -111,18 +111,7 @@ export default function FlightRequestEditAddModal({
             </Typography>
           )}
           <form onSubmit={formik.handleSubmit}>
-            <TextField
-              fullWidth
-              id="to"
-              name="to"
-              label="to"
-              value={formik.values.to}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.to && Boolean(formik.errors.to)}
-              helperText={formik.touched.to && formik.errors.to}
-              sx={{ mt: 2 }}
-            />
+            
             <TextField
               fullWidth
               id="from"
@@ -133,6 +122,18 @@ export default function FlightRequestEditAddModal({
               onBlur={formik.handleBlur}
               error={formik.touched.from && Boolean(formik.errors.from)}
               helperText={formik.touched.from && formik.errors.from}
+              sx={{ mt: 2 }}
+            />
+            <TextField
+              fullWidth
+              id="to"
+              name="to"
+              label="to"
+              value={formik.values.to}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.to && Boolean(formik.errors.to)}
+              helperText={formik.touched.to && formik.errors.to}
               sx={{ mt: 2 }}
             />
             <TextField

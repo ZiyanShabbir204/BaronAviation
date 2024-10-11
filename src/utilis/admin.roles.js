@@ -35,6 +35,11 @@ export const adminRoles = [
     route: "logs",
     accessBy: ["sys_admin", "owner"],
   },
+  {
+    title: "Flight Summary",
+    route: "flight-summary",
+    accessBy: ["sys_admin", "owner"],
+  }
 ];
 
 export const allowedRoute = ['/not-found', '/']

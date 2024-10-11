@@ -18,7 +18,7 @@ export default function AddAdminGridMenu({
   const [deleteOpen, setDeleteOpen] = useState(null);
   const [editOpen, setEditOpen] = useState(null);
   const [transferModalOpen, setTransferModalOpen] = useState(null);
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
 
   const initialValues = {
     username: data.username,
@@ -32,6 +32,11 @@ export default function AddAdminGridMenu({
   };
   const transferOwnerShipClickHandler = async () => {
     await ApiService.put(`admin/transfer-ownership/${data.id}`);
+
+    updateUser({
+      ...user,
+      role: "sys_admin"
+    })
   };
 
   console.log("user", user);

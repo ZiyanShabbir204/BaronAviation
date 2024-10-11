@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import MenuItem from "@mui/material/MenuItem";
 import SearchIcon from "@mui/icons-material/Search";
 import Select from "@mui/material/Select";
 import { Stack, TextField, Button } from "@mui/material";
-import { flightMaintainceUnavailablitySchema } from "../../schema/validateSchema";
+import { flightTimeLogDataSchema } from "../../schema/validateSchema";
 import {
   getMinTime,
   getToday,
@@ -28,27 +28,28 @@ const style = {
   borderRadius: "5px",
 };
 
-export default function FlightTimeLogDatePicker({onFilter}) {
-  const [filter, setFilter] = useState("start_time");
+export default function FlightTimeLogDatePicker({ onFilter }) {
   let initialValues = {
-    end_time: oneMonthFromToday(),
-    start_time: getToday(),
+    end_time: getToday() ,
+    start_time:oneMonthFromToday()  ,
+    type: "start_time"
   };
 
-  const handleChange = (event) => {
-    setFilter(event.target.value);
-  };
 
   const submitHandler = async (values) => {
+    console.log("filter values", values);
 
-    onFilter(values)
+    onFilter(values);
   };
 
   const formik = useFormik({
     initialValues,
-    validationSchema: flightMaintainceUnavailablitySchema,
+    validationSchema: flightTimeLogDataSchema,
     onSubmit: submitHandler,
   });
+  useEffect(() => {
+    onFilter(initialValues);
+  }, []);
 
   return (
     // <Stack direction="row" justifyContent="flex-end">
@@ -57,61 +58,66 @@ export default function FlightTimeLogDatePicker({onFilter}) {
         direction="row"
         alignItems="center"
         spacing={4}
-        justifyContent='center'
+        justifyContent="center"
       >
         <Select
           labelId="demo-select-small-label"
-          id="demo-select-small"
-          value={filter}
-          onChange={handleChange}
-           size="small"
-           autoWidth
+          id="type"
+          name="type"
+          label="Type"
+          value={formik.values.type}
+          onChange={(e) => formik.setFieldValue("type", e.target.value)}
+          onBlur={formik.handleBlur}
+          error={formik.touched.type && Boolean(formik.errors.type)}
+          helperText={formik.touched.type && formik.errors.type}
+          size="small"
+          autoWidth
         >
           <MenuItem value={"start_time"}>Start Time</MenuItem>
-          <MenuItem value={"created_at"}>Created AT</MenuItem>
+          <MenuItem value={"createdAt"}>Created AT</MenuItem>
         </Select>
 
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <Stack direction="row" spacing={4} alignItems="center">
-          <DatePicker
-            fullWidth
-            id="start_time"
-            name="start_time"
-            label="Start Time"
-            value={new Date(formik.values.start_time)}
-            onChange={(date) => formik.setFieldValue("start_time", date)}
-            onBlur={formik.handleBlur}
-            slotProps={{
-              textField: {
-                helperText:
-                  formik.touched.start_time && formik.errors.start_time,
-                size: "small",
-              },
-            }}
-            sx={{ mt: 2 }}
-          />
+            <DatePicker
+              fullWidth
+              id="start_time"
+              name="start_time"
+              label="Start Time"
+              value={new Date(formik.values.start_time)}
+              onChange={(date) => formik.setFieldValue("start_time", date)}
+              onBlur={formik.handleBlur}
+              slotProps={{
+                textField: {
+                  helperText:
+                    formik.touched.start_time && formik.errors.start_time,
+                  size: "small",
+                },
+              }}
+              sx={{ mt: 2 }}
+            />
 
-          <DatePicker
-            fullWidth
-            id="end_time"
-            name="end_time"
-            label="End Time"
-            value={new Date(formik.values.end_time)}
-            minDate={formik.values.start_time}
-            minTime={getMinTime(
-              formik.values.start_time,
-              formik.values.end_time
-            )}
-            onChange={(date) => formik.setFieldValue("end_time", date)}
-            onBlur={formik.handleBlur}
-            slotProps={{
-              textField: {
-                helperText: formik.touched.end_time && formik.errors.end_time,
-                size: "small",
-              },
-            }}
-            sx={{ mt: 2 }}
-          />
+            <DatePicker
+              fullWidth
+              id="end_time"
+              name="end_time"
+              label="End Time"
+              value={new Date(formik.values.end_time)}
+              minDate={formik.values.start_time}
+              minTime={getMinTime(
+                formik.values.start_time,
+                formik.values.end_time
+              )}
+              onChange={(date) => formik.setFieldValue("end_time", date)}
+              onBlur={formik.handleBlur}
+              slotProps={{
+                textField: {
+                  helperText: formik.touched.end_time && formik.errors.end_time,
+                  size: "small",
+                },
+              }}
+              sx={{ mt: 2 }}
+            />
           </Stack>
         </LocalizationProvider>
         <Button
@@ -119,7 +125,6 @@ export default function FlightTimeLogDatePicker({onFilter}) {
           color="secondary"
           startIcon={<SearchIcon />}
           type="submit"
-          
         >
           Search
         </Button>

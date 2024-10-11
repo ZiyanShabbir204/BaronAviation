@@ -23,7 +23,6 @@ export default function Logs() {
             value="corperate-client"
           />
           <Tab label="Customer" id="simple-tab-2" value="customer" />
-          <Tab label="Flight Time" id="simple-tab-2" value="flightTime" />
         </Tabs>
       </Box>
 
@@ -32,11 +31,7 @@ export default function Logs() {
           marginTop: 3,
         }}
       >
-        {value === "flightTime" ? (
-          <FlightTimeLogDatagrid />
-        ) : (
-          <LogDatagrid value={value} />
-        )}
+        <LogDatagrid value={value} />
       </Box>
     </Box>
   );

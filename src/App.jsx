@@ -18,6 +18,7 @@ import { SnackbarProvider } from "notistack";
 import Logs from "./pages/admin/logs/Logs";
 import NotFound from "./pages/admin/notFound/NotFound";
 import IndexRoute from "./components/indexRoute/IndexRoute";
+import FlightTimeLogDatagrid from "./components/FlightTimeLogDatagrid/FlightTimeLogDatagrid";
 
 function App() {
   const router = createBrowserRouter([
@@ -60,6 +61,11 @@ function App() {
               path: "logs",
               element: <Logs />,
             },
+            {
+              path: "flight-summary",
+              element: <FlightTimeLogDatagrid/>,
+
+            }
             ,
             {
               path: "not-found",

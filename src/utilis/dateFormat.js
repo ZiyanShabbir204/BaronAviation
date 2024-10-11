@@ -1,4 +1,4 @@
-import { format, roundToNearestMinutes, add, isSameDay } from "date-fns";
+import { format, roundToNearestMinutes, add, isSameDay, sub } from "date-fns";
 
 export const dateFormat = (dateStr) => {
   const date = new Date(dateStr);
@@ -30,4 +30,4 @@ export const getMinTime = (startTime, endTime) => {
 
 export const getToday = () => new Date();
 
-export const oneMonthFromToday = () => add(getToday(), { months: 1 });
+export const oneMonthFromToday = () => sub(getToday(), { months: 1 });

@@ -15,13 +15,9 @@ export default function Private() {
     return <Navigate to={"/login"} />;
   }
 
-
-
-
   const userRole = user.role
   const targetedRouteInfo = adminRoles.find(routeInfo => pathname.includes(routeInfo.route))
   const canAccess =  targetedRouteInfo?.accessBy.includes(userRole)
-  debugger
   if(!canAccess && !allowedRoute.includes(pathname)){
     return <Navigate to={"not-found"}/>
   }
