@@ -32,7 +32,7 @@ export default function FlightTimeLogDatePicker({ onFilter }) {
   let initialValues = {
     end_time: getToday() ,
     start_time:oneMonthFromToday()  ,
-    type: "start_time"
+    type: "createdAt"
   };
 
 
