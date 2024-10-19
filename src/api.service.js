@@ -1,5 +1,7 @@
-// ApiService.js
 import axios from "axios";
+import { createBrowserHistory } from "history"; // Create a history object for redirection
+
+const history = createBrowserHistory(); // Create a history instance
 
 class ApiService {
   static api = axios.create({
@@ -8,7 +10,22 @@ class ApiService {
       "Content-Type": "application/json",
     },
     withCredentials: true,
-  })
+  });
+
+  // Static method to set up interceptors
+  static setupInterceptors() {
+    this.api.interceptors.response.use(
+      (response) => response, // Return the response if successful
+      (error) => {
+        if (error.response && error.response.status === 401) {
+          // Token has expired or is invalid, redirect to login
+          console.log("interceptorrrr")
+          window.location.href = "/login"
+        }
+        return Promise.reject(error); // Reject the promise for further handling
+      }
+    );
+  }
 
   // GET Method
   static async get(endpoint) {
@@ -54,5 +71,8 @@ class ApiService {
     }
   }
 }
+
+// Set up interceptors when the ApiService is first imported/used
+ApiService.setupInterceptors();
 
 export default ApiService;
