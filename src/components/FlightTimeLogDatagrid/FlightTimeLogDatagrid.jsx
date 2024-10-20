@@ -5,9 +5,8 @@ import { logDateFormat } from "../../utilis/dateFormat";
 import React from "react";
 import { Stack, Button } from "@mui/material";
 import FlightTimeLogDatePicker from "../FlightTimeLogDatePicker/FlightTimeLogDatePicker";
-import Tooltip from '@mui/material/Tooltip';
+import Tooltip from "@mui/material/Tooltip";
 import { dateFilterOperators } from "../../utilis/gridFilterFormat";
-
 
 export default function FlightTimeLogDatagrid() {
   const [data, setData] = useState([]);
@@ -22,10 +21,9 @@ export default function FlightTimeLogDatagrid() {
       const resWithId = res.map((r) => ({
         ...r,
         id: JSON.stringify(r._id),
-        noOfFlight: Object.values(r.from).reduce((acc, cur) => acc+=cur, 0),
-        date: new Date(r._id.year,r._id.month,r._id.day+1)
+        noOfFlight: Object.values(r.from).reduce((acc, cur) => (acc += cur), 0),
+        date: new Date(r._id.year, r._id.month, r._id.day + 1),
       }));
-      debugger
       setData(resWithId);
       setLoading(false);
 
@@ -49,19 +47,19 @@ const columns = [
     headerName: "Date",
     flex: 1,
     filterOperators: dateFilterOperators,
-    type:"date",
-    valueGetter : (value) => new Date(value),
+    type: "date",
+    valueGetter: (value) => new Date(value),
     renderCell: (param) => {
       return logDateFormat(param.row.date);
     },
   },
-   {
+  {
     field: "noOfFlight",
     headerName: "No. of flights",
     flex: 1,
     valueGetter: (value) => {
-      return value
-    }
+      return value;
+    },
   },
   {
     field: "from",
@@ -69,15 +67,10 @@ const columns = [
     flex: 1,
     renderCell: (param) => {
       const values = param.row.from;
-      const formatted = Object.entries(values).sort((a, b) => b[1] - a[1]).reduce(
-        (acc, [key, value]) => `${acc} ${key}(${value})`,
-        ""
-      );
-      return   <Tooltip title={formatted}>
-    {formatted}
-    </Tooltip>
-    
-  
+      const formatted = Object.entries(values)
+        .sort((a, b) => b[1] - a[1])
+        .reduce((acc, [key, value]) => `${acc} ${key}(${value})`, "");
+      return <Tooltip title={formatted}>{formatted}</Tooltip>;
     },
   },
   {
@@ -86,13 +79,10 @@ const columns = [
     flex: 1,
     renderCell: (param) => {
       const values = param.row.to;
-      const formatted = Object.entries(values).sort((a, b) => b[1] - a[1]).reduce(
-        (acc, [key, value]) => `${acc} ${key}(${value})`,
-        ""
-      );
-      return  <Tooltip title={formatted}>
-      {formatted}
-      </Tooltip>
+      const formatted = Object.entries(values)
+        .sort((a, b) => b[1] - a[1])
+        .reduce((acc, [key, value]) => `${acc} ${key}(${value})`, "");
+      return <Tooltip title={formatted}>{formatted}</Tooltip>;
     },
   },
 ];

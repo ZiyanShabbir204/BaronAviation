@@ -4,7 +4,10 @@ import Datagrid from "../../../components/Datagrid/Datagrid";
 import FlightUnavailablityGridMenu from "../../../components/FlightUnavailablityGridMenu/FlightUnavailablityGridMenu";
 import useFetchRow from "../../../hooks/useFetchRow";
 import { dateFormat } from "../../../utilis/dateFormat";
-import { dateFilterOperators, stringFilterOperators } from "../../../utilis/gridFilterFormat";
+import {
+  dateFilterOperators,
+  stringFilterOperators,
+} from "../../../utilis/gridFilterFormat";
 import FlightMaintainceUnavailablityEditAddModal from "../../../components/flightMaintainceUnavailablityEditAddModal/FlightMaintainceUnavailablityEditAddModal";
 
 const FlightUnavailibility = () => {
@@ -70,14 +73,14 @@ const FlightUnavailibility = () => {
 
   return (
     <div>
-       <FlightMaintainceUnavailablityEditAddModal
+      <FlightMaintainceUnavailablityEditAddModal
         open={addOpen}
         setOpen={setAddOpen}
         reason="unavailability"
         onRequestComplete={requestHanlder}
       />
       <Widget
-        addBtnlabel="Add Flight Unavailablity"
+        addBtnlabel="Add Flight Unavailability"
         onAddClick={() => setAddOpen(true)}
       >
         <Datagrid rows={rows} columns={columns} loading={rowsLoading} />

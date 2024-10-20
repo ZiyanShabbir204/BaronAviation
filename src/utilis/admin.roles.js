@@ -5,14 +5,14 @@ export const adminRoles = [
     accessBy: ["booking_agent", "sys_admin", "owner"],
   },
   {
-    title: "Maintaince Unavailablity",
-    route: "maintaince-unavailablity",
+    title: "Maintenance Unavailability",
+    route: "maintenance-unavailability",
     accessBy: ["maintenance_worker", "sys_admin", "owner"],
   },
 
   {
-    title: "Flight Unavailablity",
-    route: "flight-unavailablity",
+    title: "Flight Unavailability",
+    route: "flight-unavailability",
     accessBy: ["sys_admin", "owner"],
   },
   {
@@ -39,7 +39,7 @@ export const adminRoles = [
     title: "Flight Summary",
     route: "flight-summary",
     accessBy: ["sys_admin", "owner"],
-  }
+  },
 ];
 
-export const allowedRoute = ['/not-found', '/']
+export const allowedRoute = ["/not-found", "/"];

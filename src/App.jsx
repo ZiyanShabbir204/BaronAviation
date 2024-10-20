@@ -31,10 +31,10 @@ function App() {
           children: [
             {
               path: "/",
-              element: <IndexRoute/>,
+              element: <IndexRoute />,
             },
             {
-              path: "flight-unavailablity",
+              path: "flight-unavailability",
               element: <FlightUnavailibility />,
             },
             {
@@ -46,7 +46,7 @@ function App() {
               element: <FlightRequest />,
             },
             {
-              path: "maintaince-unavailablity",
+              path: "maintenance-unavailability",
               element: <MaintainceUnavailablity />,
             },
             {
@@ -63,19 +63,16 @@ function App() {
             },
             {
               path: "flight-summary",
-              element: <FlightTimeLogDatagrid/>,
-
-            }
-            ,
+              element: <FlightTimeLogDatagrid />,
+            },
             {
               path: "not-found",
-              element: <NotFound/>,
+              element: <NotFound />,
             },
             {
               path: "*",
-              element: <NotFound/>,
+              element: <NotFound />,
             },
-
           ],
         },
       ],

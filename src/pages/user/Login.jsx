@@ -40,7 +40,6 @@ export default function LoginPage() {
     }
   };
 
- 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -113,35 +112,6 @@ export default function LoginPage() {
               ),
             }}
           />
-          <Stack direction="row" justifyContent="space-between">
-            <Typography
-              component="h6"
-              variant="caption"
-              sx={{
-                "&:hover": {
-                  color: "blue",
-                  cursor: "pointer",
-                },
-              }}
-              onClick={() => navigate("/forgetpassword")}
-            >
-              forget password?
-            </Typography>
-            <Typography
-              component="h6"
-              variant="caption"
-              sx={{
-                "&:hover": {
-                  color: "blue",
-                  cursor: "pointer",
-                },
-              }}
-              onClick={() => navigate("/signup")}
-            >
-              Don't have an account? Signup
-            </Typography>
-          </Stack>
-
           <Button
             type="submit"
             fullWidth
