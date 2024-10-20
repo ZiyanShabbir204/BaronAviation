@@ -5,7 +5,7 @@ import FlightUnavailablityGridMenu from "../../../components/FlightUnavailablity
 import useFetchRow from "../../../hooks/useFetchRow";
 import { dateFormat } from "../../../utilis/dateFormat";
 import { dateFilterOperators, stringFilterOperators } from "../../../utilis/gridFilterFormat";
-import FlightMaintainceUnavailablityEditAddModal from "../../../components/flightMaintainceUnavailablityEditAddModal/flightMaintainceUnavailablityEditAddModal.jsx";
+import FlightMaintainceUnavailablityEditAddModal from "../../../components/flightMaintainceUnavailablityEditAddModal/FlightMaintainceUnavailablityEditAddModal";
 
 const FlightUnavailibility = () => {
   const [addOpen, setAddOpen] = useState(null);
@@ -70,7 +70,7 @@ const FlightUnavailibility = () => {
 
   return (
     <div>
-      <FlightMaintainceUnavailablityEditAddModal
+       <FlightMaintainceUnavailablityEditAddModal
         open={addOpen}
         setOpen={setAddOpen}
         reason="unavailability"
