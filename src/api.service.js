@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createBrowserHistory } from "history"; // Create a history object for redirection
+import Cookies from "js-cookie";
 
 const history = createBrowserHistory(); // Create a history instance
 
@@ -26,6 +27,28 @@ class ApiService {
       }
     );
   }
+
+  static addToken() {
+    this.api.interceptors.request.use(
+      (config) => {
+        // Get the token from cookies
+        const token = Cookies.get("authorization"); // Replace with your actual cookie name
+        if (token) {
+          // Set the token in the Authorization header
+          config.headers["Authorization"] = token;
+        }
+        return config;
+      },
+      (error) => {
+        return Promise.reject(error);
+      }
+    );
+  }
+
+  //   static initialize() {
+
+  //   }
+  // }
 
   // GET Method
   static async get(endpoint) {
@@ -74,5 +97,6 @@ class ApiService {
 
 // Set up interceptors when the ApiService is first imported/used
 // ApiService.setupInterceptors();
+ApiService.addToken();
 
 export default ApiService;
