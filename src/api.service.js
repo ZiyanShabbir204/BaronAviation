@@ -1,6 +1,5 @@
 import axios from "axios";
 import { createBrowserHistory } from "history"; // Create a history object for redirection
-import Cookies from "js-cookie";
 
 const history = createBrowserHistory(); // Create a history instance
 
@@ -28,23 +27,6 @@ class ApiService {
     );
   }
 
-  static addToken() {
-    this.api.interceptors.request.use(
-      (config) => {
-        // Get the token from cookies
-        const token = Cookies.get("authorization"); // Replace with your actual cookie name
-        if (token) {
-          // Set the token in the Authorization header
-          config.headers["Authorization"] = token;
-        }
-        return config;
-      },
-      (error) => {
-        return Promise.reject(error);
-      }
-    );
-  }
-
   //   static initialize() {
 
   //   }
@@ -53,7 +35,12 @@ class ApiService {
   // GET Method
   static async get(endpoint) {
     try {
-      const response = await this.api.get(endpoint);
+      const response = await this.api.get(endpoint, {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      });
+
       return response.data;
     } catch (error) {
       console.error("GET Error:", error);
@@ -64,7 +51,11 @@ class ApiService {
   // POST Method
   static async post(endpoint, data) {
     try {
-      const response = await this.api.post(endpoint, data);
+      const response = await this.api.post(endpoint, data, {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      });
       return response.data;
     } catch (error) {
       console.error("POST Error:", error);
@@ -75,7 +66,11 @@ class ApiService {
   // PUT Method
   static async put(endpoint, data) {
     try {
-      const response = await this.api.put(endpoint, data);
+      const response = await this.api.put(endpoint, data, {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      });
       return response.data;
     } catch (error) {
       console.error("PUT Error:", error);
@@ -86,7 +81,11 @@ class ApiService {
   // DELETE Method
   static async delete(endpoint) {
     try {
-      const response = await this.api.delete(endpoint);
+      const response = await this.api.delete(endpoint, {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      });
       return response.data;
     } catch (error) {
       console.error("DELETE Error:", error);
@@ -97,6 +96,6 @@ class ApiService {
 
 // Set up interceptors when the ApiService is first imported/used
 // ApiService.setupInterceptors();
-ApiService.addToken();
+// ApiService.addToken();
 
 export default ApiService;
