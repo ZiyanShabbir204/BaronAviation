@@ -1,5 +1,5 @@
 import { useState } from "react";
-import DeleteModal from "../deleteModal/DeleteModal";
+import DeleteModal from "../deleteModal/DeleteModal.jsx";
 import FlightMaintainceUnavailablityEditAddModal from "../flightMaintainceUnavailablityEditAddModal/flightMaintainceUnavailablityEditAddModal";
 import EditDeleteMenu from "../EditDeleteMenu/EditDeleteMenu";
 import ApiService from "../../api.service";

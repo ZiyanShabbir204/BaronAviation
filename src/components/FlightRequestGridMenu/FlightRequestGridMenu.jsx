@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import { Divider } from "@mui/material";
-import DeleteModal from "../deleteModal/DeleteModal";
+import DeleteModal from "../deleteModal/DeleteModal.jsx";
 import FlightRequestEditAddModal from "../flightRequestEditModal/FlightRequestEditAddModal";
 import ApiService from "../../api.service";
 import EditDeleteMenu from "../EditDeleteMenu/EditDeleteMenu";

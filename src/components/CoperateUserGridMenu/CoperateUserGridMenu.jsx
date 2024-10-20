@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
-import DeleteModal from "../deleteModal/DeleteModal";
+import DeleteModal from "../deleteModal/DeleteModal.jsx";
 import { coperateUserEditSchema } from "../../schema/validateSchema";
-import AdminCoperateUserAddEditModal from "../adminCoperateUserAddEditModal/adminCoperateUserAddEditModal";
+import AdminCoperateUserAddEditModal from "../adminCoperateUserAddEditModal/adminCoperateUserAddEditModal.jsx";
 import EditDeleteMenu from "../EditDeleteMenu/EditDeleteMenu";
 import ApiService from "../../api.service";
 import { Divider, MenuItem } from "@mui/material";
