@@ -1,6 +1,6 @@
 import { useState } from "react";
 import DeleteModal from "../deleteModal/DeleteModal";
-import AdminCoperateUserAddEditModal from "../adminCoperateUserAddEditModal/adminCoperateUserAddEditModal";
+import AdminCoperateUserAddEditModal from "../adminCoperateUserAddEditModal/AdminCoperateUserAddEditModal";
 import {
   adminUserEditSchema,
   userEditSchema,
