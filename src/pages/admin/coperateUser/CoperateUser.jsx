@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import AdminCoperateUserAddEditModal from "../../../components/adminCoperateUserAddEditModal/adminCoperateUserAddEditModal.jsx";
+import AdminCoperateUserAddEditModal from "../../../components/adminCoperateUserAddEditModal/AdminCoperateUserAddEditModal.jsx";
 import { coperateUserAddSchema } from "../../../schema/validateSchema";
 import Widget from "../../../components/widget/Widget";
 import useFetchRow from "../../../hooks/useFetchRow";
