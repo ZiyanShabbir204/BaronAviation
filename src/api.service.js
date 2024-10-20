@@ -19,8 +19,8 @@ class ApiService {
       (error) => {
         if (error.response && error.response.status === 401) {
           // Token has expired or is invalid, redirect to login
-          console.log("interceptorrrr")
-          window.location.href = "/login"
+          console.log("interceptorrrr");
+          window.location.href = "/login";
         }
         return Promise.reject(error); // Reject the promise for further handling
       }
@@ -73,6 +73,6 @@ class ApiService {
 }
 
 // Set up interceptors when the ApiService is first imported/used
-ApiService.setupInterceptors();
+// ApiService.setupInterceptors();
 
 export default ApiService;
