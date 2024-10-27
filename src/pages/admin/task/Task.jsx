@@ -15,7 +15,7 @@ import {
 const Task = () => {
   const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(true);
-  const [text, setText] = useState("Task Completed");
+  const [text, setText] = useState("This request has already been fulfilled.");
   const [isError, setIsError] = useState(false);
   const token = searchParams.get("token");
   const navigate = useNavigate();
@@ -27,24 +27,26 @@ const Task = () => {
       try {
         const res = await ApiService.get(`/task/exe?token=${token}`);
         setLoading(false);
-        setText("Task has been successfully completed!");
+        setText("The task has been successfully completed!");
       } catch (error) {
         setLoading(false);
         setIsError(true);
+        let errorMessage = 'This request has already been fulfilled.'
         switch (error.response?.data?.message) {
             case "jwt expire":
-                setText("This session is expired")
+                errorMessage = 'This task has expired. Please request a new one to continue.'
                 break;
             case "Task already been complete":
-                setText("Request is already fullfilled")
+                errorMessage = 'This request has already been completed.'
                 break
             case "invalid signature":
-                setText("Please click on correct link")
+                errorMessage = "The link is invalid. Please ensure you're using the correct link."
                 break
-
             default:
                 break;
         }
+
+        setText(errorMessage)
         
       }
     };
