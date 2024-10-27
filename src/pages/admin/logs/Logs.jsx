@@ -18,7 +18,7 @@ export default function Logs() {
         <Tabs value={value} onChange={handleChange}>
           <Tab label="Admins" id="simple-tab-0" value="admin" />
           <Tab
-            label="Corperate Client"
+            label="Corporate Client"
             id="simple-tab-1"
             value="corperate-client"
           />

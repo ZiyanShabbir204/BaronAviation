@@ -110,7 +110,7 @@ const CoperateUser = () => {
         initialValues={initialValues}
         isTotalHoursExist
         onRequestComplete={requestCompleteHandler}
-        title="Add Corperate Client"
+        title="Add Corporate Client"
       />
       <Widget
         addBtnlabel="Add Corporate client"
