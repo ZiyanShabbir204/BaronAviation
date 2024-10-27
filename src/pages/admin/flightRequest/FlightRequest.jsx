@@ -107,21 +107,6 @@ const FlightRequest = () => {
           );
         },
       },
-      {
-        field: "comment_by_user",
-        headerName: "User Comment",
-        type: "text",
-        width: 200,
-        filterOperators: stringFilterOperators,
-        editable: false,
-        renderCell: (param) => {
-          return param.row.comment_by_user ? (
-            <CommentCell message={param.row.comment_by_user} />
-          ) : (
-            "N/A"
-          );
-        },
-      },
 
       {
         field: "handle_by",
