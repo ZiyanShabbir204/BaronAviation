@@ -6,11 +6,13 @@ import EditDeleteMenu from "../EditDeleteMenu/EditDeleteMenu";
 import ApiService from "../../api.service";
 import { Divider, MenuItem } from "@mui/material";
 import EditHourModal from "../EditHourModal/EditHourModal";
+import HoursLogModal from "../HoursLogModal/HoursLogModal.jsx";
 
 export default function CoperateUserGridMenu({ data, onRequestComplete }) {
   const [deleteOpen, setDeleteOpen] = useState(null);
   const [editOpen, setEditOpen] = useState(null);
   const [hourModalOpen, setHourModalOpen] = useState(null);
+  const [hourLogModalOpen, setHourLogModalOpen] = useState(null);
   const menuRef = useRef();
 
   const initialValues = {
@@ -29,6 +31,11 @@ export default function CoperateUserGridMenu({ data, onRequestComplete }) {
     menuRef.current.closeMenu();
   };
 
+  const HoursLogClickHandler = () => {
+    setHourLogModalOpen(true);
+    menuRef.current.closeMenu();
+  };
+
   return (
     <>
       <EditDeleteMenu
@@ -38,6 +45,7 @@ export default function CoperateUserGridMenu({ data, onRequestComplete }) {
       >
         <Divider />
         <MenuItem onClick={EditHourClickHandler}>Edit Hours</MenuItem>
+        <MenuItem onClick={HoursLogClickHandler}>Hours History</MenuItem>
       </EditDeleteMenu>
 
       {/* Modals */}
@@ -62,6 +70,12 @@ export default function CoperateUserGridMenu({ data, onRequestComplete }) {
       <EditHourModal
         open={hourModalOpen}
         setOpen={setHourModalOpen}
+        data={data}
+        onRequestComplete={onRequestComplete}
+      />
+      <HoursLogModal
+        open={hourLogModalOpen}
+        setOpen={setHourLogModalOpen}
         data={data}
         onRequestComplete={onRequestComplete}
       />

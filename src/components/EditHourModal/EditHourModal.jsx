@@ -38,12 +38,18 @@ export default function EditHourModal({
 
   const submitHandler = async (values) => {
     try {
-      const res = await ApiService.put("admin/cooperate-customer/hours", {
-        ...values,
-        user_id: data.id,
-      });
+      const newData = {
+        payload : {
+          ...values,
+          user_id: data.id,
+          total_hours: data.hours.total_hours,
+          used_hours: data.hours.used_hours
+        },
+        event: "UPDATE_HOURS"
+      }
+      const res = await ApiService.post("/task/send", newData);
       onRequestComplete(res);
-      enqueueSnackbar("Hours has been updated.", {
+      enqueueSnackbar("Hours update request has been sent.", {
         variant: "success",
       });
 
