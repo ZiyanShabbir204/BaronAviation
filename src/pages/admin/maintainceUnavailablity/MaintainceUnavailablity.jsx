@@ -71,12 +71,12 @@ const MaintainceUnavailablity = () => {
 
   return (
     <>
-      <FlightMaintainceUnavailablityEditAddModal
+      {addOpen && <FlightMaintainceUnavailablityEditAddModal
         open={addOpen}
         setOpen={setAddOpen}
         reason="maintenance"
         onRequestComplete={requestHandler}
-      />
+      />}
 
       <Widget
         addBtnlabel="Add Maintaince Unavailablity"

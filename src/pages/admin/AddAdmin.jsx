@@ -76,7 +76,7 @@ const AddAdmin = () => {
 
   return (
     <>
-      <AdminCoperateUserAddEditModal
+      {open && <AdminCoperateUserAddEditModal
         open={open}
         setOpen={setOpen}
         schema={adminUserAddSchema}
@@ -84,7 +84,7 @@ const AddAdmin = () => {
         isRoleExist
         onRequestComplete={reqHandler}
         title="Add Admin"
-      />
+      />}
       <Widget addBtnlabel="Add Admin" onAddClick={() => setOpen(true)}>
         <Datagrid rows={rows} columns={columns} loading={rowsLoading} />
       </Widget>

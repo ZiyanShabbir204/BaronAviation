@@ -1,3 +1,4 @@
+import { CoPresentOutlined } from "@mui/icons-material";
 import { format, roundToNearestMinutes, add, isSameDay, sub } from "date-fns";
 
 export const dateFormat = (dateStr) => {
@@ -6,7 +7,9 @@ export const dateFormat = (dateStr) => {
   return formattedDate;
 };
 export const logDateFormat = (dateStr) => {
+  // console.log("date str",dateStr)
   const date = new Date(dateStr);
+  // console.log("date",date)
   const formattedDate = format(date, "dd MMM, yyyy");
   return formattedDate;
 };

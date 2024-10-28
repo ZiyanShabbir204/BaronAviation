@@ -73,12 +73,12 @@ const FlightUnavailibility = () => {
 
   return (
     <div>
-      <FlightMaintainceUnavailablityEditAddModal
+      {addOpen && <FlightMaintainceUnavailablityEditAddModal
         open={addOpen}
         setOpen={setAddOpen}
         reason="unavailability"
         onRequestComplete={requestHanlder}
-      />
+      />}
       <Widget
         addBtnlabel="Add Flight Unavailability"
         onAddClick={() => setAddOpen(true)}

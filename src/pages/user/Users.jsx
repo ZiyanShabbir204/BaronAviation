@@ -61,14 +61,14 @@ const Users = () => {
 
   return (
     <>
-      <AdminCoperateUserAddEditModal
+      {open && <AdminCoperateUserAddEditModal
         open={open}
         setOpen={setOpen}
         schema={userAddSchema}
         initialValues={initialValues}
         onRequestComplete={reqHandler}
         title="Customer"
-      />
+      />}
       <Widget addBtnlabel="Add Customer" onAddClick={() => setOpen(true)}>
         <Datagrid rows={rows} columns={columns} loading={rowsLoading} />
       </Widget>

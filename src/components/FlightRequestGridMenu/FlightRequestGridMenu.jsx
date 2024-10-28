@@ -42,12 +42,12 @@ export default function FlightRequestGridMenu({ data, onRequestComplete }) {
         onDelete={deleteHandler}
         onRequestComplete={onRequestComplete}
       />
-      <FlightRequestEditAddModal
+      {editOpen && <FlightRequestEditAddModal
         open={editOpen}
         setOpen={setEditOpen}
         data={data}
         onRequestComplete={onRequestComplete}
-      />
+      />}
       <EditDeleteMenu
         onEdit={() => setEditOpen(true)}
         onDelete={() => setDeleteOpen(true)}

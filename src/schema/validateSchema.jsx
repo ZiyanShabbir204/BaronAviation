@@ -58,6 +58,10 @@ export const adminUserAddSchema = yup.object({
     .string("Enter your password")
     .min(8, "Password should be of minimum 8 characters length")
     .required("Password is required"),
+  confirmPassword: yup
+    .string()
+    .required("Password is required")
+    .oneOf([yup.ref("password"), null], "Passwords do not match"),
   phone: yup
     .string("Enter phone number")
     .matches(
@@ -72,6 +76,10 @@ export const adminUserEditSchema = yup.object({
   password: yup
     .string("Enter your password")
     .min(8, "Password should be of minimum 8 characters length"),
+  confirmPassword: yup
+    .string()
+    .required("Password is required")
+    .oneOf([yup.ref("password"), null], "Passwords do not match"),
   phone: yup
     .string("Enter phone number")
     .matches(
@@ -91,6 +99,10 @@ export const userAddSchema = yup.object({
     .string("Enter your password")
     .min(8, "Password should be of minimum 8 characters length")
     .required("Password is required"),
+  confirmPassword: yup
+    .string()
+    .required("Password is required")
+    .oneOf([yup.ref("password"), null], "Passwords do not match"),
   phone: yup
     .string("Enter phone number")
     .matches(
@@ -104,6 +116,10 @@ export const userEditSchema = yup.object({
   password: yup
     .string("Enter your password")
     .min(8, "Password should be of minimum 8 characters length"),
+  confirmPassword: yup
+    .string()
+    .required("Password is required")
+    .oneOf([yup.ref("password"), null], "Passwords do not match"),
   phone: yup
     .string("Enter phone number")
     .matches(
@@ -121,6 +137,10 @@ export const coperateUserAddSchema = yup.object({
     .string("Enter your password")
     .min(8, "Password should be of minimum 8 characters length")
     .required("Password is required"),
+  confirmPassword: yup
+    .string()
+    .required("Password is required")
+    .oneOf([yup.ref("password"), null], "Passwords do not match"),
   phone: yup
     .string("Enter phone number")
     .matches(
@@ -137,6 +157,10 @@ export const coperateUserEditSchema = yup.object({
   password: yup
     .string("Enter your password")
     .min(8, "Password should be of minimum 8 characters length"),
+  confirmPassword: yup
+    .string()
+    .required("Password is required")
+    .oneOf([yup.ref("password"), null], "Passwords do not match"),
   phone: yup
     .string("Enter phone number")
     .matches(
@@ -163,18 +187,7 @@ export const flightMaintainceUnavailablitySchema = yup.object({
 
 export const flightTimeLogDataSchema = yup.object({
   start_time: yup.date().nullable().required("Start time is required"),
-  end_time: yup
-    .date()
-    .nullable()
-    .required("End time is required")
-    .test(
-      "is-after-start-time",
-      "End time should be later than the start time.",
-      function (value) {
-        const { start_time } = this.parent;
-        return !start_time || !value || value > start_time;
-      }
-    ),
+  end_time: yup.date().nullable().required("End time is required"),
   type: yup.string("Enter type").required("type is required"),
 });
 

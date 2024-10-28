@@ -103,7 +103,7 @@ const CoperateUser = () => {
   };
   return (
     <>
-      <AdminCoperateUserAddEditModal
+      {open  && <AdminCoperateUserAddEditModal
         open={open}
         setOpen={setOpen}
         schema={coperateUserAddSchema}
@@ -111,7 +111,7 @@ const CoperateUser = () => {
         isTotalHoursExist
         onRequestComplete={requestCompleteHandler}
         title="Add Corporate Client"
-      />
+      />}
       <Widget
         addBtnlabel="Add Corporate client"
         onAddClick={() => setOpen(true)}

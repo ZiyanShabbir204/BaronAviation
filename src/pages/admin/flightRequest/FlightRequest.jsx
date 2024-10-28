@@ -140,12 +140,12 @@ const FlightRequest = () => {
 
   return (
     <>
-      <FlightRequestEditAddModal
+      {addOpen && <FlightRequestEditAddModal
         open={addOpen}
         setOpen={setAddOpen}
         flag="add"
         onRequestComplete={requestCompleteHandler}
-      />
+      />}
       <Widget
         addBtnlabel="Add Active booking"
         onAddClick={() => setAddOpen(true)}

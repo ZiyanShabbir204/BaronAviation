@@ -39,7 +39,6 @@ export default function AddAdminGridMenu({
     })
   };
 
-  console.log("user", user);
 
   return (
     <>
@@ -57,7 +56,7 @@ export default function AddAdminGridMenu({
         onTransfer={transferOwnerShipClickHandler}
         onRequestComplete={onRequestComplete}
       />
-      <AdminCoperateUserAddEditModal
+      { editOpen && <AdminCoperateUserAddEditModal
         open={editOpen}
         setOpen={setEditOpen}
         schema={userEditSchema}
@@ -66,7 +65,7 @@ export default function AddAdminGridMenu({
         isRoleExist={isRoleExist}
         onRequestComplete={onRequestComplete}
         title="Edit Admin"
-      />
+      />}
 
       <EditDeleteMenu
         onDelete={() => setDeleteOpen(true)}

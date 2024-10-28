@@ -56,7 +56,7 @@ export default function CoperateUserGridMenu({ data, onRequestComplete }) {
         onDelete={deleteHandler}
         onRequestComplete={onRequestComplete}
       />
-      <AdminCoperateUserAddEditModal
+      {editOpen  && <AdminCoperateUserAddEditModal
         open={editOpen}
         setOpen={setEditOpen}
         schema={coperateUserEditSchema}
@@ -65,7 +65,7 @@ export default function CoperateUserGridMenu({ data, onRequestComplete }) {
         isTotalHoursExist
         userId={data.id}
         title="Edit corporate client"
-      />
+      />}
 
       <EditHourModal
         open={hourModalOpen}

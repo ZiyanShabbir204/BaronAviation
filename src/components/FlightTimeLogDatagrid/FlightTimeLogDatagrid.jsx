@@ -14,6 +14,7 @@ export default function FlightTimeLogDatagrid() {
 
   const fetchData = async (values) => {
     try {
+  
       const res = await ApiService.get(
         `admin/login-logs/flight-time?start=${values.start_time}&end=${values.end_time}&type=${values.type}`
       );
@@ -22,12 +23,12 @@ export default function FlightTimeLogDatagrid() {
         ...r,
         id: JSON.stringify(r._id),
         noOfFlight: Object.values(r.from).reduce((acc, cur) => (acc += cur), 0),
-        date: new Date(r._id.year, r._id.month, r._id.day + 1),
+        date: new Date(r._id.year, r._id.month-1, r._id.day),
       }));
       setData(resWithId);
       setLoading(false);
 
-      // console.log("logs response", res);
+  
     } catch (error) {
       console.log("logs response error", error);
     }

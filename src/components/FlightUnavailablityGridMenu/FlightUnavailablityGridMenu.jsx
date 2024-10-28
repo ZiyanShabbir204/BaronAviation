@@ -24,13 +24,13 @@ export default function FlightUnavailablityGridMenu({
         onDelete={deleteHandler}
         onRequestComplete={onRequestComplete}
       />
-      <FlightMaintainceUnavailablityEditAddModal
+      {editOpen && <FlightMaintainceUnavailablityEditAddModal
         open={editOpen}
         setOpen={setEditOpen}
         data={data}
         reason="unavailability"
         onRequestComplete={onRequestComplete}
-      />
+      />}
 
       <EditDeleteMenu
         onDelete={() => setDeleteOpen(true)}

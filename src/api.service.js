@@ -95,7 +95,7 @@ class ApiService {
 }
 
 // Set up interceptors when the ApiService is first imported/used
-// ApiService.setupInterceptors();
+ApiService.setupInterceptors();
 // ApiService.addToken();
 
 export default ApiService;
