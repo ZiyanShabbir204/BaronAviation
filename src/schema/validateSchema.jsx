@@ -146,18 +146,37 @@ export const coperateUserEditSchema = yup.object({
 });
 
 export const flightMaintainceUnavailablitySchema = yup.object({
-  end_time: yup.date().nullable().required("End time is required"),
   start_time: yup.date().nullable().required("Start time is required"),
+  end_time: yup
+    .date()
+    .nullable()
+    .required("End time is required")
+    .test(
+      "is-after-start-time",
+      "End time should be later than the start time.",
+      function (value) {
+        const { start_time } = this.parent;
+        return !start_time || !value || value > start_time;
+      }
+    ),
 });
 
 export const flightTimeLogDataSchema = yup.object({
-  end_time: yup.date().nullable().required("End time is required"),
   start_time: yup.date().nullable().required("Start time is required"),
+  end_time: yup
+    .date()
+    .nullable()
+    .required("End time is required")
+    .test(
+      "is-after-start-time",
+      "End time should be later than the start time.",
+      function (value) {
+        const { start_time } = this.parent;
+        return !start_time || !value || value > start_time;
+      }
+    ),
   type: yup.string("Enter type").required("type is required"),
-
 });
-
-
 
 export const editHoursSchema = yup.object({
   new_total_hours: yup
