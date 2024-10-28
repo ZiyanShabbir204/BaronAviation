@@ -130,6 +130,15 @@ export default function AdminCoperateUserAddEditModal({
     event.preventDefault();
   };
 
+  const getNameFieldLabel = () => {
+    if (isRoleExist) {
+      return "Admin nmae";
+    } else if (isTotalHoursExist) {
+      return "Coporate client name";
+    }
+    return "Customer name";
+  };
+
   return (
     <Modal
       open={open}
@@ -151,7 +160,7 @@ export default function AdminCoperateUserAddEditModal({
             fullWidth
             id="username"
             name="username"
-            label="Coporate Client Name"
+            label={getNameFieldLabel()}
             value={formik.values.username}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -222,8 +231,13 @@ export default function AdminCoperateUserAddEditModal({
             value={formik.values.confirmPassword}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
-            helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+            error={
+              formik.touched.confirmPassword &&
+              Boolean(formik.errors.confirmPassword)
+            }
+            helperText={
+              formik.touched.confirmPassword && formik.errors.confirmPassword
+            }
             sx={{ mt: 2 }}
             InputProps={{
               endAdornment: (
