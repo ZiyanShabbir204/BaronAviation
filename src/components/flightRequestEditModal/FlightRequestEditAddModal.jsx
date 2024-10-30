@@ -47,6 +47,7 @@ export default function FlightRequestEditAddModal({
     from: "",
     username: "",
     start_time: generateDateNearestFiveMinutes(),
+    end_time: "",
     comment_by_admin: "",
   };
 
@@ -56,6 +57,7 @@ export default function FlightRequestEditAddModal({
       from: data.from,
       username: data.user?.username,
       start_time: data.start_time,
+      end_time : data.end_time,
       comment_by_admin: data.comment_by_admin,
     };
   }
@@ -156,7 +158,7 @@ export default function FlightRequestEditAddModal({
                   fullWidth
                   id="start_time"
                   name="start_time"
-                  label="Start Time"
+                  label="Flight Start Time"
                   value={new Date(formik.values.start_time)}
                   onChange={(date) => formik.setFieldValue("start_time", date)}
                   // onBlur={formik.handleBlur}
@@ -164,6 +166,27 @@ export default function FlightRequestEditAddModal({
                     textField: {
                       helperText:
                         formik.touched.start_time && formik.errors.start_time,
+                      // error:  formik.touched.start_time &&
+                      // Boolean(formik.errors.start_time)
+                    },
+                  }}
+                  sx={{ mt: 2 }}
+                />
+              </Stack>
+
+              <Stack>
+                <DateTimePicker
+                  fullWidth
+                  id="end_time"
+                  name="end_time"
+                  label="Flight end Time"
+                  value={new Date(formik.values.end_time)}
+                  onChange={(date) => formik.setFieldValue("end_time", date)}
+                  // onBlur={formik.handleBlur}
+                  slotProps={{
+                    textField: {
+                      helperText:
+                        formik.touched.end_time && formik.errors.end_time,
                       // error:  formik.touched.start_time &&
                       // Boolean(formik.errors.start_time)
                     },

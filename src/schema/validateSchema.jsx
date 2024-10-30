@@ -46,6 +46,18 @@ export const flightRequestEditModalSchema = yup.object({
   username: yup.string("Enter username").required("Username is required"),
   comment_by_admin: yup.string("Enter Comment"),
   start_time: yup.date().nullable().required("Start time is required"),
+  end_time: yup
+    .date()
+    .nullable()
+    .test(
+      "is-after-start-time",
+      "End time should be later than the start time.",
+      function (value) {
+        const { start_time } = this.parent;
+        return !start_time || !value || value > start_time;
+      }
+    ),
+
 });
 
 export const adminUserAddSchema = yup.object({
@@ -187,7 +199,18 @@ export const flightMaintainceUnavailablitySchema = yup.object({
 
 export const flightTimeLogDataSchema = yup.object({
   start_time: yup.date().nullable().required("Start time is required"),
-  end_time: yup.date().nullable().required("End time is required"),
+  end_time: yup
+    .date()
+    .nullable()
+    .required("End time is required")
+    .test(
+      "is-after-start-time",
+      "End time should be later than the start time.",
+      function (value) {
+        const { start_time } = this.parent;
+        return !start_time || !value || value > start_time;
+      }
+    ),
   type: yup.string("Enter type").required("type is required"),
 });
 
