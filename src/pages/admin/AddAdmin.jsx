@@ -46,6 +46,7 @@ const AddAdmin = () => {
       {
         field: "actions",
         type: "actions",
+        headerName: "Actions",
         renderCell: (param) => {
           return param.row.role_name === "owner" ? (
             <></>
@@ -76,15 +77,17 @@ const AddAdmin = () => {
 
   return (
     <>
-      {open && <AdminCoperateUserAddEditModal
-        open={open}
-        setOpen={setOpen}
-        schema={adminUserAddSchema}
-        initialValues={initialValues}
-        isRoleExist
-        onRequestComplete={reqHandler}
-        title="Add Admin"
-      />}
+      {open && (
+        <AdminCoperateUserAddEditModal
+          open={open}
+          setOpen={setOpen}
+          schema={adminUserAddSchema}
+          initialValues={initialValues}
+          isRoleExist
+          onRequestComplete={reqHandler}
+          title="Add Admin"
+        />
+      )}
       <Widget addBtnlabel="Add Admin" onAddClick={() => setOpen(true)}>
         <Datagrid rows={rows} columns={columns} loading={rowsLoading} />
       </Widget>

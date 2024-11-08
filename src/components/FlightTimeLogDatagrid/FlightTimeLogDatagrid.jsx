@@ -12,13 +12,12 @@ import FlightSummaryGridMenu from "../FlightSummaryGridMenu/FlightSummaryGridMen
 export default function FlightTimeLogDatagrid() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [type,setType] = useState("createdAt")
- 
+  const [type, setType] = useState("createdAt");
 
   const fetchData = async (values) => {
     try {
-      setType(values.type)
-  
+      setType(values.type);
+
       const res = await ApiService.get(
         `admin/login-logs/flight-time?start=${values.start_time}&end=${values.end_time}&type=${values.type}`
       );
@@ -27,12 +26,10 @@ export default function FlightTimeLogDatagrid() {
         ...r,
         id: JSON.stringify(r._id),
         noOfFlight: Object.values(r.from).reduce((acc, cur) => (acc += cur), 0),
-        date: new Date(r._id.year, r._id.month-1, r._id.day),
+        date: new Date(r._id.year, r._id.month - 1, r._id.day),
       }));
       setData(resWithId);
       setLoading(false);
-
-  
     } catch (error) {
       console.log("logs response error", error);
     }
@@ -85,11 +82,9 @@ export default function FlightTimeLogDatagrid() {
     {
       field: "actions",
       type: "actions",
+      headerName: "Actions",
       renderCell: (param) => {
-        return (
-          <FlightSummaryGridMenu data={param.row} type={type} />
-          
-        );
+        return <FlightSummaryGridMenu data={param.row} type={type} />;
       },
     },
   ];
@@ -101,5 +96,3 @@ export default function FlightTimeLogDatagrid() {
     </Stack>
   );
 }
-
-

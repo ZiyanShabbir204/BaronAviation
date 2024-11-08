@@ -57,7 +57,6 @@ export const flightRequestEditModalSchema = yup.object({
         return !start_time || !value || value > start_time;
       }
     ),
-
 });
 
 export const adminUserAddSchema = yup.object({
@@ -130,7 +129,6 @@ export const userEditSchema = yup.object({
     .min(8, "Password should be of minimum 8 characters length"),
   confirmPassword: yup
     .string()
-    .required("Password is required")
     .oneOf([yup.ref("password"), null], "Passwords do not match"),
   phone: yup
     .string("Enter phone number")

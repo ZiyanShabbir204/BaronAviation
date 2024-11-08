@@ -1,11 +1,15 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import DatagridToolbar from "../DatagridToolbar";
 
-
 export default function Datagrid({ rows, columns, loading }) {
- 
   return (
-    <div style={{ width: "100%", height: "400px" }}>
+    <div
+      style={{
+        width: "100%",
+        height: "calc(100vh - 170px)",
+        minHeight: "400px",
+      }}
+    >
       <DataGrid
         rows={rows}
         disableMultipleSelection
@@ -14,7 +18,7 @@ export default function Datagrid({ rows, columns, loading }) {
         pageSizeOptions={[5, 10, 20]}
         initialState={{
           pagination: {
-            paginationModel: { pageSize: 5, page: 0 },
+            paginationModel: { pageSize: 10, page: 0 },
           },
         }}
         slots={{ toolbar: DatagridToolbar }}
@@ -23,4 +27,3 @@ export default function Datagrid({ rows, columns, loading }) {
     </div>
   );
 }
-

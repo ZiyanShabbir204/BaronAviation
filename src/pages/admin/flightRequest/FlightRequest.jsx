@@ -16,6 +16,20 @@ import {
 const FlightRequest = () => {
   const [addOpen, setAddOpen] = useState(null);
   const { rows, fetchRows, rowsLoading } = useFetchRow("flight-booking");
+  const [tempRows, setTempRows] = useState([]);
+
+  useEffect(() => {
+    const r = rows.map((row) => {
+      if (row.status !== "approve") {
+        return row;
+      }
+      return {
+        ...row,
+        status: "approved",
+      };
+    });
+    setTempRows(r);
+  }, [rows]);
   // console.log("rows flight booking",rows)
 
   const columns = useMemo(
@@ -29,7 +43,7 @@ const FlightRequest = () => {
           return param.row.user?.username ? param.row.user.username : "N/A";
         },
       },
-     
+
       {
         field: "from",
         filterOperators: stringFilterOperators,
@@ -66,7 +80,7 @@ const FlightRequest = () => {
         width: 200,
         editable: false,
         renderCell: (param) => {
-          return param.row.end_time?  dateFormat(param.row.end_time) : "N/A";
+          return param.row.end_time ? dateFormat(param.row.end_time) : "N/A";
         },
       },
       {
@@ -133,6 +147,7 @@ const FlightRequest = () => {
       {
         field: "actions",
         type: "actions",
+        headerName: "Actions",
         renderCell: (param) => {
           return (
             <FlightRequestGridMenu
@@ -152,17 +167,19 @@ const FlightRequest = () => {
 
   return (
     <>
-      {addOpen && <FlightRequestEditAddModal
-        open={addOpen}
-        setOpen={setAddOpen}
-        flag="add"
-        onRequestComplete={requestCompleteHandler}
-      />}
+      {addOpen && (
+        <FlightRequestEditAddModal
+          open={addOpen}
+          setOpen={setAddOpen}
+          flag="add"
+          onRequestComplete={requestCompleteHandler}
+        />
+      )}
       <Widget
         addBtnlabel="Add Active booking"
         onAddClick={() => setAddOpen(true)}
       >
-        <Datagrid rows={rows} columns={columns} loading={rowsLoading} />
+        <Datagrid rows={tempRows} columns={columns} loading={rowsLoading} />
       </Widget>
     </>
   );

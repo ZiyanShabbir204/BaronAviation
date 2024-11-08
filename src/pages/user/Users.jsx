@@ -38,6 +38,7 @@ const Users = () => {
       {
         field: "actions",
         type: "actions",
+        headerName: "Actions",
         renderCell: (param) => {
           return (
             <AddAdminGridMenu data={param.row} onRequestComplete={reqHandler} />
@@ -61,14 +62,16 @@ const Users = () => {
 
   return (
     <>
-      {open && <AdminCoperateUserAddEditModal
-        open={open}
-        setOpen={setOpen}
-        schema={userAddSchema}
-        initialValues={initialValues}
-        onRequestComplete={reqHandler}
-        title="Customer"
-      />}
+      {open && (
+        <AdminCoperateUserAddEditModal
+          open={open}
+          setOpen={setOpen}
+          schema={userAddSchema}
+          initialValues={initialValues}
+          onRequestComplete={reqHandler}
+          title="Customer"
+        />
+      )}
       <Widget addBtnlabel="Add Customer" onAddClick={() => setOpen(true)}>
         <Datagrid rows={rows} columns={columns} loading={rowsLoading} />
       </Widget>

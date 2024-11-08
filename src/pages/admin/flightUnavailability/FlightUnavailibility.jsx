@@ -54,6 +54,7 @@ const FlightUnavailibility = () => {
       {
         field: "actions",
         type: "actions",
+        headerName: "Actions",
         renderCell: (param) => {
           return (
             <FlightUnavailablityGridMenu
@@ -73,12 +74,14 @@ const FlightUnavailibility = () => {
 
   return (
     <div>
-      {addOpen && <FlightMaintainceUnavailablityEditAddModal
-        open={addOpen}
-        setOpen={setAddOpen}
-        reason="unavailability"
-        onRequestComplete={requestHanlder}
-      />}
+      {addOpen && (
+        <FlightMaintainceUnavailablityEditAddModal
+          open={addOpen}
+          setOpen={setAddOpen}
+          reason="unavailability"
+          onRequestComplete={requestHanlder}
+        />
+      )}
       <Widget
         addBtnlabel="Add Flight Unavailability"
         onAddClick={() => setAddOpen(true)}

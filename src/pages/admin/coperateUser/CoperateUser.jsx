@@ -40,35 +40,37 @@ const CoperateUser = () => {
         editable: false,
       },
       {
-        field: "total_hours",
+        field: "hours",
         headerName: "Total Hours",
         type: "number",
         filterOperators: numericFilterOperators,
         flex: 1,
         editable: false,
+        valueGetter: (value) => value.total_hours,
         renderCell: (param) => {
           return param.row.hours.total_hours;
         },
       },
       {
-        field: "used_hours",
+        field: "hours",
         headerName: "Used Hours",
         type: "number",
-
         filterOperators: numericFilterOperators,
         flex: 1,
         editable: false,
+        valueGetter: (value) => value.used_hours,
         renderCell: (param) => {
           return param.row.hours.used_hours;
         },
       },
       {
-        field: "available_hours",
+        field: "hours",
         headerName: "Available Hours",
         filterOperators: numericFilterOperators,
         type: "number",
         flex: 1,
         editable: false,
+        valueGetter: (value) => value.available_hours,
         renderCell: (param) => {
           return param.row.hours.available_hours;
         },
@@ -77,6 +79,7 @@ const CoperateUser = () => {
       {
         field: "actions",
         type: "actions",
+        headerName: "Actions",
         renderCell: (param) => {
           return (
             <CoperateUserGridMenu
@@ -103,15 +106,17 @@ const CoperateUser = () => {
   };
   return (
     <>
-      {open  && <AdminCoperateUserAddEditModal
-        open={open}
-        setOpen={setOpen}
-        schema={coperateUserAddSchema}
-        initialValues={initialValues}
-        isTotalHoursExist
-        onRequestComplete={requestCompleteHandler}
-        title="Add Corporate Client"
-      />}
+      {open && (
+        <AdminCoperateUserAddEditModal
+          open={open}
+          setOpen={setOpen}
+          schema={coperateUserAddSchema}
+          initialValues={initialValues}
+          isTotalHoursExist
+          onRequestComplete={requestCompleteHandler}
+          title="Add Corporate Client"
+        />
+      )}
       <Widget
         addBtnlabel="Add Corporate client"
         onAddClick={() => setOpen(true)}

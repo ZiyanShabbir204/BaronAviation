@@ -5,7 +5,10 @@ import Datagrid from "../../../components/Datagrid/Datagrid";
 import MaintainceUnavailablityGridMenu from "../../../components/MaintainceUnavailablityGridMenu/MaintainceUnavailablityGridMenu";
 import useFetchRow from "../../../hooks/useFetchRow";
 import { dateFormat } from "../../../utilis/dateFormat";
-import { dateFilterOperators, stringFilterOperators } from "../../../utilis/gridFilterFormat";
+import {
+  dateFilterOperators,
+  stringFilterOperators,
+} from "../../../utilis/gridFilterFormat";
 
 const MaintainceUnavailablity = () => {
   const [addOpen, setAddOpen] = useState(null);
@@ -52,6 +55,7 @@ const MaintainceUnavailablity = () => {
       {
         field: "actions",
         type: "actions",
+        headerName: "Actions",
         renderCell: (param) => {
           return (
             <MaintainceUnavailablityGridMenu
@@ -71,12 +75,14 @@ const MaintainceUnavailablity = () => {
 
   return (
     <>
-      {addOpen && <FlightMaintainceUnavailablityEditAddModal
-        open={addOpen}
-        setOpen={setAddOpen}
-        reason="maintenance"
-        onRequestComplete={requestHandler}
-      />}
+      {addOpen && (
+        <FlightMaintainceUnavailablityEditAddModal
+          open={addOpen}
+          setOpen={setAddOpen}
+          reason="maintenance"
+          onRequestComplete={requestHandler}
+        />
+      )}
 
       <Widget
         addBtnlabel="Add Maintaince Unavailablity"
