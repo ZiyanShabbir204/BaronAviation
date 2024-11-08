@@ -7,13 +7,17 @@ import { Stack, Button } from "@mui/material";
 import FlightTimeLogDatePicker from "../FlightTimeLogDatePicker/FlightTimeLogDatePicker";
 import Tooltip from "@mui/material/Tooltip";
 import { dateFilterOperators } from "../../utilis/gridFilterFormat";
+import FlightSummaryGridMenu from "../FlightSummaryGridMenu/FlightSummaryGridMenu";
 
 export default function FlightTimeLogDatagrid() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [type,setType] = useState("createdAt")
+ 
 
   const fetchData = async (values) => {
     try {
+      setType(values.type)
   
       const res = await ApiService.get(
         `admin/login-logs/flight-time?start=${values.start_time}&end=${values.end_time}&type=${values.type}`
@@ -34,6 +38,62 @@ export default function FlightTimeLogDatagrid() {
     }
   };
 
+  const columns = [
+    {
+      field: "date",
+      headerName: "Date",
+      flex: 1,
+      filterOperators: dateFilterOperators,
+      type: "date",
+      valueGetter: (value) => new Date(value),
+      renderCell: (param) => {
+        return logDateFormat(param.row.date);
+      },
+    },
+    {
+      field: "noOfFlight",
+      headerName: "No. of flights",
+      flex: 1,
+      valueGetter: (value) => {
+        return value;
+      },
+    },
+    {
+      field: "from",
+      headerName: "From",
+      flex: 1,
+      renderCell: (param) => {
+        const values = param.row.from;
+        const formatted = Object.entries(values)
+          .sort((a, b) => b[1] - a[1])
+          .reduce((acc, [key, value]) => `${acc} ${key}(${value})`, "");
+        return <Tooltip title={formatted}>{formatted}</Tooltip>;
+      },
+    },
+    {
+      field: "to",
+      headerName: "To",
+      flex: 1,
+      renderCell: (param) => {
+        const values = param.row.to;
+        const formatted = Object.entries(values)
+          .sort((a, b) => b[1] - a[1])
+          .reduce((acc, [key, value]) => `${acc} ${key}(${value})`, "");
+        return <Tooltip title={formatted}>{formatted}</Tooltip>;
+      },
+    },
+    {
+      field: "actions",
+      type: "actions",
+      renderCell: (param) => {
+        return (
+          <FlightSummaryGridMenu data={param.row} type={type} />
+          
+        );
+      },
+    },
+  ];
+
   return (
     <Stack gap="24px">
       <FlightTimeLogDatePicker onFilter={(values) => fetchData(values)} />
@@ -42,48 +102,4 @@ export default function FlightTimeLogDatagrid() {
   );
 }
 
-const columns = [
-  {
-    field: "date",
-    headerName: "Date",
-    flex: 1,
-    filterOperators: dateFilterOperators,
-    type: "date",
-    valueGetter: (value) => new Date(value),
-    renderCell: (param) => {
-      return logDateFormat(param.row.date);
-    },
-  },
-  {
-    field: "noOfFlight",
-    headerName: "No. of flights",
-    flex: 1,
-    valueGetter: (value) => {
-      return value;
-    },
-  },
-  {
-    field: "from",
-    headerName: "From",
-    flex: 1,
-    renderCell: (param) => {
-      const values = param.row.from;
-      const formatted = Object.entries(values)
-        .sort((a, b) => b[1] - a[1])
-        .reduce((acc, [key, value]) => `${acc} ${key}(${value})`, "");
-      return <Tooltip title={formatted}>{formatted}</Tooltip>;
-    },
-  },
-  {
-    field: "to",
-    headerName: "To",
-    flex: 1,
-    renderCell: (param) => {
-      const values = param.row.to;
-      const formatted = Object.entries(values)
-        .sort((a, b) => b[1] - a[1])
-        .reduce((acc, [key, value]) => `${acc} ${key}(${value})`, "");
-      return <Tooltip title={formatted}>{formatted}</Tooltip>;
-    },
-  },
-];
+

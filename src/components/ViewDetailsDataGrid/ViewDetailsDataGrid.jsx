@@ -1,23 +1,42 @@
-import React, { useState, useCallback, useEffect, useMemo } from "react";
-import FlightRequestEditAddModal from "../../../components/flightRequestEditModal/FlightRequestEditAddModal";
-import Widget from "../../../components/widget/Widget";
-import Datagrid from "../../../components/Datagrid/Datagrid";
-import ApiService from "../../../api.service";
-import Status from "../../../components/FlightRequestGridMenu/Status";
-import FlightRequestGridMenu from "../../../components/FlightRequestGridMenu/FlightRequestGridMenu";
-import useFetchRow from "../../../hooks/useFetchRow";
-import { dateFormat } from "../../../utilis/dateFormat";
-import { Typography } from "@mui/material";
-import CommentCell from "../../../components/CommentCell/CommentCell";
+import { useCallback, useEffect, useState, useMemo } from "react";
+import ApiService from "../../api.service";
+import Datagrid from "../Datagrid/Datagrid";
+import { getGridStringOperators } from "@mui/x-data-grid";
+import { dateFormat } from "../../utilis/dateFormat";
 import {
   dateFilterOperators,
+  numericFilterOperators,
   stringFilterOperators,
-} from "../../../utilis/gridFilterFormat";
-const FlightRequest = () => {
-  const [addOpen, setAddOpen] = useState(null);
-  const { rows, fetchRows, rowsLoading } = useFetchRow("flight-booking");
-  // console.log("rows flight booking",rows)
+} from "../../utilis/gridFilterFormat";
+import CommentCell from "../CommentCell/CommentCell";
+import Status from "../FlightRequestGridMenu/Status";
 
+export default function ViewDetailsDataGrid({ value, type }) {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const fetchData = useCallback(async (date, type) => {
+    setLoading(true);
+
+    console.log("date", date);
+    console.log("type", type);
+    const res = await ApiService.get(
+      `flight-booking/get-month-booking?start_time=${date}&type=${type}`
+    );
+    setLoading(false);
+    console.log("res", res);
+
+    const resWithId = res.map((r) => ({
+      ...r,
+      id: r._id,
+    }));
+
+    // console.log("resssss",resWithId)
+
+    setData(resWithId);
+  }, []);
+  useEffect(() => {
+    fetchData(value, type);
+  }, [value]);
   const columns = useMemo(
     () => [
       {
@@ -29,7 +48,7 @@ const FlightRequest = () => {
           return param.row.user?.username ? param.row.user.username : "N/A";
         },
       },
-     
+
       {
         field: "from",
         filterOperators: stringFilterOperators,
@@ -66,7 +85,7 @@ const FlightRequest = () => {
         width: 200,
         editable: false,
         renderCell: (param) => {
-          return param.row.end_time?  dateFormat(param.row.end_time) : "N/A";
+          return param.row.end_time ? dateFormat(param.row.end_time) : "N/A";
         },
       },
       {
@@ -130,42 +149,8 @@ const FlightRequest = () => {
           return param.row.handle_by ? param.row.handle_by.username : "N/A";
         },
       },
-      {
-        field: "actions",
-        type: "actions",
-        renderCell: (param) => {
-          return (
-            <FlightRequestGridMenu
-              data={param.row}
-              onRequestComplete={requestCompleteHandler}
-            />
-          );
-        },
-      },
     ],
     []
   );
-
-  const requestCompleteHandler = () => {
-    fetchRows();
-  };
-
-  return (
-    <>
-      {addOpen && <FlightRequestEditAddModal
-        open={addOpen}
-        setOpen={setAddOpen}
-        flag="add"
-        onRequestComplete={requestCompleteHandler}
-      />}
-      <Widget
-        addBtnlabel="Add Active booking"
-        onAddClick={() => setAddOpen(true)}
-      >
-        <Datagrid rows={rows} columns={columns} loading={rowsLoading} />
-      </Widget>
-    </>
-  );
-};
-
-export default FlightRequest;
+  return <Datagrid loading={loading} columns={columns} rows={data} />;
+}
