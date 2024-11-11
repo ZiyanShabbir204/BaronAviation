@@ -8,6 +8,7 @@ import FlightTimeLogDatePicker from "../FlightTimeLogDatePicker/FlightTimeLogDat
 import Tooltip from "@mui/material/Tooltip";
 import { dateFilterOperators } from "../../utilis/gridFilterFormat";
 import FlightSummaryGridMenu from "../FlightSummaryGridMenu/FlightSummaryGridMenu";
+import { object } from "prop-types";
 
 export default function FlightTimeLogDatagrid() {
   const [data, setData] = useState([]);
@@ -18,17 +19,49 @@ export default function FlightTimeLogDatagrid() {
     try {
       setType(values.type);
 
-      const res = await ApiService.get(
-        `admin/login-logs/flight-time?start=${values.start_time}&end=${values.end_time}&type=${values.type}`
-      );
+      values.start_time.setHours(0, 0, 0);
+      values.end_time.setHours(23, 59, 59);
 
-      const resWithId = res.map((r) => ({
+      const startTimeStr = values.start_time.toISOString();
+      const endTimeStr = values.end_time.toISOString();
+      console.log("value",values)
+      const res = await ApiService.get(
+        `flight-booking?date_type=${values.type}&start_date=${startTimeStr}&end_date=${endTimeStr}`
+      );
+      const flights = {}
+      const flightData = []
+      res.forEach(value => {
+        const key = logDateFormat(value[values.type])
+        if(flights[key]){
+          flights[key].push(value)
+        }
+        else{
+          flights[key] = [value]
+        }
+        
+      });
+
+      Object.keys(flights).forEach(key => {
+        const new_date = new Date(key)
+        const date =  new_date.toISOString()
+        const temp_obj = {
+          date,
+          noOfFlight: flights[key].length
+        }
+        flightData.push(temp_obj)
+        
+      });
+
+      // console.log("flightData",flightData)
+      // console.log("flights",flights)
+      // console.log(res);
+      const flightDataWithId = flightData.map((r) => ({
         ...r,
-        id: JSON.stringify(r._id),
-        noOfFlight: Object.values(r.from).reduce((acc, cur) => (acc += cur), 0),
-        date: new Date(r._id.year, r._id.month - 1, r._id.day),
+        id: JSON.stringify(r.date),
+      
       }));
-      setData(resWithId);
+      console.log("flightDataWithId",flightDataWithId)
+      setData(flightDataWithId);
       setLoading(false);
     } catch (error) {
       console.log("logs response error", error);
@@ -55,30 +88,7 @@ export default function FlightTimeLogDatagrid() {
         return value;
       },
     },
-    {
-      field: "from",
-      headerName: "From",
-      flex: 1,
-      renderCell: (param) => {
-        const values = param.row.from;
-        const formatted = Object.entries(values)
-          .sort((a, b) => b[1] - a[1])
-          .reduce((acc, [key, value]) => `${acc} ${key}(${value})`, "");
-        return <Tooltip title={formatted}>{formatted}</Tooltip>;
-      },
-    },
-    {
-      field: "to",
-      headerName: "To",
-      flex: 1,
-      renderCell: (param) => {
-        const values = param.row.to;
-        const formatted = Object.entries(values)
-          .sort((a, b) => b[1] - a[1])
-          .reduce((acc, [key, value]) => `${acc} ${key}(${value})`, "");
-        return <Tooltip title={formatted}>{formatted}</Tooltip>;
-      },
-    },
+    
     {
       field: "actions",
       type: "actions",

@@ -17,10 +17,19 @@ export default function ViewDetailsDataGrid({ value, type }) {
   const fetchData = useCallback(async (date, type) => {
     setLoading(true);
 
-    console.log("date", date);
+    
+    const end_date = new Date(date);
+
+    // Set to end of the day (23:59:59) in PKT for October 28
+    end_date.setUTCDate(end_date.getUTCDate() + 1); // Move to the next day (Oct 28 in UTC)
+    end_date.setUTCHours(18, 59, 59, 999); // Set to 23:59:59.999 PKT (UTC+5)
+    const end_time = end_date.toISOString()
+    console.log("start date", date);
     console.log("type", type);
+    console.log("end date", end_time);
+
     const res = await ApiService.get(
-      `flight-booking/get-month-booking?start_time=${date}&type=${type}`
+      `flight-booking?date_type=${type}&start_date=${date}&end_date=${end_time}`
     );
     setLoading(false);
     console.log("res", res);
@@ -100,15 +109,15 @@ export default function ViewDetailsDataGrid({ value, type }) {
           return dateFormat(param.row.createdAt);
         },
       },
-      {
-        field: "status",
-        headerName: "Status",
-        width: 200,
-        filterOperators: stringFilterOperators,
-        renderCell: (param) => {
-          return <Status status={param.row.status} />;
-        },
-      },
+      // {
+      //   field: "status",
+      //   headerName: "Status",
+      //   width: 200,
+      //   filterOperators: stringFilterOperators,
+      //   renderCell: (param) => {
+      //     return <Status status={param.row.status} />;
+      //   },
+      // },
       {
         field: "status_updated_at",
         headerName: "Status Updated",
