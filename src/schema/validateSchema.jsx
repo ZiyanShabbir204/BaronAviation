@@ -206,7 +206,7 @@ export const flightTimeLogDataSchema = yup.object({
       "End time should be later than the start time.",
       function (value) {
         const { start_time } = this.parent;
-        return !start_time || !value || value > start_time;
+        return !start_time || !value || value >= start_time;
       }
     ),
   type: yup.string("Enter type").required("type is required"),

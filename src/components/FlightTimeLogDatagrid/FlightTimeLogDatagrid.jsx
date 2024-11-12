@@ -1,14 +1,12 @@
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import ApiService from "../../api.service";
 import Datagrid from "../Datagrid/Datagrid";
 import { logDateFormat } from "../../utilis/dateFormat";
 import React from "react";
-import { Stack, Button } from "@mui/material";
+import { Stack } from "@mui/material";
 import FlightTimeLogDatePicker from "../FlightTimeLogDatePicker/FlightTimeLogDatePicker";
-import Tooltip from "@mui/material/Tooltip";
 import { dateFilterOperators } from "../../utilis/gridFilterFormat";
 import FlightSummaryGridMenu from "../FlightSummaryGridMenu/FlightSummaryGridMenu";
-import { object } from "prop-types";
 
 export default function FlightTimeLogDatagrid() {
   const [data, setData] = useState([]);
@@ -51,16 +49,11 @@ export default function FlightTimeLogDatagrid() {
         flightData.push(temp_obj)
         
       });
-
-      // console.log("flightData",flightData)
-      // console.log("flights",flights)
-      // console.log(res);
       const flightDataWithId = flightData.map((r) => ({
         ...r,
         id: JSON.stringify(r.date),
       
       }));
-      console.log("flightDataWithId",flightDataWithId)
       setData(flightDataWithId);
       setLoading(false);
     } catch (error) {

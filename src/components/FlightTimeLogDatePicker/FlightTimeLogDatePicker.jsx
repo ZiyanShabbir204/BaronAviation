@@ -37,8 +37,6 @@ export default function FlightTimeLogDatePicker({ onFilter }) {
 
 
   const submitHandler = async (values) => {
-    console.log("filter values", values);
-
     onFilter(values);
   };
 
@@ -73,8 +71,8 @@ export default function FlightTimeLogDatePicker({ onFilter }) {
           size="small"
           autoWidth
         >
-          <MenuItem value={"start_time"}>Start Time</MenuItem>
-          <MenuItem value={"createdAt"}>Created AT</MenuItem>
+          <MenuItem value={"start_time"}>Flight Start Time</MenuItem>
+          <MenuItem value={"createdAt"}>Flight Booked At</MenuItem>
         </Select>
 
         <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -83,7 +81,7 @@ export default function FlightTimeLogDatePicker({ onFilter }) {
               fullWidth
               id="start_time"
               name="start_time"
-              label="Start Time"
+              label="Start Date"
               value={new Date(formik.values.start_time)}
               onChange={(date) => formik.setFieldValue("start_time", date)}
               onBlur={formik.handleBlur}
@@ -101,7 +99,7 @@ export default function FlightTimeLogDatePicker({ onFilter }) {
               fullWidth
               id="end_time"
               name="end_time"
-              label="End Time"
+              label="End Date"
               value={new Date(formik.values.end_time)}
               minDate={formik.values.start_time}
               minTime={getMinTime(

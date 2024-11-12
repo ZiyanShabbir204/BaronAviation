@@ -6,7 +6,7 @@ export default function Datagrid({ rows, columns, loading }) {
     <div
       style={{
         width: "100%",
-        height: "calc(100vh - 170px)",
+        height: "calc(100vh - 200px)",
         minHeight: "400px",
       }}
     >
