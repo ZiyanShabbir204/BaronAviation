@@ -17,19 +17,26 @@ export default function ViewDetailsDataGrid({ value, type }) {
   const fetchData = useCallback(async (date, type) => {
     setLoading(true);
 
-    
-    const end_date = new Date(date);
+    const endDate = new Date(date)
+    endDate.setHours(23,59,59)
+    const endDateStr = endDate.toISOString()
 
-    // Set to end of the day (23:59:59) in PKT for October 28
-    end_date.setUTCDate(end_date.getUTCDate() + 1); // Move to the next day (Oct 28 in UTC)
-    end_date.setUTCHours(18, 59, 59, 999); // Set to 23:59:59.999 PKT (UTC+5)
-    const end_time = end_date.toISOString()
-    console.log("start date", date);
-    console.log("type", type);
-    console.log("end date", end_time);
+
+
+    // debugger
+    
+    // const end_date = new Date(date);
+
+    // // Set to end of the day (23:59:59) in PKT for October 28
+    // end_date.setUTCDate(end_date.getUTCDate() + 1); // Move to the next day (Oct 28 in UTC)
+    // end_date.setUTCHours(18, 59, 59, 999); // Set to 23:59:59.999 PKT (UTC+5)
+    // const end_time = end_date.toISOString()
+    // console.log("start date", date);
+    // console.log("type", type);
+    // console.log("end date", end_time);
 
     const res = await ApiService.get(
-      `flight-booking?date_type=${type}&start_date=${date}&end_date=${end_time}`
+      `flight-booking?date_type=${type}&start_date=${date}&end_date=${endDateStr}`
     );
     setLoading(false);
     console.log("res", res);
