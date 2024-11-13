@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import AdminCoperateUserAddEditModal from "../../../components/adminCoperateUserAddEditModal/AdminCoperateUserAddEditModal.jsx";
 import { coperateUserAddSchema } from "../../../schema/validateSchema";
 import Widget from "../../../components/widget/Widget";
@@ -11,9 +11,20 @@ import {
 } from "../../../utilis/gridFilterFormat";
 const CoperateUser = () => {
   const [open, setOpen] = useState(false);
+  const [data,setData] = useState([])
   const { rows, fetchRows, rowsLoading } = useFetchRow(
     "admin/cooperate-customer"
   );
+
+  useEffect(()=>{
+    setData(rows.map((r)=>({
+      ...r,
+      available_hours:r.hours.available_hours,
+      total_hours:r.hours.total_hours,
+      used_hours:r.hours.used_hours
+
+    })))
+  },[rows])
 
   const columns = useMemo(
     () => [
@@ -39,40 +50,42 @@ const CoperateUser = () => {
         flex: 1,
         editable: false,
       },
+      
+      
       {
-        field: "hours",
-        headerName: "Total Hours",
-        type: "number",
-        filterOperators: numericFilterOperators,
-        flex: 1,
-        editable: false,
-        valueGetter: (value) => value.total_hours,
-        renderCell: (param) => {
-          return param.row.hours.total_hours;
-        },
-      },
-      {
-        field: "hours",
+        field: "used_hours",
         headerName: "Used Hours",
         type: "number",
         filterOperators: numericFilterOperators,
         flex: 1,
         editable: false,
-        valueGetter: (value) => value.used_hours,
+        // valueGetter: (value) => value.used_hours,
         renderCell: (param) => {
-          return param.row.hours.used_hours;
+          return param.row.used_hours;
         },
       },
       {
-        field: "hours",
+        field: "available_hours",
         headerName: "Available Hours",
         filterOperators: numericFilterOperators,
         type: "number",
         flex: 1,
         editable: false,
-        valueGetter: (value) => value.available_hours,
+        // valueGetter: (value) => value.available_hours,
         renderCell: (param) => {
-          return param.row.hours.available_hours;
+          return param.row.available_hours;
+        },
+      },
+      {
+        field: "total_hours",
+        headerName: "Total Hours",
+        type: "number",
+        filterOperators: numericFilterOperators,
+        flex: 1,
+        editable: false,
+        // valueGetter: (value) => value.total_hours,
+        renderCell: (param) => {
+          return param.row.total_hours;
         },
       },
 
@@ -121,7 +134,7 @@ const CoperateUser = () => {
         addBtnlabel="Add Corporate client"
         onAddClick={() => setOpen(true)}
       >
-        <Datagrid rows={rows} columns={columns} loading={rowsLoading} />
+        <Datagrid rows={data} columns={columns} loading={rowsLoading} />
       </Widget>
     </>
   );

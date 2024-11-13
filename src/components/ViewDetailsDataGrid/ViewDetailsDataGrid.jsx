@@ -16,7 +16,6 @@ export default function ViewDetailsDataGrid({ value, type }) {
   const [loading, setLoading] = useState(false);
   const fetchData = useCallback(async (date, type) => {
     setLoading(true);
-
     const endDate = new Date(date)
     endDate.setHours(23,59,59)
     const endDateStr = endDate.toISOString()
