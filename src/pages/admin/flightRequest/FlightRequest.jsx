@@ -40,7 +40,7 @@ const FlightRequest = () => {
         valueGetter: (param) => param?.username,
         filterOperators: stringFilterOperators,
         renderCell: (param) => {
-          return param.row.user?.username ? param.row.user.username : param.row.username;
+          return param.row.user?.username ? param.row.user.username : param.row.username || "N/A";
         },
       },
 
