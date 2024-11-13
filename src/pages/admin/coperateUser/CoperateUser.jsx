@@ -51,7 +51,18 @@ const CoperateUser = () => {
         editable: false,
       },
       
-      
+      {
+        field: "total_hours",
+        headerName: "Total Hours",
+        type: "number",
+        filterOperators: numericFilterOperators,
+        flex: 1,
+        editable: false,
+        // valueGetter: (value) => value.total_hours,
+        renderCell: (param) => {
+          return param.row.total_hours;
+        },
+      },
       {
         field: "used_hours",
         headerName: "Used Hours",
@@ -76,18 +87,7 @@ const CoperateUser = () => {
           return param.row.available_hours;
         },
       },
-      {
-        field: "total_hours",
-        headerName: "Total Hours",
-        type: "number",
-        filterOperators: numericFilterOperators,
-        flex: 1,
-        editable: false,
-        // valueGetter: (value) => value.total_hours,
-        renderCell: (param) => {
-          return param.row.total_hours;
-        },
-      },
+      
 
       {
         field: "actions",
