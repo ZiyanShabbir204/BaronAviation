@@ -32,11 +32,12 @@ const Task = () => {
         setLoading(false);
         setIsError(true);
         let errorMessage = 'This request has already been fulfilled.'
+        console.log("error in hours update",error.response?.data?.message)
         switch (error.response?.data?.message) {
-            case "jwt expire":
+            case "jwt expired":
                 errorMessage = 'This task has expired. Please request a new one to continue.'
                 break;
-            case "Task already been complete":
+            case "Task already been completed":
                 errorMessage = 'This request has already been completed.'
                 break
             case "invalid signature":

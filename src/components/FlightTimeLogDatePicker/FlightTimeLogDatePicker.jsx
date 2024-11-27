@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import MenuItem from "@mui/material/MenuItem";
 import SearchIcon from "@mui/icons-material/Search";
+import 'dayjs/locale/en-gb';
 import Select from "@mui/material/Select";
 import { Stack, TextField, Button } from "@mui/material";
 import { flightTimeLogDataSchema } from "../../schema/validateSchema";
@@ -75,10 +76,11 @@ export default function FlightTimeLogDatePicker({ onFilter }) {
           <MenuItem value={"createdAt"}>Flight Booked At</MenuItem>
         </Select>
 
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <LocalizationProvider dateAdapter={AdapterDateFns} >
           <Stack direction="row" spacing={4} alignItems="center">
             <DatePicker
               fullWidth
+              format="dd/MM/yyyy"
               id="start_time"
               name="start_time"
               label="Start Date"
@@ -100,6 +102,7 @@ export default function FlightTimeLogDatePicker({ onFilter }) {
               id="end_time"
               name="end_time"
               label="End Date"
+              format="dd/MM/yyyy"
               value={new Date(formik.values.end_time)}
               minDate={formik.values.start_time}
               minTime={getMinTime(

@@ -26,10 +26,35 @@ export default function ViewDetailsDataGrid({ value, type }) {
     setLoading(false);
     console.log("res", res);
 
-    const resWithId = res.map((r) => ({
-      ...r,
-      id: r._id,
-    }));
+    // useEffect(() => {
+    //   const r = data.map((row) => {
+    //     if (row.status !== "approve") {
+    //       return row;
+    //     }
+    //     return {
+    //       ...row,
+    //       status: "approved",
+    //     };
+    //   });
+    //   setData(r);
+    // }, [data]);
+
+    const resWithId = res.map((r) => {
+      if(r.status !== "approve"){
+        return {
+          ...r,
+          id:r._id
+        } 
+      }
+      return{
+        ...r,
+        status: "approved",
+        id:r._id
+
+      }
+      // ...r,
+      // id: r._id,
+    });
 
     // console.log("resssss",resWithId)
 
@@ -101,15 +126,16 @@ export default function ViewDetailsDataGrid({ value, type }) {
           return dateFormat(param.row.createdAt);
         },
       },
-      // {
-      //   field: "status",
-      //   headerName: "Status",
-      //   width: 200,
-      //   filterOperators: stringFilterOperators,
-      //   renderCell: (param) => {
-      //     return <Status status={param.row.status} />;
-      //   },
-      // },
+      {
+        field: "status",
+        headerName: "Status",
+        width: 200,
+        filterOperators: stringFilterOperators,
+        renderCell: (param) => {
+          // console.log("status",param.row.status)
+          return <Status  status={param.row.status}/> ;
+        },
+      },
       {
         field: "status_updated_at",
         headerName: "Status Updated",

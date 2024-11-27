@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import ApiService from "../../api.service";
 import { useState } from "react";
-import { generateDateNearestFiveMinutes } from "../../utilis/dateFormat";
+import { generateDateNearestFiveMinutes,getMinTime } from "../../utilis/dateFormat";
 import { useSnackbar } from "notistack";
 
 const style = {
@@ -57,7 +57,7 @@ export default function FlightRequestEditAddModal({
       from: data.from,
       username: data.user?.username,
       start_time: data.start_time,
-      end_time : data.end_time,
+      end_time: data.end_time,
       comment_by_admin: data.comment_by_admin,
     };
   }
@@ -113,7 +113,6 @@ export default function FlightRequestEditAddModal({
             </Typography>
           )}
           <form onSubmit={formik.handleSubmit}>
-            
             <TextField
               fullWidth
               id="from"
@@ -159,6 +158,7 @@ export default function FlightRequestEditAddModal({
                   id="start_time"
                   name="start_time"
                   label="Flight Start Time"
+                  format="dd/MM/yyyy h:mm A"
                   value={new Date(formik.values.start_time)}
                   onChange={(date) => formik.setFieldValue("start_time", date)}
                   // onBlur={formik.handleBlur}
@@ -180,8 +180,14 @@ export default function FlightRequestEditAddModal({
                   id="end_time"
                   name="end_time"
                   label="Flight end Time"
+                  format="dd/MM/yyyy"
                   value={new Date(formik.values.end_time)}
                   onChange={(date) => formik.setFieldValue("end_time", date)}
+                  minDate={formik.values.start_time}
+                  minTime={getMinTime(
+                    formik.values.start_time,
+                    formik.values.end_time
+                  )}
                   // onBlur={formik.handleBlur}
                   slotProps={{
                     textField: {
@@ -191,6 +197,7 @@ export default function FlightRequestEditAddModal({
                       // Boolean(formik.errors.start_time)
                     },
                   }}
+                  className="flight-end-time"
                   sx={{ mt: 2 }}
                 />
               </Stack>
