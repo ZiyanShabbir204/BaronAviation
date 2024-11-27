@@ -124,6 +124,7 @@ export default function FlightMaintainceUnavailablityEditAddModal({
               <Stack direction="column">
                 <DateTimePicker
                   fullWidth
+                  format="dd/MM/yyyy h:m a"
                   id="start_time"
                   name="start_time"
                   label="Start Time"
@@ -144,6 +145,7 @@ export default function FlightMaintainceUnavailablityEditAddModal({
 
                 <DateTimePicker
                   fullWidth
+                  format="dd/MM/yyyy h:m a"
                   id="end_time"
                   name="end_time"
                   label="End Time"

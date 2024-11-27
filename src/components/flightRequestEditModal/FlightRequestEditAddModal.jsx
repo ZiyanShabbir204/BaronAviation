@@ -158,7 +158,7 @@ export default function FlightRequestEditAddModal({
                   id="start_time"
                   name="start_time"
                   label="Flight Start Time"
-                  format="dd/MM/yyyy h:mm A"
+                  format="dd/MM/yyyy h:m a"
                   value={new Date(formik.values.start_time)}
                   onChange={(date) => formik.setFieldValue("start_time", date)}
                   // onBlur={formik.handleBlur}
@@ -180,7 +180,7 @@ export default function FlightRequestEditAddModal({
                   id="end_time"
                   name="end_time"
                   label="Flight end Time"
-                  format="dd/MM/yyyy"
+                  format="dd/MM/yyyy h:m a"
                   value={new Date(formik.values.end_time)}
                   onChange={(date) => formik.setFieldValue("end_time", date)}
                   minDate={formik.values.start_time}
