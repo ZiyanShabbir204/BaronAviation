@@ -14,10 +14,14 @@ import {
   Typography,
   Stack,
   TextareaAutosize,
+  CircularProgress,
 } from "@mui/material";
 import ApiService from "../../api.service";
-import { useState } from "react";
-import { generateDateNearestFiveMinutes,getMinTime } from "../../utilis/dateFormat";
+import { useEffect, useState } from "react";
+import {
+  generateDateNearestFiveMinutes,
+  getMinTime,
+} from "../../utilis/dateFormat";
 import { useSnackbar } from "notistack";
 
 const style = {
@@ -40,6 +44,8 @@ export default function FlightRequestEditAddModal({
   onRequestComplete,
 }) {
   const [error, setError] = useState("");
+  const [intervalSet, setIntervalSet] = useState(new Set());
+  const [startDateLoading, setStartDateLoading] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
 
   let initialValues = {
@@ -94,6 +100,220 @@ export default function FlightRequestEditAddModal({
     validationSchema: flightRequestEditModalSchema,
     onSubmit: submitHandler,
   });
+
+  const dataTest = [
+    {
+      _id: "66d1f4d1fc72f157fe8bbd01",
+      start_time: "2024-11-01T09:00:00.000Z",
+      end_time: "2024-11-01T11:00:00.000Z",
+      added_by: "66cfa28a58d84f6c24b49201",
+      reason: "maintenance",
+      __v: 0,
+    },
+    {
+      _id: "66d1f4e1fc72f157fe8bbd02",
+      start_time: "2024-11-02T13:00:00.000Z",
+      end_time: "2024-11-02T15:00:00.000Z",
+      added_by: "66cfa28a58d84f6c24b49201",
+      reason: "other",
+      __v: 0,
+    },
+    {
+      _id: "66dcdbec8295c62b39413d03",
+      start_time: "2024-11-03T10:00:00.000Z",
+      end_time: "2024-11-03T12:30:00.000Z",
+      added_by: "66d427fe26dcffc9928fc7ee",
+      reason: "unavailability",
+      __v: 0,
+    },
+    {
+      _id: "66e0d8c7a8e1a3d64a500a04",
+      start_time: "2024-11-04T20:25:00.000Z",
+      end_time: "2024-11-04T22:25:00.000Z",
+      added_by: "66d427fe26dcffc9928fc7ee",
+      reason: "unavailability",
+      __v: 0,
+    },
+    {
+      _id: "66e1f9f92a382f1a305dee05",
+      start_time: "2024-11-05T09:15:00.000Z",
+      end_time: "2024-11-05T10:45:00.000Z",
+      added_by: "66d427fe26dcffc9928fc7ee",
+      reason: "maintenance",
+      __v: 0,
+    },
+    {
+      _id: "66e1fadbebfea1fc166e4536",
+      start_time: "2024-11-06T14:00:00.000Z",
+      end_time: "2024-11-06T16:00:00.000Z",
+      added_by: "66d427fe26dcffc9928fc7ee",
+      reason: "other",
+      __v: 0,
+    },
+    {
+      _id: "66e1fadfebfea1fc166e4547",
+      start_time: "2024-11-07T17:30:00.000Z",
+      end_time: "2024-11-07T19:00:00.000Z",
+      added_by: "66d427fe26dcffc9928fc7ee",
+      reason: "maintenance",
+      __v: 0,
+    },
+    {
+      _id: "66e1faebebfea1fc166e4548",
+      start_time: "2024-11-08T08:00:00.000Z",
+      end_time: "2024-11-08T10:30:00.000Z",
+      added_by: "66d427fe26dcffc9928fc7ee",
+      reason: "unavailability",
+      __v: 0,
+    },
+    {
+      _id: "66e1fb12ebfea1fc166e4549",
+      start_time: "2024-11-09T21:30:00.000Z",
+      end_time: "2024-11-09T23:30:00.000Z",
+      added_by: "66d427fe26dcffc9928fc7ee",
+      reason: "other",
+      __v: 0,
+    },
+    {
+      _id: "66e1fb38d7507f39da35cfb0",
+      start_time: "2024-11-10T11:00:00.000Z",
+      end_time: "2024-11-10T13:00:00.000Z",
+      added_by: "66d427fe26dcffc9928fc7ee",
+      reason: "maintenance",
+      __v: 0,
+    },
+    {
+      _id: "66e1fb58a16c652fbe064231",
+      start_time: "2024-11-11T07:30:00.000Z",
+      end_time: "2024-11-11T09:45:00.000Z",
+      added_by: "66d427fe26dcffc9928fc7ee",
+      reason: "unavailability",
+      __v: 0,
+    },
+    {
+      _id: "66e1fb9156ec9d8715c7ec73",
+      start_time: "2024-11-12T15:00:00.000Z",
+      end_time: "2024-11-12T16:30:00.000Z",
+      added_by: "66d427fe26dcffc9928fc7ee",
+      reason: "maintenance",
+      __v: 0,
+    },
+    {
+      _id: "66e1fbcf642fadc1601a9d41",
+      start_time: "2024-11-13T12:00:00.000Z",
+      end_time: "2024-11-13T14:00:00.000Z",
+      added_by: "66d427fe26dcffc9928fc7ee",
+      reason: "unavailability",
+      __v: 0,
+    },
+    {
+      _id: "66e1fc749238d0f374f48492",
+      start_time: "2024-11-14T10:00:00.000Z",
+      end_time: "2024-11-14T12:30:00.000Z",
+      added_by: "66d427fe26dcffc9928fc7ee",
+      reason: "maintenance",
+      __v: 0,
+    },
+    {
+      _id: "66e1fd9017fc9446aa3c411d",
+      start_time: "2024-11-15T18:00:00.000Z",
+      end_time: "2024-11-15T19:30:00.000Z",
+      added_by: "66d427fe26dcffc9928fc7ee",
+      reason: "other",
+      __v: 0,
+    },
+    {
+      _id: "66e1fdb70a310f255fbe3f90",
+      start_time: "2024-11-16T14:00:00.000Z",
+      end_time: "2024-11-16T16:30:00.000Z",
+      added_by: "66d427fe26dcffc9928fc7ee",
+      reason: "unavailability",
+      __v: 0,
+    },
+    {
+      _id: "66e1fde4e8cb60fced8b0241",
+      start_time: "2024-11-17T09:15:00.000Z",
+      end_time: "2024-11-17T11:15:00.000Z",
+      added_by: "66d427fe26dcffc9928fc7ee",
+      reason: "maintenance",
+      __v: 0,
+    },
+    {
+      _id: "6715eec07483debd10d7beb9",
+      start_time: "2024-11-18T12:30:00.000Z",
+      end_time: "2024-11-18T14:30:00.000Z",
+      added_by: "66d427fe26dcffc9928fc7ee",
+      reason: "maintenance",
+      __v: 0,
+    },
+    {
+      _id: "6715f3187483debd10d7bf09",
+      start_time: "2024-11-19T15:00:00.000Z",
+      end_time: "2024-11-19T17:00:00.000Z",
+      added_by: "66d427fe26dcffc9928fc7ee",
+      reason: "unavailability",
+      __v: 0,
+    },
+    {
+      _id: "6715f6ff7483debd10d7bf2a",
+      start_time: "2024-11-20T11:00:00.000Z",
+      end_time: "2024-11-20T13:00:00.000Z",
+      added_by: "66d427fe26dcffc9928fc7ee",
+      reason: "unavailability",
+      __v: 0,
+    },
+  ];
+
+  function generateIntervals(startDate, endDate, min) {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const intervals = [];
+
+    if (!end) {
+      return [start];
+    }
+
+    if (start >= end) {
+      throw new Error("Start date must be earlier than end date");
+    }
+
+    while (start <= end) {
+      intervals.push(new Date(start).toISOString());
+      start.setMinutes(start.getMinutes() + min);
+    }
+
+    return intervals;
+  }
+
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  async function getDisableInterval(month, year) {
+    setStartDateLoading(true);
+    const startDate = new Date(year, month, 1);
+    startDate.setDate(startDate.getDate() - 2);
+
+    const endDate = new Date(year, month + 1, 2);
+
+    console.log("startDate", startDate);
+    console.log("endDate", endDate);
+
+    await delay(5000);
+
+    const newIntervalSet = new Set();
+    dataTest.forEach((d) => {
+      const intervals = generateIntervals(d.start_time, d.end_time, 5);
+      intervals.forEach((i) => newIntervalSet.add(i));
+    });
+    console.log("newIntervalSet", newIntervalSet);
+    setIntervalSet(newIntervalSet);
+    setStartDateLoading(false);
+  }
+
+  const dateChangeHandler = (date) => {
+    const month = date.getMonth();
+    const year = date.getFullYear();
+    getDisableInterval(month, year);
+  };
 
   return (
     <div>
@@ -161,15 +381,21 @@ export default function FlightRequestEditAddModal({
                   format="dd/MM/yyyy h:m a"
                   value={new Date(formik.values.start_time)}
                   onChange={(date) => formik.setFieldValue("start_time", date)}
-                  // onBlur={formik.handleBlur}
                   slotProps={{
                     textField: {
                       helperText:
                         formik.touched.start_time && formik.errors.start_time,
-                      // error:  formik.touched.start_time &&
-                      // Boolean(formik.errors.start_time)
                     },
                   }}
+                  shouldDisableTime={(value, view) => {
+                    const inIsoFormat = value.toISOString();
+                    return intervalSet.has(inIsoFormat);
+                  }}
+                  onMonthChange={dateChangeHandler}
+                  onYearChange={dateChangeHandler}
+                  onOpen={() => dateChangeHandler(new Date())}
+                  loading={startDateLoading}
+                  renderLoading={() => <CircularProgress />}
                   sx={{ mt: 2 }}
                 />
               </Stack>
@@ -188,13 +414,10 @@ export default function FlightRequestEditAddModal({
                     formik.values.start_time,
                     formik.values.end_time
                   )}
-                  // onBlur={formik.handleBlur}
                   slotProps={{
                     textField: {
                       helperText:
                         formik.touched.end_time && formik.errors.end_time,
-                      // error:  formik.touched.start_time &&
-                      // Boolean(formik.errors.start_time)
                     },
                   }}
                   className="flight-end-time"
