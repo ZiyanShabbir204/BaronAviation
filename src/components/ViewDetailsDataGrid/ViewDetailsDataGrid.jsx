@@ -16,48 +16,27 @@ export default function ViewDetailsDataGrid({ value, type }) {
   const [loading, setLoading] = useState(false);
   const fetchData = useCallback(async (date, type) => {
     setLoading(true);
-    const endDate = new Date(date)
-    endDate.setHours(23,59,59)
-    const endDateStr = endDate.toISOString()
+    const endDate = new Date(date);
+    endDate.setHours(23, 59, 59);
+    const endDateStr = endDate.toISOString();
 
     const res = await ApiService.get(
       `flight-booking?date_type=${type}&start_date=${date}&end_date=${endDateStr}`
     );
     setLoading(false);
-    console.log("res", res);
-
-    // useEffect(() => {
-    //   const r = data.map((row) => {
-    //     if (row.status !== "approve") {
-    //       return row;
-    //     }
-    //     return {
-    //       ...row,
-    //       status: "approved",
-    //     };
-    //   });
-    //   setData(r);
-    // }, [data]);
-
     const resWithId = res.map((r) => {
-      if(r.status !== "approve"){
+      if (r.status !== "approve") {
         return {
           ...r,
-          id:r._id
-        } 
+          id: r._id,
+        };
       }
-      return{
+      return {
         ...r,
         status: "approved",
-        id:r._id
-
-      }
-      // ...r,
-      // id: r._id,
+        id: r._id,
+      };
     });
-
-    // console.log("resssss",resWithId)
-
     setData(resWithId);
   }, []);
   useEffect(() => {
@@ -65,6 +44,12 @@ export default function ViewDetailsDataGrid({ value, type }) {
   }, [value]);
   const columns = useMemo(
     () => [
+      {
+        field: "id",
+        headerName: "Booking Id",
+        filterOperators: stringFilterOperators,
+        width: 220,
+      },
       {
         field: "user",
         headerName: "User",
@@ -133,7 +118,7 @@ export default function ViewDetailsDataGrid({ value, type }) {
         filterOperators: stringFilterOperators,
         renderCell: (param) => {
           // console.log("status",param.row.status)
-          return <Status  status={param.row.status}/> ;
+          return <Status status={param.row.status} />;
         },
       },
       {

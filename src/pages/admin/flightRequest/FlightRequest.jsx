@@ -35,12 +35,20 @@ const FlightRequest = () => {
   const columns = useMemo(
     () => [
       {
+        field: "id",
+        headerName: "Booking Id",
+        filterOperators: stringFilterOperators,
+        width: 220,
+      },
+      {
         field: "user",
         headerName: "User",
         valueGetter: (param) => param?.username,
         filterOperators: stringFilterOperators,
         renderCell: (param) => {
-          return param.row.user?.username ? param.row.user.username : param.row.username || "N/A";
+          return param.row.user?.username
+            ? param.row.user.username
+            : param.row.username || "N/A";
         },
       },
 
