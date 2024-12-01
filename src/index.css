@@ -2,10 +2,17 @@
     font-family: "Poppins", sans-serif;
 }
 
-.flight-end-time .css-lxfshk-MuiInputBase-root-MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline{
-    border-color:rgba(0, 0, 0, 0.23)  !important;
+.flight-end-time .css-lxfshk-MuiInputBase-root-MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline {
+    border-color: rgba(0, 0, 0, 0.23) !important;
 }
 
-.flight-end-time .css-18pjc51-MuiFormLabel-root-MuiInputLabel-root.Mui-error{
-    color: rgba(0, 0, 0, 0.6) !important;;
+.flight-end-time .css-18pjc51-MuiFormLabel-root-MuiInputLabel-root.Mui-error {
+    color: rgba(0, 0, 0, 0.6) !important;
+    ;
+}
+
+.flight-request-tabs {
+    color: rgba(0, 0, 0, 1) !important;
+    ;
+
 }

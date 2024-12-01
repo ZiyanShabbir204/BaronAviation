@@ -11,6 +11,7 @@ import { Typography } from "@mui/material";
 import CommentCell from "../../../components/CommentCell/CommentCell";
 import {
   dateFilterOperators,
+  numericFilterOperators,
   stringFilterOperators,
 } from "../../../utilis/gridFilterFormat";
 const FlightRequest = () => {
@@ -20,17 +21,26 @@ const FlightRequest = () => {
 
   useEffect(() => {
     const r = rows.map((row) => {
+      console.log("row", rows);
+      const adultCount = row.attendants.filter(
+        (a) => a.type === "Adult"
+      ).length;
+      const childCount = row.attendants.filter(
+        (a) => a.type !== "Adult"
+      ).length;
       if (row.status !== "approve") {
-        return row;
+        return { ...row, adultCount, childCount };
       }
+
       return {
         ...row,
         status: "approved",
+        adultCount,
+        childCount,
       };
     });
     setTempRows(r);
   }, [rows]);
-  // console.log("rows flight booking",rows)
 
   const columns = useMemo(
     () => [
@@ -151,6 +161,20 @@ const FlightRequest = () => {
         renderCell: (param) => {
           return param.row.handle_by ? param.row.handle_by.username : "N/A";
         },
+      },
+      {
+        field: "adultCount",
+        headerName: "No of flying Adult",
+        filterOperators: numericFilterOperators,
+        width: 150,
+        type: "text",
+      },
+      {
+        field: "childCount",
+        headerName: "No of flying Children",
+        filterOperators: numericFilterOperators,
+        width: 150,
+        type: "text",
       },
       {
         field: "actions",

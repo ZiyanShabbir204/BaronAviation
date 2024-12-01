@@ -20,6 +20,7 @@ import NotFound from "./pages/admin/notFound/NotFound";
 import IndexRoute from "./components/indexRoute/IndexRoute";
 import FlightTimeLogDatagrid from "./components/FlightTimeLogDatagrid/FlightTimeLogDatagrid";
 import Task from "./pages/admin/task/Task";
+import Test from "./pages/Test";
 
 function App() {
   const router = createBrowserRouter([
@@ -70,7 +71,7 @@ function App() {
               path: "not-found",
               element: <NotFound />,
             },
-            
+
             {
               path: "*",
               element: <NotFound />,
@@ -88,8 +89,8 @@ function App() {
       element: <Sign />,
     },
     {
-      path: 'task',
-      element: <Task/>
+      path: "task",
+      element: <Task />,
     },
     {
       path: "forget-password",

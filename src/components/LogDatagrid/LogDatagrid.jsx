@@ -1,9 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
 import ApiService from "../../api.service";
 import Datagrid from "../Datagrid/Datagrid";
-import {  getGridStringOperators } from '@mui/x-data-grid';
+import { getGridStringOperators } from "@mui/x-data-grid";
 import { dateFormat } from "../../utilis/dateFormat";
-import { dateFilterOperators, stringFilterOperators } from "../../utilis/gridFilterFormat";
+import {
+  dateFilterOperators,
+  stringFilterOperators,
+} from "../../utilis/gridFilterFormat";
 
 export default function LogDatagrid({ value }) {
   const [data, setData] = useState([]);
@@ -13,13 +16,17 @@ export default function LogDatagrid({ value }) {
     const res = await ApiService.get(`admin/login-logs/${roleName}`);
     setLoading(false);
 
-    const resWithId = res.map((r) => ({
-      ...r,
-      id: r._id,
-      username:r.user.username,
-      email:r.user.email,
-      roleName:r.role.name
-    }));
+    console.log("res", res);
+
+    const resWithId = res
+      .filter((r) => !!r.user?.username)
+      .map((r) => ({
+        ...r,
+        id: r._id,
+        username: r.user.username,
+        email: r.user.email,
+        roleName: r.role.name,
+      }));
 
     setData(resWithId);
   }, []);
@@ -30,13 +37,12 @@ export default function LogDatagrid({ value }) {
   return <Datagrid loading={loading} columns={columns} rows={data} />;
 }
 
-
 const columns = [
   {
     field: "username",
     headerName: "Username",
     flex: 1,
-    filterOperators : stringFilterOperators,
+    filterOperators: stringFilterOperators,
     renderCell: (param) => {
       return param.row.username;
     },
@@ -44,11 +50,11 @@ const columns = [
   {
     field: "email",
     headerName: "User email",
-    filterOperators : stringFilterOperators,
+    filterOperators: stringFilterOperators,
     flex: 1,
     renderCell: (param) => {
-      console.log("param",param);
-      
+      console.log("param", param);
+
       return param.row.email;
     },
   },
@@ -56,7 +62,7 @@ const columns = [
   {
     field: "roleName",
     headerName: "Role",
-    filterOperators : stringFilterOperators,
+    filterOperators: stringFilterOperators,
     flex: 1,
     renderCell: (param) => {
       return param.row.roleName;
@@ -66,8 +72,8 @@ const columns = [
     field: "createdAt",
     headerName: "Login at",
     filterOperators: dateFilterOperators,
-    type:"date",
-    valueGetter : (value) => new Date(value),
+    type: "date",
+    valueGetter: (value) => new Date(value),
     flex: 1,
     renderCell: (param) => {
       return dateFormat(param.row.createdAt);

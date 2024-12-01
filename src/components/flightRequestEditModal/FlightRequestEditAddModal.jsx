@@ -6,7 +6,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import AddIcon from "@mui/icons-material/Add";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
-
+import GroupsIcon from "@mui/icons-material/Groups";
 import {
   TextField,
   Button,
@@ -14,22 +14,32 @@ import {
   Typography,
   Stack,
   TextareaAutosize,
+  InputAdornment,
   CircularProgress,
+  IconButton,
+  Popover,
 } from "@mui/material";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+
+import RemoveIcon from "@mui/icons-material/Remove";
 import ApiService from "../../api.service";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   generateDateNearestFiveMinutes,
   getMinTime,
 } from "../../utilis/dateFormat";
 import { useSnackbar } from "notistack";
+import TravelersModal from "./FlightDetailForm";
+import FlightDetailForm from "./FlightDetailForm";
+import TravelersFrom from "./TravelersFrom";
 
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  minWidth: 400,
+  minWidth: 300,
   width: "50%",
   bgcolor: "background.paper",
   boxShadow: 24,
@@ -44,39 +54,98 @@ export default function FlightRequestEditAddModal({
   onRequestComplete,
 }) {
   const [error, setError] = useState("");
-  const [intervalSet, setIntervalSet] = useState(new Set());
   const [startDateLoading, setStartDateLoading] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
+  const [value, setValue] = useState(0);
 
-  let initialValues = {
-    to: "",
-    from: "",
-    username: "",
-    start_time: generateDateNearestFiveMinutes(),
-    end_time: "",
-    comment_by_admin: "",
-  };
+  const [apiReqData, setApiReqData] = useState({
+    flightDetails: undefined,
+    travelerDetails: undefined,
+  });
 
-  if (data) {
-    initialValues = {
-      to: data.to,
-      from: data.from,
-      username: data.user?.username,
-      start_time: data.start_time,
-      end_time: data.end_time,
-      comment_by_admin: data.comment_by_admin,
-    };
-  }
   const handleClose = () => setOpen(false);
 
-  const submitHandler = async (values) => {
+  const travelFormBackHandler = (values) => {
+    console.log("values", values);
+    setApiReqData((prev) => ({
+      ...prev,
+      travelerDetails: [...values.attendants],
+    }));
+    setValue(0);
+  };
+
+  const onSubmitFlightDetail = (values) => {
+    setApiReqData((prev) => ({
+      ...prev,
+      flightDetails: {
+        ...values,
+      },
+    }));
+    setValue(1);
+  };
+
+  useEffect(() => {
+    if (data) {
+      console.log("data", data);
+
+      const adultCount = data.attendants.filter(
+        (a) => a.type === "Adult"
+      ).length;
+      const childCount = data.attendants.filter(
+        (a) => a.type !== "Adult"
+      ).length;
+      setApiReqData({
+        flightDetails: {
+          to: data.to,
+          from: data.from,
+          username: data.user?.username,
+          start_time: data.start_time,
+          end_time: data.end_time,
+          comment_by_admin: data.comment_by_admin,
+          adults: adultCount,
+          children: childCount,
+        },
+
+        travelerDetails: data.attendants.map((a) => ({
+          firstName: a.first_name,
+          lastName: a.last_name,
+          identityNumber: a.identity_number,
+          gender: a.gender,
+          age: a.age,
+          email: a.email,
+          weight: a.weight,
+          type: a.type,
+        })),
+      });
+    }
+  }, [data]);
+
+  const onSubmitTravelersFrom = async (values) => {
+    const apiData = {
+      to: apiReqData.flightDetails.to,
+      from: apiReqData.flightDetails.from,
+      start_time: apiReqData.flightDetails.start_time,
+      end_time: apiReqData.flightDetails.end_time,
+      username: apiReqData.flightDetails.username,
+      attendants: values.attendants.map((a) => ({
+        first_name: a.firstName,
+        last_name: a.lastName,
+        identity_number: a.identityNumber,
+        gender: a.gender,
+        age: a.age,
+        email: a.email,
+        weight: a.weight,
+        type: a.type,
+      })),
+    };
+
     try {
       let res;
 
       if (data) {
-        res = await ApiService.put(`flight-booking/${data.id}`, values);
+        res = await ApiService.put(`flight-booking/${data.id}`, apiData);
       } else {
-        res = await ApiService.post("flight-booking", values);
+        res = await ApiService.post("flight-booking", apiData);
       }
 
       onRequestComplete && onRequestComplete(res);
@@ -95,226 +164,6 @@ export default function FlightRequestEditAddModal({
     }
   };
 
-  const formik = useFormik({
-    initialValues,
-    validationSchema: flightRequestEditModalSchema,
-    onSubmit: submitHandler,
-  });
-
-  const dataTest = [
-    {
-      _id: "66d1f4d1fc72f157fe8bbd01",
-      start_time: "2024-11-01T09:00:00.000Z",
-      end_time: "2024-11-01T11:00:00.000Z",
-      added_by: "66cfa28a58d84f6c24b49201",
-      reason: "maintenance",
-      __v: 0,
-    },
-    {
-      _id: "66d1f4e1fc72f157fe8bbd02",
-      start_time: "2024-11-02T13:00:00.000Z",
-      end_time: "2024-11-02T15:00:00.000Z",
-      added_by: "66cfa28a58d84f6c24b49201",
-      reason: "other",
-      __v: 0,
-    },
-    {
-      _id: "66dcdbec8295c62b39413d03",
-      start_time: "2024-11-03T10:00:00.000Z",
-      end_time: "2024-11-03T12:30:00.000Z",
-      added_by: "66d427fe26dcffc9928fc7ee",
-      reason: "unavailability",
-      __v: 0,
-    },
-    {
-      _id: "66e0d8c7a8e1a3d64a500a04",
-      start_time: "2024-11-04T20:25:00.000Z",
-      end_time: "2024-11-04T22:25:00.000Z",
-      added_by: "66d427fe26dcffc9928fc7ee",
-      reason: "unavailability",
-      __v: 0,
-    },
-    {
-      _id: "66e1f9f92a382f1a305dee05",
-      start_time: "2024-11-05T09:15:00.000Z",
-      end_time: "2024-11-05T10:45:00.000Z",
-      added_by: "66d427fe26dcffc9928fc7ee",
-      reason: "maintenance",
-      __v: 0,
-    },
-    {
-      _id: "66e1fadbebfea1fc166e4536",
-      start_time: "2024-11-06T14:00:00.000Z",
-      end_time: "2024-11-06T16:00:00.000Z",
-      added_by: "66d427fe26dcffc9928fc7ee",
-      reason: "other",
-      __v: 0,
-    },
-    {
-      _id: "66e1fadfebfea1fc166e4547",
-      start_time: "2024-11-07T17:30:00.000Z",
-      end_time: "2024-11-07T19:00:00.000Z",
-      added_by: "66d427fe26dcffc9928fc7ee",
-      reason: "maintenance",
-      __v: 0,
-    },
-    {
-      _id: "66e1faebebfea1fc166e4548",
-      start_time: "2024-11-08T08:00:00.000Z",
-      end_time: "2024-11-08T10:30:00.000Z",
-      added_by: "66d427fe26dcffc9928fc7ee",
-      reason: "unavailability",
-      __v: 0,
-    },
-    {
-      _id: "66e1fb12ebfea1fc166e4549",
-      start_time: "2024-11-09T21:30:00.000Z",
-      end_time: "2024-11-09T23:30:00.000Z",
-      added_by: "66d427fe26dcffc9928fc7ee",
-      reason: "other",
-      __v: 0,
-    },
-    {
-      _id: "66e1fb38d7507f39da35cfb0",
-      start_time: "2024-11-10T11:00:00.000Z",
-      end_time: "2024-11-10T13:00:00.000Z",
-      added_by: "66d427fe26dcffc9928fc7ee",
-      reason: "maintenance",
-      __v: 0,
-    },
-    {
-      _id: "66e1fb58a16c652fbe064231",
-      start_time: "2024-11-11T07:30:00.000Z",
-      end_time: "2024-11-11T09:45:00.000Z",
-      added_by: "66d427fe26dcffc9928fc7ee",
-      reason: "unavailability",
-      __v: 0,
-    },
-    {
-      _id: "66e1fb9156ec9d8715c7ec73",
-      start_time: "2024-11-12T15:00:00.000Z",
-      end_time: "2024-11-12T16:30:00.000Z",
-      added_by: "66d427fe26dcffc9928fc7ee",
-      reason: "maintenance",
-      __v: 0,
-    },
-    {
-      _id: "66e1fbcf642fadc1601a9d41",
-      start_time: "2024-11-13T12:00:00.000Z",
-      end_time: "2024-11-13T14:00:00.000Z",
-      added_by: "66d427fe26dcffc9928fc7ee",
-      reason: "unavailability",
-      __v: 0,
-    },
-    {
-      _id: "66e1fc749238d0f374f48492",
-      start_time: "2024-11-14T10:00:00.000Z",
-      end_time: "2024-11-14T12:30:00.000Z",
-      added_by: "66d427fe26dcffc9928fc7ee",
-      reason: "maintenance",
-      __v: 0,
-    },
-    {
-      _id: "66e1fd9017fc9446aa3c411d",
-      start_time: "2024-11-15T18:00:00.000Z",
-      end_time: "2024-11-15T19:30:00.000Z",
-      added_by: "66d427fe26dcffc9928fc7ee",
-      reason: "other",
-      __v: 0,
-    },
-    {
-      _id: "66e1fdb70a310f255fbe3f90",
-      start_time: "2024-11-16T14:00:00.000Z",
-      end_time: "2024-11-16T16:30:00.000Z",
-      added_by: "66d427fe26dcffc9928fc7ee",
-      reason: "unavailability",
-      __v: 0,
-    },
-    {
-      _id: "66e1fde4e8cb60fced8b0241",
-      start_time: "2024-11-17T09:15:00.000Z",
-      end_time: "2024-11-17T11:15:00.000Z",
-      added_by: "66d427fe26dcffc9928fc7ee",
-      reason: "maintenance",
-      __v: 0,
-    },
-    {
-      _id: "6715eec07483debd10d7beb9",
-      start_time: "2024-11-18T12:30:00.000Z",
-      end_time: "2024-11-18T14:30:00.000Z",
-      added_by: "66d427fe26dcffc9928fc7ee",
-      reason: "maintenance",
-      __v: 0,
-    },
-    {
-      _id: "6715f3187483debd10d7bf09",
-      start_time: "2024-11-19T15:00:00.000Z",
-      end_time: "2024-11-19T17:00:00.000Z",
-      added_by: "66d427fe26dcffc9928fc7ee",
-      reason: "unavailability",
-      __v: 0,
-    },
-    {
-      _id: "6715f6ff7483debd10d7bf2a",
-      start_time: "2024-11-20T11:00:00.000Z",
-      end_time: "2024-11-20T13:00:00.000Z",
-      added_by: "66d427fe26dcffc9928fc7ee",
-      reason: "unavailability",
-      __v: 0,
-    },
-  ];
-
-  function generateIntervals(startDate, endDate, min) {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    const intervals = [];
-
-    if (!end) {
-      return [start];
-    }
-
-    if (start >= end) {
-      throw new Error("Start date must be earlier than end date");
-    }
-
-    while (start <= end) {
-      intervals.push(new Date(start).toISOString());
-      start.setMinutes(start.getMinutes() + min);
-    }
-
-    return intervals;
-  }
-
-  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-  async function getDisableInterval(month, year) {
-    setStartDateLoading(true);
-    const startDate = new Date(year, month, 1);
-    startDate.setDate(startDate.getDate() - 2);
-
-    const endDate = new Date(year, month + 1, 2);
-
-    console.log("startDate", startDate);
-    console.log("endDate", endDate);
-
-    await delay(5000);
-
-    const newIntervalSet = new Set();
-    dataTest.forEach((d) => {
-      const intervals = generateIntervals(d.start_time, d.end_time, 5);
-      intervals.forEach((i) => newIntervalSet.add(i));
-    });
-    console.log("newIntervalSet", newIntervalSet);
-    setIntervalSet(newIntervalSet);
-    setStartDateLoading(false);
-  }
-
-  const dateChangeHandler = (date) => {
-    const month = date.getMonth();
-    const year = date.getFullYear();
-    getDisableInterval(month, year);
-  };
-
   return (
     <div>
       <Modal
@@ -327,151 +176,72 @@ export default function FlightRequestEditAddModal({
           <Typography component="h1" variant="h5">
             {data ? "Edit" : "Add"} Active booking
           </Typography>
+
           {error && (
             <Typography color="warning" align="center">
               {error}
             </Typography>
           )}
-          <form onSubmit={formik.handleSubmit}>
-            <TextField
-              fullWidth
-              id="from"
-              name="from"
-              label="from"
-              value={formik.values.from}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.from && Boolean(formik.errors.from)}
-              helperText={formik.touched.from && formik.errors.from}
-              sx={{ mt: 2 }}
-            />
-            <TextField
-              fullWidth
-              id="to"
-              name="to"
-              label="to"
-              value={formik.values.to}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.to && Boolean(formik.errors.to)}
-              helperText={formik.touched.to && formik.errors.to}
-              sx={{ mt: 2 }}
-            />
-            <TextField
-              fullWidth
-              id="username"
-              name="username"
-              label="Username"
-              type="text"
-              value={formik.values.username}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.username && Boolean(formik.errors.username)}
-              helperText={formik.touched.username && formik.errors.username}
-              disabled={data}
-              sx={{ mt: 2 }}
-            />
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <Stack>
-                <DateTimePicker
-                  fullWidth
-                  id="start_time"
-                  name="start_time"
-                  label="Flight Start Time"
-                  format="dd/MM/yyyy h:m a"
-                  value={new Date(formik.values.start_time)}
-                  onChange={(date) => formik.setFieldValue("start_time", date)}
-                  slotProps={{
-                    textField: {
-                      helperText:
-                        formik.touched.start_time && formik.errors.start_time,
-                    },
-                  }}
-                  shouldDisableTime={(value, view) => {
-                    const inIsoFormat = value.toISOString();
-                    return intervalSet.has(inIsoFormat);
-                  }}
-                  onMonthChange={dateChangeHandler}
-                  onYearChange={dateChangeHandler}
-                  onOpen={() => dateChangeHandler(new Date())}
-                  loading={startDateLoading}
-                  renderLoading={() => <CircularProgress />}
-                  sx={{ mt: 2 }}
-                />
-              </Stack>
 
-              <Stack>
-                <DateTimePicker
-                  fullWidth
-                  id="end_time"
-                  name="end_time"
-                  label="Flight end Time"
-                  format="dd/MM/yyyy h:m a"
-                  value={new Date(formik.values.end_time)}
-                  onChange={(date) => formik.setFieldValue("end_time", date)}
-                  minDate={formik.values.start_time}
-                  minTime={getMinTime(
-                    formik.values.start_time,
-                    formik.values.end_time
-                  )}
-                  slotProps={{
-                    textField: {
-                      helperText:
-                        formik.touched.end_time && formik.errors.end_time,
-                    },
-                  }}
-                  className="flight-end-time"
-                  sx={{ mt: 2 }}
-                />
-              </Stack>
-            </LocalizationProvider>
-            <TextField
-              id="comment_by_admin"
-              label="Comment by admin"
-              name="comment_by_admin"
-              value={formik.values.comment_by_admin}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={
-                formik.touched.comment_by_admin &&
-                Boolean(formik.errors.comment_by_admin)
-              }
-              helperText={
-                formik.touched.comment_by_admin &&
-                formik.errors.comment_by_admin
-              }
-              multiline
-              fullWidth
-              rows={4}
-              sx={{ mt: 2 }}
+          <Tabs
+            value={value}
+            aria-label="basic tabs example"
+            sx={{
+              mt: 2,
+            }}
+          >
+            <Tab
+              label="Flight Details"
+              id="simple-tab-1"
+              aria-controls="simple-tabpanel-1"
+              disabled
+              className="flight-request-tabs"
             />
+            <Tab
+              label="Traveler Details"
+              id="simple-tab-2"
+              aria-controls="simple-tabpanel-2"
+              disabled
+              className="flight-request-tabs"
+            />
+          </Tabs>
 
-            <Stack sx={{ mt: 1 }}></Stack>
-            <Stack
-              flexDirection="row"
-              justifyContent="space-between"
-              marginTop="20px"
-            >
-              <Button
-                variant="outlined"
-                color="error"
-                startIcon={<CloseIcon />}
-                onClick={handleClose}
-              >
-                Close
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                startIcon={<AddIcon />}
-                type="submit"
-              >
-                Submit
-              </Button>
-            </Stack>
-          </form>
+          <CustomTabPanel value={value} index={0}>
+            <FlightDetailForm
+              onSubmit={onSubmitFlightDetail}
+              data={apiReqData.flightDetails}
+              isEditState={data}
+              onCancel={handleClose}
+            />
+          </CustomTabPanel>
+          <CustomTabPanel value={value} index={1}>
+            <TravelersFrom
+              onBack={travelFormBackHandler}
+              onCancel={handleClose}
+              adults={apiReqData.flightDetails?.adults || 1}
+              kids={apiReqData.flightDetails?.children || 0}
+              onSubmit={onSubmitTravelersFrom}
+              data={apiReqData.travelerDetails}
+            />
+          </CustomTabPanel>
         </Box>
       </Modal>
+    </div>
+  );
+}
+
+function CustomTabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box sx={{ pt: 1 }}>{children}</Box>}
     </div>
   );
 }
