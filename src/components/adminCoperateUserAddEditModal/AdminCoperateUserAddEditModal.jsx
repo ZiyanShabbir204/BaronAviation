@@ -53,7 +53,16 @@ export default function AdminCoperateUserAddEditModal({
 
   const submitHandler = async (values) => {
     try {
-      const { username, email, phone, password, role, total_hours } = values;
+      const {
+        username,
+        email,
+        phone,
+        password,
+        role,
+        total_hours,
+        first_name,
+        last_name,
+      } = values;
       let res;
       if ((isRoleExist || (!isRoleExist && !isTotalHoursExist)) && !userId) {
         res = await ApiService.post("auth/register", {
@@ -62,6 +71,8 @@ export default function AdminCoperateUserAddEditModal({
           phone,
           password,
           roleName: isRoleExist ? role : "customer",
+          first_name,
+          last_name,
         });
         enqueueSnackbar("Admin has been created.", {
           variant: "success",
@@ -69,6 +80,8 @@ export default function AdminCoperateUserAddEditModal({
       } else if (isRoleExist && userId) {
         res = await ApiService.put(`admin/${userId}`, {
           phone,
+          first_name,
+          last_name,
           password,
           role_name: role,
         });
@@ -82,6 +95,8 @@ export default function AdminCoperateUserAddEditModal({
           email,
           phone,
           password,
+          first_name,
+          last_name,
           hours: total_hours,
         });
 
@@ -89,9 +104,12 @@ export default function AdminCoperateUserAddEditModal({
           variant: "success",
         });
       } else if (isTotalHoursExist && userId) {
+        // console.log("updateeeeee")
         res = await ApiService.put(`admin/cooperate-customer/${userId}`, {
           phone,
           password,
+          first_name,
+          last_name,
         });
         enqueueSnackbar("Corporate client has been updated.", {
           variant: "success",
@@ -100,6 +118,8 @@ export default function AdminCoperateUserAddEditModal({
         res = await ApiService.put(`admin/users/${userId}`, {
           phone,
           password,
+          first_name,
+          last_name,
         });
         //
 
@@ -157,6 +177,32 @@ export default function AdminCoperateUserAddEditModal({
           </Typography>
         )}
         <form onSubmit={formik.handleSubmit}>
+          <TextField
+            fullWidth
+            id="first_name"
+            name="first_name"
+            label="First Name"
+            value={formik.values.first_name}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={
+              formik.touched.first_name && Boolean(formik.errors.first_name)
+            }
+            helperText={formik.touched.first_name && formik.errors.first_name}
+            sx={{ mt: 2 }}
+          />
+          <TextField
+            fullWidth
+            id="last_name"
+            name="last_name"
+            label="Last Name"
+            value={formik.values.last_name}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.last_name && Boolean(formik.errors.last_name)}
+            helperText={formik.touched.last_name && formik.errors.last_name}
+            sx={{ mt: 2 }}
+          />
           <TextField
             fullWidth
             id="username"

@@ -12,6 +12,27 @@ const AddAdmin = () => {
   const columns = useMemo(
     () => [
       {
+        field: "first_name",
+        headerName: "First Name",
+        filterOperators: stringFilterOperators,
+        flex: 1,
+        editable: false,
+        renderCell: (param) =>{
+          return param.row.first_name?param.row.first_name: "N/A" 
+
+        }
+      },
+      {
+        field: "last_name",
+        headerName: "Last Name",
+        filterOperators: stringFilterOperators,
+        flex: 1,
+        editable: false,
+        renderCell: (param)=>{
+          return param.row.last_name ? param.row.last_name : "N/A"
+        }
+      },
+      {
         field: "username",
         headerName: "Username",
         filterOperators: stringFilterOperators,
@@ -73,6 +94,8 @@ const AddAdmin = () => {
     role: "sys_admin",
     email: "",
     phone: "",
+    first_name:"",
+    last_name:""
   };
 
   return (

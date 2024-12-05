@@ -20,6 +20,8 @@ export default function CoperateUserGridMenu({ data, onRequestComplete }) {
     total_hours: data.hours.total_hours,
     email: data.email,
     phone: data.phone,
+    first_name:data.first_name,
+    last_name:data.last_name
   };
 
   const deleteHandler = async () => {
