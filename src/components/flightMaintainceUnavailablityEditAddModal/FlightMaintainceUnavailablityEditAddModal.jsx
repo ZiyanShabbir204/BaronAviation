@@ -4,7 +4,7 @@ import { useFormik } from "formik";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import AddIcon from "@mui/icons-material/Add";
-import { Button, Box, Typography, Stack } from "@mui/material";
+import { Button, Box, Typography, Stack, TextField } from "@mui/material";
 import { flightMaintainceUnavailablitySchema } from "../../schema/validateSchema";
 import ApiService from "../../api.service";
 import {
@@ -41,6 +41,7 @@ export default function FlightMaintainceUnavailablityEditAddModal({
     end_time: generateEndDateAndTimeNearestFiveMinutes(),
     reason: "",
     start_time: generateDateNearestFiveMinutes(),
+    comment_by_admin: ""
   };
 
   if (data) {
@@ -49,6 +50,7 @@ export default function FlightMaintainceUnavailablityEditAddModal({
       end_time: data.end_time,
       reason: data.reason,
       start_time: data.start_time,
+      comment_by_admin:data.comment_by_admin
     };
   }
 
@@ -128,7 +130,9 @@ export default function FlightMaintainceUnavailablityEditAddModal({
                   id="start_time"
                   name="start_time"
                   label="Start Time"
-                  value={new Date(formik.values.start_time)}
+                  value={new Date(new Date(formik.values.start_time).getTime() + 5 * 60 * 1000)}
+                  minDate={new Date(formik.values.start_time)}
+                  minTime={new Date()}
                   onChange={(date) => formik.setFieldValue("start_time", date)}
                   onBlur={formik.handleBlur}
                   slotProps={{
@@ -139,7 +143,6 @@ export default function FlightMaintainceUnavailablityEditAddModal({
                       // Boolean(formik.errors.start_time)
                     },
                   }}
-      
                   sx={{ mt: 2 }}
                 />
 
@@ -165,7 +168,20 @@ export default function FlightMaintainceUnavailablityEditAddModal({
                       // Boolean(formik.errors.start_time)
                     },
                   }}
-               
+                  sx={{ mt: 2 }}
+                />
+                <TextField
+                  id="comment_by_admin"
+                  label="Comment by admin"
+                  name="comment_by_admin"
+                  value={formik.values.comment_by_admin}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.comment_by_admin && Boolean(formik.errors.comment_by_admin)}
+                  helperText={formik.touched.comment_by_admin && formik.errors.comment_by_admin}
+                  multiline
+                  fullWidth
+                  rows={2}
                   sx={{ mt: 2 }}
                 />
               </Stack>

@@ -9,6 +9,7 @@ import {
   stringFilterOperators,
 } from "../../../utilis/gridFilterFormat";
 import FlightMaintainceUnavailablityEditAddModal from "../../../components/flightMaintainceUnavailablityEditAddModal/FlightMaintainceUnavailablityEditAddModal";
+import CommentCell from "../../../components/CommentCell/CommentCell";
 
 const FlightUnavailibility = () => {
   const [addOpen, setAddOpen] = useState(null);
@@ -50,6 +51,21 @@ const FlightUnavailibility = () => {
         editable: false,
         valueGetter: (param) => param.username,
         renderCell: (param) => param.row.added_by.username,
+      },
+      {
+        field: "comment_by_admin",
+        headerName: "Admin Comment",
+        filterOperators: stringFilterOperators,
+        type: "text",
+        width: 200,
+        editable: false,
+        renderCell: (param) => {
+          return param.row.comment_by_admin ? (
+            <CommentCell message={param.row.comment_by_admin} />
+          ) : (
+            "N/A"
+          );
+        },
       },
       {
         field: "actions",

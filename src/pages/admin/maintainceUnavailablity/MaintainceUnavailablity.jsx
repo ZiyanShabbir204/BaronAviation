@@ -9,6 +9,7 @@ import {
   dateFilterOperators,
   stringFilterOperators,
 } from "../../../utilis/gridFilterFormat";
+import CommentCell from "../../../components/CommentCell/CommentCell";
 
 const MaintainceUnavailablity = () => {
   const [addOpen, setAddOpen] = useState(null);
@@ -40,6 +41,21 @@ const MaintainceUnavailablity = () => {
         editable: false,
         renderCell: (param) => {
           return dateFormat(param.row.end_time);
+        },
+      },
+      {
+        field: "comment_by_admin",
+        headerName: "Admin Comment",
+        filterOperators: stringFilterOperators,
+        type: "text",
+        width: 200,
+        editable: false,
+        renderCell: (param) => {
+          return param.row.comment_by_admin ? (
+            <CommentCell message={param.row.comment_by_admin} />
+          ) : (
+            "N/A"
+          );
         },
       },
       {
