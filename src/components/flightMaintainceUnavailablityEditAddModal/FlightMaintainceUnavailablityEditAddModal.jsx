@@ -10,6 +10,8 @@ import ApiService from "../../api.service";
 import {
   generateDateNearestFiveMinutes,
   generateEndDateAndTimeNearestFiveMinutes,
+  generateForwardDateNearestFiveMinutes,
+  getDateForUnavailability,
   getMinTime,
 } from "../../utilis/dateFormat";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
@@ -130,9 +132,9 @@ export default function FlightMaintainceUnavailablityEditAddModal({
                   id="start_time"
                   name="start_time"
                   label="Start Time"
-                  value={new Date(new Date(formik.values.start_time).getTime() + 5 * 60 * 1000)}
-                  minDate={new Date(formik.values.start_time)}
-                  minTime={new Date()}
+                  value={generateForwardDateNearestFiveMinutes()}
+                  minDate={getDateForUnavailability()}
+                  minTime={getDateForUnavailability()}
                   onChange={(date) => formik.setFieldValue("start_time", date)}
                   onBlur={formik.handleBlur}
                   slotProps={{
