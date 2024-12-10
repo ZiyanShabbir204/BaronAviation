@@ -199,6 +199,10 @@ export const flightMaintainceUnavailablitySchema = yup.object({
     ),
 });
 
+export const invoiceSendSchema = yup.object({
+  bill: yup.number().required("Invoice amount is required"),
+});
+
 export const flightTimeLogDataSchema = yup.object({
   start_time: yup.date().nullable().required("Start time is required"),
   end_time: yup

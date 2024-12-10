@@ -6,10 +6,12 @@ import FlightRequestEditAddModal from "../flightRequestEditModal/FlightRequestEd
 import ApiService from "../../api.service";
 import EditDeleteMenu from "../EditDeleteMenu/EditDeleteMenu";
 import { useSnackbar } from "notistack";
+import SendInvoiceModal from "../sendInvoiceModal/SendInvoiceModal.jsx";
 
 export default function FlightRequestGridMenu({ data, onRequestComplete }) {
   const [deleteOpen, setDeleteOpen] = useState(null);
   const [editOpen, setEditOpen] = useState(null);
+  const [invoiceOpen, setInvoiceOpen] = useState(null);
   const { enqueueSnackbar } = useSnackbar();
 
   const menuRef = useRef();
@@ -42,21 +44,33 @@ export default function FlightRequestGridMenu({ data, onRequestComplete }) {
         onDelete={deleteHandler}
         onRequestComplete={onRequestComplete}
       />
-      {editOpen && <FlightRequestEditAddModal
-        open={editOpen}
-        setOpen={setEditOpen}
-        data={data}
-        onRequestComplete={onRequestComplete}
-      />}
+      {editOpen && (
+        <FlightRequestEditAddModal
+          open={editOpen}
+          setOpen={setEditOpen}
+          data={data}
+          onRequestComplete={onRequestComplete}
+        />
+      )}
+
       <EditDeleteMenu
         onEdit={() => setEditOpen(true)}
         onDelete={() => setDeleteOpen(true)}
         ref={menuRef}
       >
+        <SendInvoiceModal
+          open={invoiceOpen}
+          setOpen={setInvoiceOpen}
+          data={data}
+          onRequestComplete={onRequestComplete}
+        />
+
         <Divider />
         <MenuItem onClick={() => updateStatus("approve")}>Approved</MenuItem>
         <MenuItem onClick={() => updateStatus("pending")}>Pending</MenuItem>
         <MenuItem onClick={() => updateStatus("declined")}>Declined</MenuItem>
+        {data.status === "approved" && <Divider />}
+        {data.status === "approved" && <MenuItem onClick={()=> setInvoiceOpen(true)}>Send Invoice</MenuItem>}
       </EditDeleteMenu>
     </>
   );
