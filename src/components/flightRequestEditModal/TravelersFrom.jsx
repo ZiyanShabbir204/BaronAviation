@@ -252,8 +252,9 @@ const TravelersFrom = ({ kids, adults, data, onBack, onCancel, onSubmit }) => {
                           Boolean(errors.attendants?.[index]?.identityNumber)
                         }
                         helperText={
-                          touched.attendants?.[index]?.identityNumber &&
-                          errors.attendants?.[index]?.identityNumber
+                          (touched.attendants?.[index]?.identityNumber &&
+                            errors.attendants?.[index]?.identityNumber) ||
+                          "Identity number must be in the format 12345-1234567-1"
                         }
                       />
                     </Grid>

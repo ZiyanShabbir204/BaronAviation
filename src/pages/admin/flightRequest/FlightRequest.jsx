@@ -21,7 +21,6 @@ const FlightRequest = () => {
 
   useEffect(() => {
     const r = rows.map((row) => {
-      console.log("row", rows);
       const adultCount = row.attendants.filter(
         (a) => a.type === "Adult"
       ).length;
@@ -49,9 +48,9 @@ const FlightRequest = () => {
         headerName: "Flight Id",
         filterOperators: stringFilterOperators,
         width: 220,
-        renderCell: (param)=>{
-          return param.row.booking_id? param.row.booking_id : "N/A"
-        }
+        renderCell: (param) => {
+          return param.row.booking_id ? param.row.booking_id : "N/A";
+        },
       },
       {
         field: "user",

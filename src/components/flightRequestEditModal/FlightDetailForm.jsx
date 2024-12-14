@@ -1,4 +1,3 @@
-import Modal from "@mui/material/Modal";
 import CloseIcon from "@mui/icons-material/Close";
 import { useFormik } from "formik";
 import { flightRequestEditModalSchema } from "../../schema/validateSchema";
@@ -10,27 +9,17 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import {
   TextField,
   Button,
-  Box,
   Typography,
   Stack,
-  TextareaAutosize,
   InputAdornment,
   CircularProgress,
   IconButton,
   Popover,
 } from "@mui/material";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import RemoveIcon from "@mui/icons-material/Remove";
 import ApiService from "../../api.service";
 import React, { useEffect, useState, useRef } from "react";
-import {
-  generateDateNearestFiveMinutes,
-  getMinTime,
-} from "../../utilis/dateFormat";
-import { useSnackbar } from "notistack";
-import TravelersModal from "./FlightDetailForm";
+import { getMinTime } from "../../utilis/dateFormat";
 import EastIcon from "@mui/icons-material/East";
 const style = {
   position: "absolute",
@@ -55,6 +44,7 @@ export default function FlightDetailForm({
   const [startDateLoading, setStartDateLoading] = useState(false);
   const [adults, setAdults] = useState(1);
   const [children, setChildren] = useState(0);
+  const [startTimeError, setStartTimeError] = useState("");
   const [travelerAnchorEl, setTravelerAnchorEl] = useState(null);
   const [errorTravelerMessage, setTravelerMessage] = useState("");
   const dropDownContainer = useRef();
@@ -63,7 +53,7 @@ export default function FlightDetailForm({
     to: "",
     from: "",
     username: "",
-    start_time: generateDateNearestFiveMinutes(),
+    start_time: undefined,
     end_time: "",
     comment_by_admin: "",
   };
@@ -297,8 +287,6 @@ export default function FlightDetailForm({
     return intervals;
   }
 
-  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
   async function getDisableInterval(month, year) {
     setStartDateLoading(true);
     const startDate = new Date(year, month, 1);
@@ -306,20 +294,21 @@ export default function FlightDetailForm({
 
     const endDate = new Date(year, month + 1, 2);
 
-    console.log("startDate", startDate);
-    console.log("endDate", endDate);
-
     try {
-      const res = await ApiService.get(
+      const { flights, unavailability } = await ApiService.get(
         `get-month-Unavailablities?month=${month}&year=${year}`
       );
 
       const newIntervalSet = new Set();
-      res.forEach((d) => {
+      unavailability.forEach((d) => {
         const intervals = generateIntervals(d.start_time, d.end_time, 5);
         intervals.forEach((i) => newIntervalSet.add(i));
       });
 
+      flights.forEach((d) => {
+        const intervals = generateIntervals(d.start_time, d.end_time, 5);
+        intervals.forEach((i) => newIntervalSet.add(i));
+      });
       setIntervalSet(newIntervalSet);
       setStartDateLoading(false);
     } catch (err) {
@@ -356,6 +345,17 @@ export default function FlightDetailForm({
     }
   };
 
+  const changeStartTimeHandler = (date) => {
+    formik.setFieldValue("start_time", date);
+
+    const inIsoFormat = date.toISOString();
+    const isDisable = intervalSet.has(inIsoFormat);
+    if (isDisable) {
+      setStartTimeError("Selected date and time is not available");
+    } else {
+      setStartTimeError("");
+    }
+  };
   return (
     <>
       <form onSubmit={formik.handleSubmit}>
@@ -411,12 +411,21 @@ export default function FlightDetailForm({
                 name="start_time"
                 label="Flight Start Time"
                 format="dd/MM/yyyy h:m a"
-                value={new Date(formik.values.start_time)}
-                onChange={(date) => formik.setFieldValue("start_time", date)}
+                value={
+                  formik.values.start_time
+                    ? new Date(formik.values.start_time)
+                    : undefined
+                }
+                onChange={changeStartTimeHandler}
                 slotProps={{
                   textField: {
+                    error: Boolean(
+                      (formik.touched.start_time && formik.errors.start_time) ||
+                        startTimeError
+                    ),
                     helperText:
-                      formik.touched.start_time && formik.errors.start_time,
+                      (formik.touched.start_time && formik.errors.start_time) ||
+                      startTimeError,
                   },
                 }}
                 shouldDisableTime={(value, view) => {
@@ -439,7 +448,11 @@ export default function FlightDetailForm({
                 name="end_time"
                 label="Flight end Time"
                 format="dd/MM/yyyy h:m a"
-                value={new Date(formik.values.end_time)}
+                value={
+                  formik.values.end_time
+                    ? new Date(formik.values.end_time)
+                    : undefined
+                }
                 onChange={(date) => formik.setFieldValue("end_time", date)}
                 minDate={formik.values.start_time}
                 minTime={getMinTime(
@@ -448,6 +461,9 @@ export default function FlightDetailForm({
                 )}
                 slotProps={{
                   textField: {
+                    error: Boolean(
+                      formik.touched.end_time && formik.errors.end_time
+                    ),
                     helperText:
                       formik.touched.end_time && formik.errors.end_time,
                   },

@@ -81,9 +81,10 @@ export const adminUserAddSchema = yup.object({
     )
     .required("phone number is required"),
   role: yup.string("Enter role").required("role is required"),
-  first_name: yup.string("Enter first name ").required("First Name is required"),
+  first_name: yup
+    .string("Enter first name ")
+    .required("First Name is required"),
   last_name: yup.string("Enter last name").required("Last Name is required"),
-
 });
 
 export const adminUserEditSchema = yup.object({

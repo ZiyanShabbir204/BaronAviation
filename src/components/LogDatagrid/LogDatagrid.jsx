@@ -15,9 +15,6 @@ export default function LogDatagrid({ value }) {
     setLoading(true);
     const res = await ApiService.get(`admin/login-logs/${roleName}`);
     setLoading(false);
-
-    console.log("res", res);
-
     const resWithId = res
       .filter((r) => !!r.user?.username)
       .map((r) => ({
