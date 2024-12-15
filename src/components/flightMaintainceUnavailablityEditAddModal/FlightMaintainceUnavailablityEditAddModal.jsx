@@ -43,7 +43,7 @@ export default function FlightMaintainceUnavailablityEditAddModal({
     end_time: generateEndDateAndTimeNearestFiveMinutes(),
     reason: "",
     start_time: generateDateNearestFiveMinutes(),
-    comment_by_admin: ""
+    comment_by_admin: "",
   };
 
   if (data) {
@@ -52,7 +52,7 @@ export default function FlightMaintainceUnavailablityEditAddModal({
       end_time: data.end_time,
       reason: data.reason,
       start_time: data.start_time,
-      comment_by_admin:data.comment_by_admin
+      comment_by_admin: data.comment_by_admin,
     };
   }
 
@@ -141,8 +141,6 @@ export default function FlightMaintainceUnavailablityEditAddModal({
                     textField: {
                       helperText:
                         formik.touched.start_time && formik.errors.start_time,
-                      // error:  formik.touched.start_time &&
-                      // Boolean(formik.errors.start_time)
                     },
                   }}
                   sx={{ mt: 2 }}
@@ -179,8 +177,14 @@ export default function FlightMaintainceUnavailablityEditAddModal({
                   value={formik.values.comment_by_admin}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  error={formik.touched.comment_by_admin && Boolean(formik.errors.comment_by_admin)}
-                  helperText={formik.touched.comment_by_admin && formik.errors.comment_by_admin}
+                  error={
+                    formik.touched.comment_by_admin &&
+                    Boolean(formik.errors.comment_by_admin)
+                  }
+                  helperText={
+                    formik.touched.comment_by_admin &&
+                    formik.errors.comment_by_admin
+                  }
                   multiline
                   fullWidth
                   rows={2}
