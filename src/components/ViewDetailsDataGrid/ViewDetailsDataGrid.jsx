@@ -46,12 +46,12 @@ export default function ViewDetailsDataGrid({ value, type }) {
     () => [
       {
         field: "booking_id",
-        headerName: "Flight Id",
+        headerName: "Flight ID",
         filterOperators: stringFilterOperators,
         width: 220,
         renderCell: (param) => {
-          return param.row.booking_id? param.row.booking_id : "N/A"
-        }
+          return param.row.booking_id ? param.row.booking_id : "N/A";
+        },
       },
       {
         field: "user",
@@ -104,7 +104,7 @@ export default function ViewDetailsDataGrid({ value, type }) {
       },
       {
         field: "createdAt",
-        headerName: "Created At",
+        headerName: "Booked At",
         type: "date",
         filterOperators: dateFilterOperators,
         valueGetter: (value) => new Date(value),

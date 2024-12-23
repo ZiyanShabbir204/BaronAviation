@@ -101,7 +101,7 @@ const MaintainceUnavailablity = () => {
       )}
 
       <Widget
-        addBtnlabel="Add Maintaince Unavailablity"
+        addBtnlabel="Add Maintenance Unavailability"
         onAddClick={() => setAddOpen(true)}
       >
         <Datagrid rows={rows} columns={columns} loading={rowsLoading} />

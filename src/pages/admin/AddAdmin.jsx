@@ -17,10 +17,9 @@ const AddAdmin = () => {
         filterOperators: stringFilterOperators,
         flex: 1,
         editable: false,
-        renderCell: (param) =>{
-          return param.row.first_name?param.row.first_name: "N/A" 
-
-        }
+        renderCell: (param) => {
+          return param.row.first_name ? param.row.first_name : "N/A";
+        },
       },
       {
         field: "last_name",
@@ -28,9 +27,9 @@ const AddAdmin = () => {
         filterOperators: stringFilterOperators,
         flex: 1,
         editable: false,
-        renderCell: (param)=>{
-          return param.row.last_name ? param.row.last_name : "N/A"
-        }
+        renderCell: (param) => {
+          return param.row.last_name ? param.row.last_name : "N/A";
+        },
       },
       {
         field: "username",
@@ -58,7 +57,7 @@ const AddAdmin = () => {
       },
       {
         field: "role_name",
-        headerName: "role",
+        headerName: "Role",
         filterOperators: stringFilterOperators,
         flex: 1,
         editable: false,
@@ -94,8 +93,8 @@ const AddAdmin = () => {
     role: "sys_admin",
     email: "",
     phone: "",
-    first_name:"",
-    last_name:""
+    first_name: "",
+    last_name: "",
   };
 
   return (

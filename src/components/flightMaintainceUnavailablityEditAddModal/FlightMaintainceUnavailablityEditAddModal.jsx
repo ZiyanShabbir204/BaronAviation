@@ -105,10 +105,10 @@ export default function FlightMaintainceUnavailablityEditAddModal({
     label = data ? "Edit" : "Add";
 
     if (reason === "maintenance") {
-      return `${label} maintenance unavailability`;
+      return `${label} Maintenance Unavailability`;
     }
 
-    return `${label} unavailability`;
+    return `${label} Flight Unavailability`;
   };
 
   return (
@@ -138,6 +138,9 @@ export default function FlightMaintainceUnavailablityEditAddModal({
                   onChange={(date) => formik.setFieldValue("start_time", date)}
                   onBlur={formik.handleBlur}
                   slotProps={{
+                    field: {
+                      readOnly: true,
+                    },
                     textField: {
                       helperText:
                         formik.touched.start_time && formik.errors.start_time,
@@ -161,6 +164,9 @@ export default function FlightMaintainceUnavailablityEditAddModal({
                   onChange={(date) => formik.setFieldValue("end_time", date)}
                   onBlur={formik.handleBlur}
                   slotProps={{
+                    field: {
+                      readOnly: true,
+                    },
                     textField: {
                       helperText:
                         formik.touched.end_time && formik.errors.end_time,

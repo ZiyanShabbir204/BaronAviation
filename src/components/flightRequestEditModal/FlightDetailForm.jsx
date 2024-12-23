@@ -90,6 +90,7 @@ export default function FlightDetailForm({
   }, []);
 
   const submitHandler = (values) => {
+    if (startTimeError) return;
     onSubmit({
       ...values,
       adults,
@@ -201,7 +202,7 @@ export default function FlightDetailForm({
             fullWidth
             id="from"
             name="from"
-            label="from"
+            label="From"
             value={formik.values.from}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -213,7 +214,7 @@ export default function FlightDetailForm({
             fullWidth
             id="to"
             name="to"
-            label="to"
+            label="To"
             value={formik.values.to}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -250,6 +251,9 @@ export default function FlightDetailForm({
                 }
                 onChange={changeStartTimeHandler}
                 slotProps={{
+                  field: {
+                    readOnly: true,
+                  },
                   textField: {
                     error: Boolean(
                       (formik.touched.start_time && formik.errors.start_time) ||
@@ -278,7 +282,7 @@ export default function FlightDetailForm({
                 fullWidth
                 id="end_time"
                 name="end_time"
-                label="Flight end Time"
+                label="Flight End Time"
                 format="dd/MM/yyyy h:m a"
                 value={
                   formik.values.end_time
@@ -292,6 +296,9 @@ export default function FlightDetailForm({
                   formik.values.end_time
                 )}
                 slotProps={{
+                  field: {
+                    readOnly: true,
+                  },
                   textField: {
                     error: Boolean(
                       formik.touched.end_time && formik.errors.end_time

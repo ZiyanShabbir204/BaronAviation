@@ -153,11 +153,11 @@ export default function AdminCoperateUserAddEditModal({
 
   const getNameFieldLabel = () => {
     if (isRoleExist) {
-      return "Admin name";
+      return "Username";
     } else if (isTotalHoursExist) {
-      return "Coporate client name";
+      return "Username";
     }
-    return "Customer name";
+    return "Username";
   };
 
   return (

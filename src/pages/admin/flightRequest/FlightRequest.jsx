@@ -45,7 +45,7 @@ const FlightRequest = () => {
     () => [
       {
         field: "booking_id",
-        headerName: "Flight Id",
+        headerName: "Flight ID",
         filterOperators: stringFilterOperators,
         width: 220,
         renderCell: (param) => {
@@ -105,7 +105,7 @@ const FlightRequest = () => {
       },
       {
         field: "createdAt",
-        headerName: "Created At",
+        headerName: "Booked At",
         type: "date",
         filterOperators: dateFilterOperators,
         valueGetter: (value) => new Date(value),
@@ -166,14 +166,14 @@ const FlightRequest = () => {
       },
       {
         field: "adultCount",
-        headerName: "No of flying Adult",
+        headerName: "No. of Adult",
         filterOperators: numericFilterOperators,
         width: 150,
         type: "text",
       },
       {
         field: "childCount",
-        headerName: "No of flying Children",
+        headerName: "No. of Children",
         filterOperators: numericFilterOperators,
         width: 150,
         type: "text",
