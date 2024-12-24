@@ -165,6 +165,17 @@ const FlightRequest = () => {
         },
       },
       {
+        field: "request_return",
+        headerName: "Return Request",
+        valueGetter: (param) => {
+          return param ? "Yes" : "No";
+        },
+        width: 120,
+        renderCell: (param) => {
+          return param.row.request_return ? "Yes" : "No";
+        },
+      },
+      {
         field: "adultCount",
         headerName: "No. of Adult",
         filterOperators: numericFilterOperators,
