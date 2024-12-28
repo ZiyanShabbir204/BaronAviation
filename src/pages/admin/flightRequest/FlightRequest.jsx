@@ -166,7 +166,7 @@ const FlightRequest = () => {
       },
       {
         field: "request_return",
-        headerName: "Return Request",
+        headerName: "Return Flight",
         valueGetter: (param) => {
           return param ? "Yes" : "No";
         },
