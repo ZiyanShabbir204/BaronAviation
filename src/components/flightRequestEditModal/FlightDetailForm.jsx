@@ -255,6 +255,7 @@ export default function FlightDetailForm({
                     readOnly: true,
                   },
                   textField: {
+                    placeholder: "Flight Start Time",
                     error: Boolean(
                       (formik.touched.start_time && formik.errors.start_time) ||
                         startTimeError
@@ -300,6 +301,7 @@ export default function FlightDetailForm({
                     readOnly: true,
                   },
                   textField: {
+                    placeholder: "Flight End Time",
                     error: Boolean(
                       formik.touched.end_time && formik.errors.end_time
                     ),
