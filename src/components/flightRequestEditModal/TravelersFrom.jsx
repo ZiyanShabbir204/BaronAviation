@@ -14,25 +14,21 @@ import Grid from "@mui/material/Grid2";
 import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
 import WestIcon from "@mui/icons-material/West";
-const CNIC_REGEX = /^[0-9]{5}-[0-9]{7}-[0-9]{1}$/;
 
 const validationSchema = Yup.object().shape({
   attendants: Yup.array().of(
     Yup.object().shape({
       firstName: Yup.string().required("First name is required"),
       lastName: Yup.string().required("Last name is required"),
-      identityNumber: Yup.string()
-        .matches(
-          CNIC_REGEX,
-          "Identity number must be in the format 12345-1234567-1"
-        )
-        .required("Identity number is required"),
+      identityNumber: Yup.string().required("Identity number is required"),
       gender: Yup.string().required("Gender is required"),
       age: Yup.number()
         .required("Age is required")
         .min(0, "Age must be greater than 0"),
       email: Yup.string().email("Invalid email"),
-      weight: Yup.number().min(0, "Age must be greater than 0"),
+      weight: Yup.number()
+        .required("Passenger Weight is required")
+        .min(0, "Passenger Weight must be greater than 0"),
       type: Yup.string(),
       label: Yup.string(),
     })
@@ -210,7 +206,7 @@ const TravelersFrom = ({ kids, adults, data, onBack, onCancel, onSubmit }) => {
                       <Field
                         as={TextField}
                         name={`attendants[${index}].weight`}
-                        label="Weight (Kg)"
+                        label="Passenger Weight (Kg)"
                         type="number"
                         fullWidth
                         error={
@@ -254,7 +250,7 @@ const TravelersFrom = ({ kids, adults, data, onBack, onCancel, onSubmit }) => {
                         helperText={
                           (touched.attendants?.[index]?.identityNumber &&
                             errors.attendants?.[index]?.identityNumber) ||
-                          "Identity number must be in the format 12345-1234567-1"
+                          ""
                         }
                       />
                     </Grid>
