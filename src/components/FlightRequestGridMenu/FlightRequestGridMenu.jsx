@@ -6,9 +6,11 @@ import FlightRequestEditAddModal from "../flightRequestEditModal/FlightRequestEd
 import ApiService from "../../api.service";
 import EditDeleteMenu from "../EditDeleteMenu/EditDeleteMenu";
 import { useSnackbar } from "notistack";
+import InvoiceModal from "../invoiceModal/InvoiceModal.jsx";
 
 export default function FlightRequestGridMenu({ data, onRequestComplete }) {
   const [deleteOpen, setDeleteOpen] = useState(null);
+  const [invoiceOpen, setInvoiceOpen] = useState(null);
   const [editOpen, setEditOpen] = useState(null);
   const { enqueueSnackbar } = useSnackbar();
 
@@ -35,6 +37,7 @@ export default function FlightRequestGridMenu({ data, onRequestComplete }) {
 
   return (
     <>
+      <InvoiceModal open={invoiceOpen} setOpen={setInvoiceOpen} />
       <DeleteModal
         open={deleteOpen}
         setOpen={setDeleteOpen}
@@ -42,12 +45,14 @@ export default function FlightRequestGridMenu({ data, onRequestComplete }) {
         onDelete={deleteHandler}
         onRequestComplete={onRequestComplete}
       />
-      {editOpen && <FlightRequestEditAddModal
-        open={editOpen}
-        setOpen={setEditOpen}
-        data={data}
-        onRequestComplete={onRequestComplete}
-      />}
+      {editOpen && (
+        <FlightRequestEditAddModal
+          open={editOpen}
+          setOpen={setEditOpen}
+          data={data}
+          onRequestComplete={onRequestComplete}
+        />
+      )}
       <EditDeleteMenu
         onEdit={() => setEditOpen(true)}
         onDelete={() => setDeleteOpen(true)}
@@ -57,6 +62,8 @@ export default function FlightRequestGridMenu({ data, onRequestComplete }) {
         <MenuItem onClick={() => updateStatus("approve")}>Approved</MenuItem>
         <MenuItem onClick={() => updateStatus("pending")}>Pending</MenuItem>
         <MenuItem onClick={() => updateStatus("declined")}>Declined</MenuItem>
+        <Divider />
+        <MenuItem onClick={() => setInvoiceOpen(true)}>Send Invoice</MenuItem>
       </EditDeleteMenu>
     </>
   );
