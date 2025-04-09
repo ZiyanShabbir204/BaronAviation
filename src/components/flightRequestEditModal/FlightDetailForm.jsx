@@ -114,7 +114,8 @@ export default function FlightDetailForm({
     }
 
     if (start >= end) {
-      throw new Error("Start date must be earlier than end date");
+      console.error("Start date must be earlier than end date");
+      return [];
     }
 
     while (start <= end) {

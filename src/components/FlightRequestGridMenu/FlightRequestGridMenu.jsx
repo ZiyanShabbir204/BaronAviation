@@ -19,6 +19,18 @@ export default function FlightRequestGridMenu({ data, onRequestComplete }) {
     return ApiService.delete(`flight-booking/${data.id}`);
   };
 
+  const sendInvoiceHandler = async (billAmount) => {
+    return ApiService.post(`invoice/send`, {
+      flight_id: data.id,
+      bill: billAmount,
+      status: "pending",
+    });
+  };
+
+  const sendInvoiceLinkHandler = async () => {
+    return ApiService.get(`invoice/${data.invoice._id}/send-link`);
+  };
+
   const updateStatus = async (status) => {
     try {
       await ApiService.put(`flight-booking/${data.id}/change-status`, {
@@ -37,7 +49,12 @@ export default function FlightRequestGridMenu({ data, onRequestComplete }) {
 
   return (
     <>
-      <InvoiceModal open={invoiceOpen} setOpen={setInvoiceOpen} />
+      <InvoiceModal
+        open={invoiceOpen}
+        setOpen={setInvoiceOpen}
+        onRequestComplete={onRequestComplete}
+        onSendInvoice={sendInvoiceHandler}
+      />
       <DeleteModal
         open={deleteOpen}
         setOpen={setDeleteOpen}
@@ -58,12 +75,36 @@ export default function FlightRequestGridMenu({ data, onRequestComplete }) {
         onDelete={() => setDeleteOpen(true)}
         ref={menuRef}
       >
-        <Divider />
-        <MenuItem onClick={() => updateStatus("approve")}>Approved</MenuItem>
-        <MenuItem onClick={() => updateStatus("pending")}>Pending</MenuItem>
-        <MenuItem onClick={() => updateStatus("declined")}>Declined</MenuItem>
-        <Divider />
-        <MenuItem onClick={() => setInvoiceOpen(true)}>Send Invoice</MenuItem>
+        {data.invoice?.status !== "paid" && (
+          <>
+            <Divider />
+            <MenuItem onClick={() => updateStatus("approve")}>
+              Approved
+            </MenuItem>
+            <MenuItem onClick={() => updateStatus("pending")}>Pending</MenuItem>
+            <MenuItem onClick={() => updateStatus("declined")}>
+              Declined
+            </MenuItem>
+          </>
+        )}
+
+        {data.status === "approved" && !data.invoice && (
+          <>
+            <Divider />
+            <MenuItem onClick={() => setInvoiceOpen(true)}>
+              Send Invoice
+            </MenuItem>
+          </>
+        )}
+
+        {data.invoice?.status === "pending" && (
+          <>
+            <Divider />
+            <MenuItem onClick={sendInvoiceLinkHandler}>
+              Send Invoice Link
+            </MenuItem>
+          </>
+        )}
       </EditDeleteMenu>
     </>
   );

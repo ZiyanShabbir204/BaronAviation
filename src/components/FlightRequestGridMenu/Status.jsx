@@ -8,6 +8,10 @@ const CHIPS = {
     icon: <CheckIcon color="success" />,
     label: "Approved",
   },
+  paid: {
+    icon: <CheckIcon color="success" />,
+    label: "Paid",
+  },
   pending: {
     icon: <QuestionMarkIcon color="warning" />,
     label: "pending",
@@ -18,6 +22,9 @@ const CHIPS = {
   },
 };
 const Status = ({ status }) => {
+  if (status === "N/A") {
+    return "N/A";
+  }
   const { icon, label } = CHIPS[status];
   return (
     <Chip

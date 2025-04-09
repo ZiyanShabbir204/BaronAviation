@@ -21,10 +21,31 @@ const style = {
   borderRadius: "5px",
 };
 
-export default function InvoiceModal({ open, setOpen }) {
-  const [deleting, setDeleting] = useState(false);
+export default function InvoiceModal({
+  open,
+  setOpen,
+  onSendInvoice,
+  onRequestComplete,
+}) {
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [invoiceAmount, setInvoiceAmount] = useState();
   const handleClose = () => setOpen(false);
+
+  const deleteHandler = async () => {
+    try {
+      setLoading(true);
+      const res = await onSendInvoice(invoiceAmount);
+      onRequestComplete(res);
+      handleClose();
+    } catch (err) {
+      console.log("error in DeleteModal -> deleteHandler", err);
+      const message = err.response.data.message;
+      setError(message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div>
@@ -53,6 +74,8 @@ export default function InvoiceModal({ open, setOpen }) {
             variant="outlined"
             fullWidth
             type="number"
+            value={invoiceAmount}
+            onChange={(evt) => setInvoiceAmount(evt.target.value)}
             sx={{
               marginTop: "20px",
             }}
@@ -74,9 +97,9 @@ export default function InvoiceModal({ open, setOpen }) {
             <Button
               variant="contained"
               color="primary"
-              startIcon={deleting && <CircularProgress size={24} />}
-              // onClick={deleteHandler}
-              disabled={deleting}
+              startIcon={loading && <CircularProgress size={24} />}
+              onClick={deleteHandler}
+              disabled={loading}
             >
               Send Invoice
             </Button>

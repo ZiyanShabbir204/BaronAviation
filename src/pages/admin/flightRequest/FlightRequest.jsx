@@ -27,13 +27,22 @@ const FlightRequest = () => {
       const childCount = row.attendants.filter(
         (a) => a.type !== "Adult"
       ).length;
+
+      const invoice = row.invoice;
+
+      const invoiceData = {
+        invoiceBill: invoice?.bill || "N/A",
+        invoiceStatus: invoice?.status || "N/A",
+      };
+
       if (row.status !== "approve") {
-        return { ...row, adultCount, childCount };
+        return { ...row, adultCount, childCount, ...invoiceData };
       }
 
       return {
         ...row,
         status: "approved",
+        ...invoiceData,
         adultCount,
         childCount,
       };
@@ -123,6 +132,19 @@ const FlightRequest = () => {
         renderCell: (param) => {
           return <Status status={param.row.status} />;
         },
+      },
+      {
+        field: "invoiceStatus",
+        headerName: "Invoice Status",
+        width: 200,
+        renderCell: (param) => {
+          return <Status status={param.row.invoiceStatus} />;
+        },
+      },
+      {
+        field: "invoiceBill",
+        headerName: "Invoice Amount",
+        width: 200,
       },
       {
         field: "status_updated_at",
