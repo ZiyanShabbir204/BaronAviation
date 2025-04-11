@@ -130,7 +130,7 @@ function ResponsiveDrawer(props) {
             }}
           />
           <Typography variant="h5" component="h6">
-            The Baron Aviation
+            Baron Aviation
           </Typography>
         </Toolbar>
       </AppBar>
