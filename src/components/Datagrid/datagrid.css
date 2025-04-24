@@ -1,0 +1,7 @@
+.mui-datagrid-rows.row-odd {
+    background-color: rgb(238, 238, 238);
+}
+
+.mui-datagrid-rows:hover {
+    background-color: rgba(25, 118, 210, 0.2) !important
+}

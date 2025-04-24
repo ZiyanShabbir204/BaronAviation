@@ -104,7 +104,12 @@ const MaintainceUnavailablity = () => {
         addBtnlabel="Add Maintenance Unavailability"
         onAddClick={() => setAddOpen(true)}
       >
-        <Datagrid rows={rows} columns={columns} loading={rowsLoading} />
+        <Datagrid
+          rows={rows}
+          columns={columns}
+          loading={rowsLoading}
+          sortModel={[{ field: "start_time", sort: "desc" }]}
+        />
       </Widget>
     </>
   );

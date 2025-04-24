@@ -246,7 +246,12 @@ const FlightRequest = () => {
         addBtnlabel="Add Active booking"
         onAddClick={() => setAddOpen(true)}
       >
-        <Datagrid rows={tempRows} columns={columns} loading={rowsLoading} />
+        <Datagrid
+          rows={tempRows}
+          columns={columns}
+          loading={rowsLoading}
+          sortModel={[{ field: "booking_id", sort: "desc" }]}
+        />
       </Widget>
     </>
   );
